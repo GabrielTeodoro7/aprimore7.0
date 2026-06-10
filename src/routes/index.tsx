@@ -34,7 +34,12 @@ function Index() {
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Alunos</a>
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Turmas</a>
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Relatórios</a>
+            <div className="h-4 w-px bg-border" />
+            <button className="flex items-center gap-1 text-sm font-bold text-primary animate-pulse">
+              <span className="text-lg">♿</span> Acessibilidade
+            </button>
           </nav>
+
           <div className="flex items-center gap-2">
             <AppButton variant="outline" size="sm" className="hidden sm:flex">Suporte</AppButton>
             <AppButton size="sm">Entrar</AppButton>
