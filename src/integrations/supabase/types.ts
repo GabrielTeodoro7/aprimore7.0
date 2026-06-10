@@ -647,6 +647,58 @@ export type Database = {
         }
         Relationships: []
       }
+      contatos_externos: {
+        Row: {
+          aluno_id: string | null
+          created_at: string
+          id: string
+          nome: string
+          parentesco: string | null
+          professor_id: string
+          whatsapp: string
+        }
+        Insert: {
+          aluno_id?: string | null
+          created_at?: string
+          id?: string
+          nome: string
+          parentesco?: string | null
+          professor_id: string
+          whatsapp: string
+        }
+        Update: {
+          aluno_id?: string | null
+          created_at?: string
+          id?: string
+          nome?: string
+          parentesco?: string | null
+          professor_id?: string
+          whatsapp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contatos_externos_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "alunos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contatos_externos_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contatos_externos_professor_id_fkey"
+            columns: ["professor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       denuncias_mensagem: {
         Row: {
           data_denuncia: string | null
@@ -1388,6 +1440,7 @@ export type Database = {
           ultimo_login: string | null
           updated_at: string
           user_id: string
+          whatsapp: string | null
         }
         Insert: {
           ano?: string | null
@@ -1414,6 +1467,7 @@ export type Database = {
           ultimo_login?: string | null
           updated_at?: string
           user_id: string
+          whatsapp?: string | null
         }
         Update: {
           ano?: string | null
@@ -1440,6 +1494,7 @@ export type Database = {
           ultimo_login?: string | null
           updated_at?: string
           user_id?: string
+          whatsapp?: string | null
         }
         Relationships: [
           {
