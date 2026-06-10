@@ -56,6 +56,8 @@
 .dyslexic-font {
   font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
 }
+  font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
+}
 ...
 .high-contrast {
   --background: 0 0% 0% !important;
