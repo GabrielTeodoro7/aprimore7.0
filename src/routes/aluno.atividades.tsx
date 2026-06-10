@@ -5,6 +5,7 @@ import { StudentShell } from "@/components/StudentShell";
 import { useActivities } from "@/lib/store";
 import { useAlunoPerfil } from "@/lib/student-store";
 import { useState } from "react";
+import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 
 export const Route = createFileRoute("/aluno/atividades")({
   head: () => ({ meta: [{ title: "Atividades — Aprimore" }] }),
@@ -14,12 +15,14 @@ export const Route = createFileRoute("/aluno/atividades")({
 function Atividades() {
   const { list } = useActivities();
   const { addEstrelas } = useAlunoPerfil();
+  const { playStar } = useAudioFeedback();
   const [feitas, setFeitas] = useState<Record<string, boolean>>({});
 
   const fazer = (id: string, title: string) => {
     if (feitas[id]) return;
     setFeitas({ ...feitas, [id]: true });
     addEstrelas(10);
+    playStar();
     toast.success(`Você concluiu "${title}"! +10 estrelas ⭐`);
   };
 

@@ -7,6 +7,7 @@ import { StudentShell } from "@/components/StudentShell";
 import { sentimentosCatalogo, useSentimentos, useAlunoPerfil } from "@/lib/student-store";
 import { analisarSentimentos } from "@/lib/ai.functions";
 import { Button } from "@/components/ui/button";
+import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 
 export const Route = createFileRoute("/aluno/sentimentos")({
   head: () => ({ meta: [{ title: "Como estou me sentindo — Aprimore" }] }),
@@ -16,10 +17,12 @@ export const Route = createFileRoute("/aluno/sentimentos")({
 function Sentimentos() {
   const { list, registrar } = useSentimentos();
   const { addEstrelas } = useAlunoPerfil();
+  const { playClick } = useAudioFeedback();
 
   const escolher = (s: { label: string; emoji: string }) => {
     registrar(s.label, s.emoji);
     addEstrelas(2);
+    playClick();
     toast.success(`Obrigada por compartilhar! Você está se sentindo ${s.label.toLowerCase()} ${s.emoji}`);
   };
 
