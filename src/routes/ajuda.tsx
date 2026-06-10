@@ -21,7 +21,7 @@ function Ajuda() {
         {[
           { icon: BookOpen, t: "Guia do professor", d: "Tutorial passo a passo." },
           { icon: Video, t: "Vídeos curtos", d: "Aprenda em minutos." },
-          { icon: Mail, t: "Falar com suporte", d: "suporte@aprimore.edu" },
+          { icon: Mail, t: "Falar com suporte", d: "aprimoreeducation@gmail.com" },
         ].map((c) => (
           <div key={c.t} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <c.icon className="h-8 w-8 text-primary" />
