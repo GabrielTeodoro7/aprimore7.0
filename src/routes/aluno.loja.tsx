@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 
 export const Route = createFileRoute("/aluno/loja")({
   head: () => ({ meta: [{ title: "Loja de Prêmios — Aprimore" }] }),
