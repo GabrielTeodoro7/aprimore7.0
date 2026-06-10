@@ -127,9 +127,9 @@ export function useAlunoPerfil() {
   const { data: meu } = useMeuAluno();
   const qc = useQueryClient();
   const perfil: AlunoPerfil = {
-    id: meu?.id ?? "",
-    nome: meu?.nome ?? "",
-    estrelas: meu?.estrelas ?? 0,
+    id: meu?.id ?? "dev-aluno",
+    nome: meu?.nome ?? "Aluno Demo",
+    estrelas: meu?.estrelas ?? 10,
   };
   const addMut = useMutation({
     mutationFn: (delta: number) =>

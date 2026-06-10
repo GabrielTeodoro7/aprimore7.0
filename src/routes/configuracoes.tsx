@@ -112,7 +112,12 @@ function ConfigPage() {
           </section>
 
           <section className="rounded-2xl border border-destructive/30 bg-card p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-foreground">Dados da plataforma</h2>
+            <h2 className="text-lg font-semibold text-foreground">Ambiente de Desenvolvimento</h2>
+            <p className="mb-4 text-xs text-muted-foreground italic">Configurações para exportação GitHub/VSCode.</p>
+            <div className="bg-zinc-100 p-3 rounded-xl mb-4 text-[10px] font-mono border border-zinc-200">
+               STABLE_IA_FALLBACK="llama-3.3-70b-groq"
+            </div>
+            <h2 className="text-lg font-semibold text-foreground mt-6">Dados da plataforma</h2>
             <p className="mb-4 text-xs text-muted-foreground">Todos os dados ficam salvos apenas neste navegador.</p>
             <button
               onClick={() => {

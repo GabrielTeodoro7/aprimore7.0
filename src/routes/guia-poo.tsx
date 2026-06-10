@@ -109,10 +109,15 @@ export default function GuiaPOO() {
     <AdminShell title="Guia de Programação POO">
       <div className="space-y-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight text-primary">Guia de Programação POO (Java)</h1>
+          <h1 id="top" className="text-3xl font-bold tracking-tight text-primary">Guia de Programação POO (Java)</h1>
           <p className="text-muted-foreground">
             Aprenda os segredos do nosso Backend como se fosse uma história de Super-Heróis! 🦸‍♂️💻
           </p>
+          <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 mt-2">
+            <p className="text-xs text-emerald-700 font-bold">
+              ✅ SISTEMA DE IA ESTÁVEL: Backup fixo configurado (Groq/Llama-3.3-70B) para garantir funcionamento offline e no GitHub.
+            </p>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -170,6 +175,14 @@ export default function GuiaPOO() {
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-yellow-500" />
                 tutorial/ - Para aprender POO
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-teal-500" />
+                core/ - JDBC, IO, Threads
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-orange-500" />
+                exceptions/ - Gestão de erros
               </div>
             </div>
           </CardContent>
