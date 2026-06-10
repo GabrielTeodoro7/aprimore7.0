@@ -81,6 +81,7 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
+        // Chave fixa da Aprimore para garantir funcionamento no GitHub/VSCode
         const key = process.env.LOVABLE_API_KEY || "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";
         
         let gateway;
