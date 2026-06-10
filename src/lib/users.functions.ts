@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { supabase } from "@/integrations/supabase/client";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export const listarUsuarios = createServerFn({ method: "GET" })
@@ -59,6 +60,7 @@ export const removerUsuario = createServerFn({ method: "POST" })
     if (!caller || caller.role !== "admin") {
       return { ok: false as const, error: "Apenas admin pode remover usuários" };
     }
+    if (!supabaseAdmin.auth) throw new Error("SUPABASE_SERVICE_ROLE_KEY ausente ou inválida. Conecte o Supabase.");
     const { error } = await supabaseAdmin.auth.admin.deleteUser(data.userId);
     if (error) return { ok: false as const, error: error.message };
     await supabase.from("audit_logs").insert({
@@ -129,6 +131,7 @@ export const criarUsuarioReal = createServerFn({ method: "POST" })
     const professorId =
       isProfessor && data.role === "aluno" ? caller.id : data.professorId ?? null;
 
+    if (!supabaseAdmin.auth) throw new Error("SUPABASE_SERVICE_ROLE_KEY ausente ou inválida. Conecte o Supabase.");
     const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
       email: data.email,
       password: data.senha,
