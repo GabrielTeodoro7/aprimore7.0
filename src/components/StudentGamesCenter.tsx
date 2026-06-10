@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToast } from "@/hooks/use-toast-hook";
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle, AppCardDescription } from '@/design-system/AppCard';
 import { AppButton } from '@/design-system/AppButton';
 import { AppBadge } from '@/design-system/AppBadge';
@@ -33,6 +34,7 @@ interface Game {
 }
 
 export const StudentGamesCenter = () => {
+  const { toast } = useToast();
   const { settings } = useAccessibility();
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [activeInternalGame, setActiveInternalGame] = useState<string | null>(null);
@@ -265,7 +267,7 @@ export const StudentGamesCenter = () => {
             <h3 className="text-lg font-bold">Desafio Especial da IA</h3>
             <p className="text-sm text-muted-foreground">Complete 3 jogos de Matemática hoje e ganhe a Badge "Mestre dos Números"!</p>
           </div>
-          <AppButton className="bg-gradient-to-r from-purple-600 to-primary text-white border-none hover:opacity-90">
+          <AppButton onClick={() => toast({title: "Desafio Aceito!", description: "Sua jornada rumo ao 'Mestre dos Números' começou!"})} className="bg-gradient-to-r from-purple-600 to-primary text-white border-none hover:opacity-90">
             Aceitar Desafio
           </AppButton>
         </AppCardContent>

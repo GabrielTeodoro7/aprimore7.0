@@ -3,8 +3,10 @@ import { AppCard, AppCardContent, AppCardHeader, AppCardTitle, AppCardDescriptio
 import { AppButton } from '@/design-system/AppButton';
 import { AppBadge } from '@/design-system/AppBadge';
 import { Check, Star, ShieldCheck, Zap, ArrowRight, DollarSign, Calculator } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast-hook";
 
 export const PricingSimulator = () => {
+  const { toast } = useToast();
   const plans = [
     {
       name: 'Essencial',
@@ -64,7 +66,7 @@ export const PricingSimulator = () => {
                   </li>
                 ))}
               </ul>
-              <AppButton variant={plan.buttonVariant} className="w-full gap-2">
+              <AppButton onClick={() => toast({title: "Inscrição", description: `Iniciando checkout do plano ${plan.name}.`})} variant={plan.buttonVariant} className="w-full gap-2">
                 Começar agora <ArrowRight className="h-4 w-4" />
               </AppButton>
             </AppCardContent>
@@ -121,7 +123,7 @@ export const PricingSimulator = () => {
               <p className="text-4xl font-black text-white">105 horas</p>
               <p className="text-slate-400 text-sm">por mês para sua equipe focar no que importa: ensinar.</p>
             </div>
-            <AppButton variant="secondary" className="mt-4">
+            <AppButton onClick={() => toast({title: "Simulador Personalizado", description: "Abrindo formulário de dados da sua instituição."})} variant="secondary" className="mt-4">
               Simular para minha escola
             </AppButton>
           </div>

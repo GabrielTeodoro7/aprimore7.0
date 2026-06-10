@@ -3,8 +3,10 @@ import { AppCard, AppCardContent, AppCardHeader, AppCardTitle } from '@/design-s
 import { AppBadge } from '@/design-system/AppBadge';
 import { AppButton } from '@/design-system/AppButton';
 import { Trophy, Star, Target, Award, Zap, Users, Crown, Medal, TrendingUp } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast-hook";
 
 export const GamificationCenter = () => {
+  const { toast } = useToast();
   const achievements = [
     { id: 1, title: 'Frequência de Ouro', progress: 95, icon: Star, color: 'text-yellow-500', level: 'Ouro' },
     { id: 2, title: 'Super Engajado', progress: 80, icon: Zap, color: 'text-orange-500', level: 'Prata' },
@@ -60,7 +62,7 @@ export const GamificationCenter = () => {
             <h3 className="text-lg font-bold flex items-center gap-2">
               <Star className="h-5 w-5 text-yellow-500" /> Suas Conquistas
             </h3>
-            <AppButton variant="ghost" size="sm" className="text-xs">Ver Todas</AppButton>
+            <AppButton variant="ghost" size="sm" onClick={() => toast({title: "Conquistas", description: "Abrindo sua galeria completa de troféus."})} className="text-xs">Ver Todas</AppButton>
           </div>
           
           <div className="grid gap-4 sm:grid-cols-2">
@@ -136,7 +138,7 @@ export const GamificationCenter = () => {
               ))}
             </div>
             <div className="p-3 bg-muted/30 text-center">
-              <AppButton variant="link" size="sm" className="text-xs h-auto p-0">Ver Ranking Global</AppButton>
+              <AppButton variant="link" size="sm" onClick={() => toast({title: "Ranking Global", description: "Carregando as melhores pontuações de todas as escolas."})} className="text-xs h-auto p-0">Ver Ranking Global</AppButton>
             </div>
           </AppCard>
 

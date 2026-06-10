@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast-hook";
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle } from '@/design-system/AppCard';
 import { AppButton } from '@/design-system/AppButton';
 import { AppBadge } from '@/design-system/AppBadge';
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 export const VirtualLaboratory = () => {
+  const { toast } = useToast();
   const [isScanning, setIsScanning] = useState(false);
   const [selectedSpecimen, setSelectedSpecimen] = useState<string | null>(null);
 
@@ -134,10 +136,10 @@ export const VirtualLaboratory = () => {
           </AppCard>
 
           <div className="mt-4 flex gap-4">
-             <AppButton className="flex-1 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/20 gap-2">
+             <AppButton onClick={() => toast({title: "Reação Química", description: "Simulando mistura de reagentes no multiverso."})} className="flex-1 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/20 gap-2">
                <FlaskConical className="h-4 w-4" /> Realizar Reação Química
              </AppButton>
-             <AppButton variant="outline" className="flex-1 gap-2 border-slate-700 hover:bg-slate-900">
+             <AppButton onClick={() => window.open('https://phet.colorado.edu/pt_BR/', '_blank')} variant="outline" className="flex-1 gap-2 border-slate-700 hover:bg-slate-900">
                <ExternalLink className="h-4 w-4" /> Laboratório PHET
              </AppButton>
           </div>
@@ -155,7 +157,7 @@ export const VirtualLaboratory = () => {
             <h3 className="text-2xl font-black text-white italic tracking-tight">O PRÓXIMO GÊNIO PODE SER VOCÊ</h3>
             <p className="text-slate-400 font-medium">Você já completou 85% dos desafios deste semestre. A medalha "Nobel Mirim" está a apenas 3 passos de distância!</p>
           </div>
-          <AppButton className="bg-white text-black hover:bg-slate-100 font-black italic px-8 h-12 rounded-full transition-transform active:scale-95">
+          <AppButton onClick={() => toast({title: "Ranking de Gênios", description: "Submetendo seu progresso para o hall da fama."})} className="bg-white text-black hover:bg-slate-100 font-black italic px-8 h-12 rounded-full transition-transform active:scale-95">
             REIVINDICAR POSIÇÃO
           </AppButton>
         </div>
