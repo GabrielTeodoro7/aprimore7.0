@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppButton } from "@/design-system/AppButton";
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle, AppCardDescription } from "@/design-system/AppCard";
 import { AppInput } from "@/design-system/AppInput";
-import { GraduationCap, Users, Calendar, ClipboardCheck, MessageSquare, ShieldCheck, LayoutDashboard } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AccessibilitySettings } from "@/components/accessibility/AccessibilitySettings";
+import { GraduationCap, Users, Calendar, ClipboardCheck, MessageSquare, ShieldCheck, LayoutDashboard, Settings } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
