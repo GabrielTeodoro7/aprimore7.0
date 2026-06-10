@@ -41,6 +41,11 @@ function ConfigPage() {
     { icon: Moon, label: "Modo escuro", sub: "Reduz cansaço visual à noite", val: dark, set: (v: boolean) => update({ theme: v ? "dark" : "light" }) },
   ];
 
+  const supportItems = [
+    { icon: Globe, label: "Falar com suporte", sub: "E-mail: aprimoreeducation@gmail.com", action: () => window.open('mailto:aprimoreeducation@gmail.com') },
+    { icon: Shield, label: "Privacidade", sub: "Gerenciar seus dados (LGPD)", action: () => navigate({ to: "/privacidade" }) },
+  ];
+
   return (
     <DashboardShell title="Configurações" subtitle="Personalize sua experiência — tudo é salvo automaticamente">
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
@@ -135,19 +140,16 @@ function ConfigPage() {
         </div>
 
         <aside className="space-y-3">
-          {[
-            { icon: Globe, label: "Idioma", sub: "Português (BR)" },
-            { icon: Shield, label: "Privacidade", sub: "Gerenciar dados" },
-          ].map((c) => (
+          {supportItems.map((c) => (
             <button
               key={c.label}
-              onClick={() => toast(c.label, { description: c.sub })}
-              className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left shadow-sm hover:shadow-md"
+              onClick={c.action}
+              className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left shadow-sm hover:shadow-md transition group"
             >
-              <c.icon className="h-5 w-5 text-primary" />
-              <div className="flex-1">
+              <c.icon className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
+              <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold text-foreground">{c.label}</div>
-                <div className="text-xs text-muted-foreground">{c.sub}</div>
+                <div className="text-xs text-muted-foreground truncate">{c.sub}</div>
               </div>
             </button>
           ))}
