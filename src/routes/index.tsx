@@ -2,9 +2,27 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppButton } from "@/design-system/AppButton";
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle, AppCardDescription } from "@/design-system/AppCard";
 import { AppInput } from "@/design-system/AppInput";
+import { AppBadge } from "@/design-system/AppBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccessibilitySettings } from "@/components/accessibility/AccessibilitySettings";
-import { GraduationCap, Users, Calendar, ClipboardCheck, MessageSquare, ShieldCheck, LayoutDashboard, Settings } from "lucide-react";
+import { NotificationCenter } from "@/components/NotificationCenter";
+import { AuditTimeline } from "@/components/AuditTimeline";
+import { 
+  GraduationCap, 
+  Users, 
+  Calendar, 
+  ClipboardCheck, 
+  MessageSquare, 
+  ShieldCheck, 
+  LayoutDashboard, 
+  Settings,
+  Bell,
+  History,
+  TrendingUp,
+  Award
+} from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 
 
 export const Route = createFileRoute("/")({
@@ -46,8 +64,20 @@ function Index() {
               <span className="text-xs text-muted-foreground font-bold">⌘</span>
               <span className="text-xs text-muted-foreground font-bold">K</span>
             </kbd>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="relative p-2 rounded-full hover:bg-accent transition-colors">
+                  <Bell className="h-5 w-5 text-muted-foreground" />
+                  <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full border-2 border-background" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-0" align="end">
+                <NotificationCenter />
+              </PopoverContent>
+            </Popover>
             <AppButton size="sm" className="shadow-lg shadow-primary/20">Entrar</AppButton>
           </div>
+
 
         </div>
       </header>
@@ -130,24 +160,65 @@ function Index() {
               </AppCard>
             </div>
 
-            {/* Seção de Busca Rápida (UX) */}
-            <section className="hide-on-focus">
-              <AppCard className="bg-primary/5 border-primary/10">
-                <AppCardContent className="pt-6">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold">Busca Rápida</h3>
-                      <p className="text-sm text-muted-foreground">Localize alunos, professores ou turmas instantaneamente.</p>
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="lg:col-span-2 space-y-6">
+                <AppCard className="bg-gradient-to-br from-primary/10 via-background to-background">
+                  <AppCardHeader>
+                    <div className="flex items-center justify-between">
+                      <AppCardTitle className="text-xl flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-primary" /> Desempenho Escolar
+                      </AppCardTitle>
+                      <AppBadge variant="success">Meta Alcançada</AppBadge>
                     </div>
-                    <div className="relative flex-1 md:max-w-md">
-                      <AppInput placeholder="Nome, CPF ou Matrícula..." className="pl-10" />
-                      <LayoutDashboard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <AppCardDescription>Visão geral da evolução das médias bimestrais.</AppCardDescription>
+                  </AppCardHeader>
+                  <AppCardContent className="h-[200px] flex items-center justify-center border-2 border-dashed rounded-lg mx-6 mb-6">
+                    <p className="text-muted-foreground text-sm italic">Gráfico de desempenho em tempo real</p>
+                  </AppCardContent>
+                </AppCard>
+
+                <section className="hide-on-focus">
+                  <AppCard className="bg-primary/5 border-primary/10">
+                    <AppCardContent className="pt-6">
+                      <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold">Busca Rápida</h3>
+                          <p className="text-sm text-muted-foreground">Localize alunos, professores ou turmas instantaneamente.</p>
+                        </div>
+                        <div className="relative flex-1 md:max-w-md">
+                          <AppInput placeholder="Nome, CPF ou Matrícula..." className="pl-10" />
+                          <LayoutDashboard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        </div>
+                        <AppButton>Pesquisar</AppButton>
+                      </div>
+                    </AppCardContent>
+                  </AppCard>
+                </section>
+              </div>
+
+              <div className="space-y-6">
+                <AuditTimeline />
+                
+                <AppCard>
+                  <AppCardHeader>
+                    <AppCardTitle className="text-lg flex items-center gap-2">
+                      <Award className="h-5 w-5 text-yellow-500" /> Gamificação
+                    </AppCardTitle>
+                  </AppCardHeader>
+                  <AppCardContent className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold">1º</div>
+                      <div className="flex-1">
+                        <p className="text-sm font-bold">Turma 9º Ano B</p>
+                        <p className="text-[10px] text-muted-foreground">Engajamento Premium</p>
+                      </div>
+                      <AppBadge>2.450 pts</AppBadge>
                     </div>
-                    <AppButton>Pesquisar</AppButton>
-                  </div>
-                </AppCardContent>
-              </AppCard>
-            </section>
+                  </div </AppCardContent>
+                </AppCard>
+              </div>
+            </div>
+
           </TabsContent>
 
           <TabsContent value="accessibility">
