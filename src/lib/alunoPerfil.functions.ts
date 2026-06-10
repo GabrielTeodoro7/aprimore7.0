@@ -21,14 +21,47 @@ export const getMeuAlunoPerfil = createServerFn({ method: "GET" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!aluno) return null;
+
+    // Lógica de Streak
+    const now = new Date();
+    const last = aluno.last_streak_at ? new Date(aluno.last_streak_at) : null;
+    let currentStreak = aluno.streak ?? 0;
+    let shouldUpdate = false;
+
+    if (!last) {
+      currentStreak = 1;
+      shouldUpdate = true;
+    } else {
+      const diffMs = now.getTime() - last.getTime();
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      const isSameDay = now.toDateString() === last.toDateString();
+
+      if (!isSameDay) {
+        if (diffDays < 2) {
+          currentStreak += 1;
+        } else {
+          currentStreak = 1;
+        }
+        shouldUpdate = true;
+      }
+    }
+
+    if (shouldUpdate) {
+      await sb.from("alunos").update({ 
+        streak: currentStreak, 
+        last_streak_at: now.toISOString() 
+      }).eq("id", aluno.id);
+    }
+
     return {
       id: aluno.id as string,
       nome: (aluno.nome ?? prof.nome) as string,
       turmaId: aluno.turma_id as string,
       profileId: prof.id as string,
       estrelas: (aluno.estrelas ?? 0) as number,
-      streak: (aluno.streak ?? 0) as number,
-      lastStreakAt: aluno.last_streak_at as string,
+      streak: currentStreak,
+      lastStreakAt: now.toISOString(),
       diagnostico: (prof.diagnostico ?? {}) as Record<string, any>,
       config_a11y: (prof.config_a11y ?? {}) as Record<string, any>,
     };
