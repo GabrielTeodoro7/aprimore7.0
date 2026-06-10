@@ -122,6 +122,13 @@ function NovoAlunoPage() {
               
               setLoading(true);
               try {
+                const senha = prompt("Defina uma senha para o aluno (mín. 6 caracteres):");
+                if (!senha || senha.length < 6) {
+                   toast.error("Senha inválida ou muito curta");
+                   setLoading(false);
+                   return;
+                }
+
                 // 1) adiciona na lista visual da turma
                 await add({ ...form, turmaId: turmaIdAtual });
 
@@ -132,7 +139,7 @@ function NovoAlunoPage() {
                     : currentUser?.role === "admin"
                       ? currentUser.id
                       : undefined;
-                const senha = gerarSenhaTemporaria();
+                
                 const novo: AuthUser = {
                   id: "aluno-" + Date.now(),
                   nome,
@@ -145,7 +152,6 @@ function NovoAlunoPage() {
                   senha,
                 };
                 addUser(novo);
-                enviarEmail(templates.boasVindas(nome, email, senha, "aluno"));
 
                 // 3) cria a conta real no backend
                 const res = await criarReal({
@@ -156,7 +162,7 @@ function NovoAlunoPage() {
                   toast.error("Conta backend não criada", { description: res.error });
                 } else {
                   toast.success("Aluno cadastrado!", {
-                    description: `${nome} pode entrar com ${email} (senha enviada por e-mail).`,
+                    description: `${nome} pode entrar com ${email} e a senha definida.`,
                   });
                 }
                 navigate({ to: "/turma" });
