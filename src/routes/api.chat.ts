@@ -88,9 +88,11 @@ export const Route = createFileRoute("/api/chat")({
 
         if (key.startsWith("gsk_")) {
           gateway = createLovableAiGatewayProvider(key, "https://api.groq.com/openai/v1");
+          // @ts-ignore
           model = gateway("llama-3.3-70b-versatile");
         } else {
           gateway = createLovableAiGatewayProvider(key);
+          // @ts-ignore
           model = gateway("google/gemini-3-flash-preview");
         }
 
