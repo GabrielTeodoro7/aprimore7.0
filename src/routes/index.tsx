@@ -264,9 +264,11 @@ function Index() {
             <StudentGamesCenter />
           </TabsContent>
 
+          <TabsContent value="lab">
+            <VirtualLaboratory />
+          </TabsContent>
+
           <TabsContent value="reports">
-
-
             <SmartReportsModule />
           </TabsContent>
 
