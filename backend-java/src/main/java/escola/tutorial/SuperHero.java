@@ -1,42 +1,59 @@
 package escola.tutorial;
 
 /**
- * [O QUE] Herança, Polimorfismo e Sobrecarga
- * [POR QUE] Criar um herói de verdade baseado na base 'Hero'.
- * [CONTEÚDO] Inheritance, Polymorphism, Overloading, Overriding
+ * [TÓPICO 4: HERANÇA - 'extends']
+ * O SuperHero é um "Filho" da classe Hero. 
+ * Ele já nasce sabendo tudo o que o pai (Hero) sabe, mas ganha coisas novas!
  */
 public class SuperHero extends Hero implements Ability {
-    private String element;
+    
+    private String element; // Ex: Fogo, Água, Código
 
-    // Construtor chamando o pai (super)
+    /**
+     * [CONSTRUTOR E 'super']
+     * Usamos 'super' para falar com o pai. 
+     * É como dizer: "Pai, cuida do nome e da força, que eu cuido do meu Elemento!"
+     */
     public SuperHero(String realName, String heroName, int powerLevel, String element) {
-        super(realName, heroName, powerLevel);
+        super(realName, heroName, powerLevel); // Chama o construtor do pai
         this.element = element;
     }
 
-    // Sobrescrita (Overriding): Dando vida ao método abstrato do pai
+    /**
+     * [TÓPICO 4: SOBRESCRITA - 'Override']
+     * Lembra que o pai disse que todo herói usa poder mas não sabia como?
+     * Aqui nós damos a resposta final!
+     */
     @Override
     public String useSpecialPower() {
-        return getHeroName() + " está usando o poder do " + element + "!";
+        return "SUPER PODER: " + getHeroName() + " controla o elemento " + element + "!";
     }
 
-    // Sobrecarga (Overloading): O mesmo método com "temperos" diferentes
-    public String attack() {
+    /**
+     * [TÓPICO 4: SOBRECARGA - 'Overloading']
+     * É quando o herói tem o mesmo golpe, mas com intensidades diferentes.
+     * Mesmos nomes, mas "ingredientes" (parâmetros) diferentes.
+     */
+    public String attack() { // Soco normal
         return getHeroName() + " deu um soco comum!";
     }
 
-    public String attack(String weapon) {
-        return getHeroName() + " atacou usando " + weapon + "!";
+    public String attack(String weapon) { // Soco com acessório
+        return getHeroName() + " atacou usando o poder de: " + weapon + "!";
     }
 
-    // Implementando a Interface Ability
+    /**
+     * [TÓPICO 8: INTERFACES - Implementação]
+     * Estamos cumprindo a promessa que fizemos para a Interface Ability.
+     */
     @Override
     public void activate() {
-        System.out.println("Habilidade de " + element + " ativada!");
+        System.out.println("[Ability] Sistema de " + element + " carregado 100%!");
     }
 
     @Override
     public String getDescription() {
-        return "Controla o elemento " + element;
+        return "Especialista em manipulação de " + element;
     }
 }
+
