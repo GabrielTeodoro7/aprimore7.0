@@ -11,7 +11,7 @@ export const listarAtividades = createServerFn({ method: "GET" })
     let q = context.supabase
       .from("atividades")
       .select(
-        "id, titulo, materia, data, tone, adaptada, descricao, objetivos, materiais, passos, dificuldade, turma_id, professor_id, created_at",
+        "id, titulo, materia, data, tone, adaptada, descricao, objetivos, materiais, passos, dificuldade, turma_id, professor_id, arquivos, created_at",
       )
       .order("created_at", { ascending: false });
     if (data.turma_id) q = q.eq("turma_id", data.turma_id);
@@ -33,6 +33,7 @@ const criarSchema = z.object({
   passos: z.array(z.string().max(500)).max(50).default([]),
   dificuldade: z.enum(["fácil", "média", "desafio"]).optional(),
   alunoIds: z.array(z.string().uuid()).optional(),
+  arquivos: z.array(z.string()).optional(),
 });
 
 export const criarAtividade = createServerFn({ method: "POST" })
@@ -62,6 +63,7 @@ export const criarAtividade = createServerFn({ method: "POST" })
         materiais: data.materiais,
         passos: data.passos,
         dificuldade: data.dificuldade ?? null,
+        arquivos: data.arquivos ?? [],
       })
       .select()
       .single();

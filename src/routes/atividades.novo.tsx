@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Plus, X, Info, Sparkles, Loader2, Users } from "lucide-react";
+import { ArrowLeft, Plus, X, Info, Sparkles, Loader2, Users, Upload, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardShell } from "@/components/DashboardShell";
 import { useActivities, useStudents, useTurmas, type Activity } from "@/lib/store";
+import { supabase } from "@/integrations/supabase/client";
 import { sugerirAtividade } from "@/lib/ai.functions";
 
 export const Route = createFileRoute("/atividades/novo")({
@@ -35,7 +36,9 @@ function NovaAtividadePage() {
     alunoIds: [] as string[],
     dificuldade: undefined as Activity["dificuldade"],
     turmaId: initialTurmaId || "",
+    arquivos: [] as string[],
   });
+  const [uploading, setUploading] = useState(false);
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
   const setList = (k: "objetivos" | "materiais" | "passos", i: number, v: string) => {
@@ -79,6 +82,38 @@ function NovaAtividadePage() {
       toast.error("Não consegui gerar agora", { description: e instanceof Error ? e.message : "Tente novamente" });
     } finally {
       setIaLoading(false);
+    }
+  }
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    try {
+      const newUrls: string[] = [];
+      for (const file of Array.from(files)) {
+        const fileExt = file.name.split(".").pop();
+        const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { data, error } = await supabase.storage
+          .from("atividades-anexos")
+          .upload(filePath, file);
+
+        if (error) throw error;
+        
+        const { data: { publicUrl } } = supabase.storage
+          .from("atividades-anexos")
+          .getPublicUrl(data.path);
+          
+        newUrls.push(publicUrl);
+      }
+      set("arquivos", [...form.arquivos, ...newUrls]);
+      toast.success("Arquivos enviados!");
+    } catch (error) {
+      toast.error("Erro no upload", { description: error instanceof Error ? error.message : "Tente novamente" });
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -220,6 +255,35 @@ function NovaAtividadePage() {
             </div>
           </Field>
         );})}
+
+        <Field label="Arquivos e Materiais" hint="Faça upload de PDFs, imagens ou documentos" full>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap gap-2">
+              {form.arquivos.map((url, i) => (
+                <div key={i} className="flex items-center gap-2 rounded-xl border border-border bg-background p-2 pr-1">
+                  <FileText className="h-4 w-4 text-primary" />
+                  <span className="text-xs font-medium truncate max-w-[150px]">Arquivo {i + 1}</span>
+                  <button type="button" onClick={() => set("arquivos", form.arquivos.filter((_, x) => x !== i))}
+                    className="rounded-lg p-1 hover:bg-accent text-muted-foreground">
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border p-6 transition hover:border-primary hover:bg-accent/50">
+              <input type="file" multiple className="hidden" onChange={handleFileUpload} disabled={uploading} />
+              {uploading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-primary" />
+              ) : (
+                <Upload className="h-5 w-5 text-muted-foreground" />
+              )}
+              <div className="text-center">
+                <div className="text-sm font-semibold">{uploading ? "Enviando..." : "Clique para enviar arquivos"}</div>
+                <div className="text-[11px] text-muted-foreground">PDF, Imagens ou Documentos</div>
+              </div>
+            </label>
+          </div>
+        </Field>
 
         <Field label="Atribuir a alunos" hint="Marque um ou mais alunos. Vazio = vale para a turma toda." full>
           <div className="flex items-start gap-2 rounded-xl border border-border bg-background p-3">

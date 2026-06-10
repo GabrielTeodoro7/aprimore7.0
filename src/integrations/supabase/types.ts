@@ -202,6 +202,7 @@ export type Database = {
       atividades: {
         Row: {
           adaptada: boolean
+          arquivos: string[] | null
           created_at: string
           data: string | null
           deletado_em: string | null
@@ -220,6 +221,7 @@ export type Database = {
         }
         Insert: {
           adaptada?: boolean
+          arquivos?: string[] | null
           created_at?: string
           data?: string | null
           deletado_em?: string | null
@@ -238,6 +240,7 @@ export type Database = {
         }
         Update: {
           adaptada?: boolean
+          arquivos?: string[] | null
           created_at?: string
           data?: string | null
           deletado_em?: string | null

@@ -77,6 +77,7 @@ export type Activity = {
   materiais: string[];
   passos: string[];
   alunoIds?: string[];
+  arquivos?: string[];
   dificuldade?: "fácil" | "média" | "desafio";
   turmaId?: string;
 };
@@ -203,6 +204,7 @@ function mapAtividade(
     passos: r.passos ?? [],
     dificuldade: dif ?? undefined,
     turmaId: r.turma_id,
+    arquivos: r.arquivos ?? [],
   };
 }
 
