@@ -116,7 +116,13 @@ export function useRotina() {
   };
 }
 
-export type AlunoPerfil = { id: string; nome: string; estrelas: number };
+export type AlunoPerfil = { 
+  id: string; 
+  nome: string; 
+  estrelas: number;
+  diagnostico?: Record<string, any>;
+  config_a11y?: Record<string, any>;
+};
 export function useAlunoPerfil() {
   const { data: meu } = useMeuAluno();
   const qc = useQueryClient();

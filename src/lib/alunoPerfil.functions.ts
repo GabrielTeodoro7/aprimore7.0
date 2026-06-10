@@ -10,7 +10,7 @@ export const getMeuAlunoPerfil = createServerFn({ method: "GET" })
     const sb = context.supabase as unknown as AnyClient;
     const { data: prof } = await sb
       .from("profiles")
-      .select("id, nome")
+      .select("id, nome, diagnostico, config_a11y")
       .eq("user_id", context.userId)
       .maybeSingle();
     if (!prof) return null;
@@ -27,6 +27,8 @@ export const getMeuAlunoPerfil = createServerFn({ method: "GET" })
       turmaId: aluno.turma_id as string,
       profileId: prof.id as string,
       estrelas: (aluno.estrelas ?? 0) as number,
+      diagnostico: (prof.diagnostico ?? {}) as Record<string, any>,
+      config_a11y: (prof.config_a11y ?? {}) as Record<string, any>,
     };
   });
 
