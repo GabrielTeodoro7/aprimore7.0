@@ -342,3 +342,14 @@ Novas classes que reforçam os conteúdos acadêmicos:
 | 11. Exceções | `ApiKeyInvalidaException`, `LimitePlanoExcedidoException` para controle operacional |
 | 12. Thread | `JobRelatorios` processando fila em background via `ScheduledExecutorService` |
 | 14. JDBC | `RelatorioJobDAO` e `ApiKeyDAO` com transações simples e PreparedStatements |
+
+---
+
+# Onda D — Lote 2 (Offline e IA)
+
+| Conteúdo | Arquivo | Descrição |
+|----------|---------|-----------|
+| Classes e Objetos | `model/SyncQueue.java` | Modelagem da fila de sincronização offline para resiliência (RN.53). |
+| Encapsulamento | `model/SyncQueue.java` | Proteção de estado do item de sincronização via getters/setters. |
+| Coleções (List) | `service/IAService.java` | Processamento de `List<Double>` para cálculo de tendências acadêmicas. |
+| Lógica de Programação | `service/IAService.java` | Algoritmo de análise preditiva baseado em médias de desempenho (RN.59). |

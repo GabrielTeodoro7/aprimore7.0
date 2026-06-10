@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
 type SyncItem = Database["public"]["Tables"]["sync_queue"]["Insert"];

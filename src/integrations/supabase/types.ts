@@ -602,6 +602,64 @@ export type Database = {
         }
         Relationships: []
       }
+      documentos_aluno: {
+        Row: {
+          aluno_id: string
+          created_at: string
+          id: string
+          observacao: string | null
+          status: string
+          tipo_documento: string
+          url_arquivo: string
+          validado_em: string | null
+          validado_por: string | null
+        }
+        Insert: {
+          aluno_id: string
+          created_at?: string
+          id?: string
+          observacao?: string | null
+          status?: string
+          tipo_documento: string
+          url_arquivo: string
+          validado_em?: string | null
+          validado_por?: string | null
+        }
+        Update: {
+          aluno_id?: string
+          created_at?: string
+          id?: string
+          observacao?: string | null
+          status?: string
+          tipo_documento?: string
+          url_arquivo?: string
+          validado_em?: string | null
+          validado_por?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documentos_aluno_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "alunos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documentos_aluno_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documentos_aluno_validado_por_fkey"
+            columns: ["validado_por"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       documentos_legais: {
         Row: {
           created_at: string
@@ -709,6 +767,89 @@ export type Database = {
           tipo?: string | null
         }
         Relationships: []
+      }
+      financeiro_config: {
+        Row: {
+          dia_vencimento_padrao: number
+          escola_id: string
+          id: string
+          juros_mes_percentual: number | null
+          multa_atraso_percentual: number | null
+        }
+        Insert: {
+          dia_vencimento_padrao?: number
+          escola_id: string
+          id?: string
+          juros_mes_percentual?: number | null
+          multa_atraso_percentual?: number | null
+        }
+        Update: {
+          dia_vencimento_padrao?: number
+          escola_id?: string
+          id?: string
+          juros_mes_percentual?: number | null
+          multa_atraso_percentual?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financeiro_config_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: true
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      financeiro_mensalidades: {
+        Row: {
+          aluno_id: string
+          created_at: string
+          data_pagamento: string | null
+          data_vencimento: string
+          forma_pagamento: string | null
+          id: string
+          link_pagamento: string | null
+          status: string
+          valor: number
+        }
+        Insert: {
+          aluno_id: string
+          created_at?: string
+          data_pagamento?: string | null
+          data_vencimento: string
+          forma_pagamento?: string | null
+          id?: string
+          link_pagamento?: string | null
+          status?: string
+          valor: number
+        }
+        Update: {
+          aluno_id?: string
+          created_at?: string
+          data_pagamento?: string | null
+          data_vencimento?: string
+          forma_pagamento?: string | null
+          id?: string
+          link_pagamento?: string | null
+          status?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financeiro_mensalidades_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "alunos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "financeiro_mensalidades_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       frequencia: {
         Row: {
