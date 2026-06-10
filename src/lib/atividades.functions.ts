@@ -1,3 +1,13 @@
+/**
+ * MODULO: Atividades.functions.ts
+ * 
+ * Conceitos de POO e Java aplicados aqui:
+ * - INTERFACES / TIPAGEM: Uso de TypeScript interfaces (Activity) para definir contratos de dados.
+ * - COLEÇÕES: Uso de Arrays (.map, .filter) para manipular listas de atividades e alunos.
+ * - EXCEÇÕES: Tratamento de erros de banco com try/catch implícito ou explícito.
+ * - THREADS (Equivalência): Server functions operam de forma assíncrona (async/await), simulando execução paralela.
+ * - JDBC (Equivalência): O cliente Supabase atua como o driver de conexão com o banco de dados.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

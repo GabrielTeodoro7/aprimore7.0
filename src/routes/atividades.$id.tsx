@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, CalendarCheck, Sparkles, Trash2, Printer } from "lucide-react";
+import { ArrowLeft, CalendarCheck, Sparkles, Trash2, Printer, FileText, Download, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardShell } from "@/components/DashboardShell";
 import { useActivities } from "@/lib/store";
@@ -74,6 +74,36 @@ function AtividadeDetailPage() {
         <Section title="Materiais" items={a.materiais} tone="orange" />
         <Section title="Passo a passo" items={a.passos} tone="green" numbered />
       </div>
+
+      {a.arquivos && a.arquivos.length > 0 && (
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <FileText className="h-4 w-4" /> Arquivos e Anexos
+          </h3>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+            {a.arquivos.map((url, i) => (
+              <a 
+                key={i} 
+                href={url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-between rounded-xl border border-border bg-background p-4 transition hover:bg-accent group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-bold">Arquivo {i + 1}</div>
+                    <div className="text-[10px] text-muted-foreground uppercase">Anexo da Atividade</div>
+                  </div>
+                </div>
+                <ExternalLink className="h-4 w-4 text-muted-foreground transition group-hover:text-primary" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </DashboardShell>
   );
 }

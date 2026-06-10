@@ -14,6 +14,7 @@ import {
   Sparkles,
   HelpCircle,
   Smile,
+  Mail,
 } from "lucide-react";
 import logoUrl from "@/assets/aprimore-logo.png";
 import { useState } from "react";
@@ -96,6 +97,14 @@ export function DashboardSidebar() {
         Acessibilidade
       </button>
       <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
+
+      <a
+        href="mailto:aprimoreeducation@gmail.com"
+        className="mx-4 mb-4 flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+      >
+        <Mail className="h-5 w-5" />
+        Falar com Suporte
+      </a>
     </aside>
   );
 }

@@ -37,10 +37,12 @@ export const supabaseAdmin = new Proxy({} as any, {
        const msg = "SUPABASE_SERVICE_ROLE_KEY ausente. Conecte o Supabase em Lovable Cloud ou configure .env.local";
        console.error(`[Supabase Admin] ${msg}`);
        // Retorna uma função que lança erro se invocado, ou objeto que lança erro ao acessar prop
-       return new Proxy(() => {}, {
-         get() { throw new Error(msg); },
-         apply() { throw new Error(msg); }
-       });
+        return new Proxy({ _is_missing: true }, {
+          get(target, prop) {
+            if (prop === 'auth' || prop === 'from' || prop === 'rpc') return undefined;
+            return (target as any)[prop];
+          }
+        });
     }
     
     return Reflect.get(_supabaseAdmin, prop, receiver);

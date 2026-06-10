@@ -1,3 +1,12 @@
+/**
+ * MODULO: AlunoPerfil.functions.ts
+ * 
+ * Aplicando POO (Programação Orientada a Objetos):
+ * - CLASSES E OBJETOS: O objeto 'context' encapsula a sessão e o cliente Supabase.
+ * - CONSTRUTORES: createServerFn inicializa o comportamento do endpoint.
+ * - ENCAPSULAMENTO: A lógica de validação do input está encapsulada no esquema Zod.
+ * - EXCEÇÕES: Lançamos erros explícitos que são capturados pelo middleware.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -16,17 +25,52 @@ export const getMeuAlunoPerfil = createServerFn({ method: "GET" })
     if (!prof) return null;
     const { data: aluno, error } = await sb
       .from("alunos")
-      .select("id, nome, turma_id, estrelas")
+      .select("id, nome, turma_id, estrelas, streak, last_streak_at")
       .eq("profile_id", prof.id)
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!aluno) return null;
+
+    // Lógica de Streak
+    const now = new Date();
+    const last = aluno.last_streak_at ? new Date(aluno.last_streak_at) : null;
+    let currentStreak = aluno.streak ?? 0;
+    let shouldUpdate = false;
+
+    if (!last) {
+      currentStreak = 1;
+      shouldUpdate = true;
+    } else {
+      const diffMs = now.getTime() - last.getTime();
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      const isSameDay = now.toDateString() === last.toDateString();
+
+      if (!isSameDay) {
+        if (diffDays < 2) {
+          currentStreak += 1;
+        } else {
+          currentStreak = 1;
+        }
+        shouldUpdate = true;
+      }
+    }
+
+    if (shouldUpdate) {
+      await sb.from("alunos").update({ 
+        streak: currentStreak, 
+        last_streak_at: now.toISOString() 
+      }).eq("id", aluno.id);
+    }
+
     return {
       id: aluno.id as string,
       nome: (aluno.nome ?? prof.nome) as string,
       turmaId: aluno.turma_id as string,
       profileId: prof.id as string,
       estrelas: (aluno.estrelas ?? 0) as number,
+      streak: currentStreak,
+      lastStreakAt: now.toISOString(),
       diagnostico: (prof.diagnostico ?? {}) as Record<string, any>,
       config_a11y: (prof.config_a11y ?? {}) as Record<string, any>,
     };

@@ -25,14 +25,17 @@ export type Database = {
           escola_id: string | null
           estrelas: number
           freq: string | null
+          frequencia_acumulada: number | null
           id: string
           idade: number | null
+          last_streak_at: string | null
           media: number | null
           necessidade: string | null
           nome: string
           observacoes: string | null
           profile_id: string | null
           responsavel: string | null
+          streak: number | null
           tag: string
           telefone: string | null
           tone: string
@@ -49,14 +52,17 @@ export type Database = {
           escola_id?: string | null
           estrelas?: number
           freq?: string | null
+          frequencia_acumulada?: number | null
           id?: string
           idade?: number | null
+          last_streak_at?: string | null
           media?: number | null
           necessidade?: string | null
           nome: string
           observacoes?: string | null
           profile_id?: string | null
           responsavel?: string | null
+          streak?: number | null
           tag?: string
           telefone?: string | null
           tone?: string
@@ -73,14 +79,17 @@ export type Database = {
           escola_id?: string | null
           estrelas?: number
           freq?: string | null
+          frequencia_acumulada?: number | null
           id?: string
           idade?: number | null
+          last_streak_at?: string | null
           media?: number | null
           necessidade?: string | null
           nome?: string
           observacoes?: string | null
           profile_id?: string | null
           responsavel?: string | null
+          streak?: number | null
           tag?: string
           telefone?: string | null
           tone?: string

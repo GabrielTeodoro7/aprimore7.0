@@ -342,6 +342,7 @@ export function useActivities(turmaId?: string) {
           passos: a.passos ?? [],
           dificuldade: a.dificuldade,
           alunoIds: a.alunoIds,
+          arquivos: a.arquivos,
         },
       }),
     onSuccess: invalidate,
