@@ -20,10 +20,15 @@ import {
   History,
   TrendingUp,
   Award,
-  FileText
+  FileText,
+  Handshake,
+  Trophy
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { SmartReportsModule } from "@/components/SmartReportsModule";
+import { FamilySchoolPortal } from "@/components/FamilySchoolPortal";
+import { GamificationCenter } from "@/components/GamificationCenter";
+
 
 
 
