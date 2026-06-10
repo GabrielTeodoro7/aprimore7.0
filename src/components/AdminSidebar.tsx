@@ -9,7 +9,6 @@ const items = [
   { to: "/admin/alunos", label: "Alunos", icon: GraduationCap },
   { to: "/guia-poo", label: "Guia POO (Java)", icon: Code2 },
   { to: "/admin/logs", label: "Logs", icon: ScrollText },
-  { to: "/admin/usuarios", label: "Gestor Supremo", icon: ShieldCheck },
   { to: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 
