@@ -98,6 +98,6 @@ function CEODashboard() {
           </button>
         </div>
       </Card>
-    </CEODashboard>
+    </CEOShell>
   );
 }
