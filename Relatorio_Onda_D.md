@@ -38,8 +38,35 @@ Status: Lote 2 concluído.
 
 ---
 
-## Próximos passos (Lote 3)
+## Lote 3: Secretaria e Financeiro (Concluído)
 
-- RN.65-70: Relatórios Avançados e Exportação.
-- RN.71-77: Módulos de Secretaria e Financeiro.
+### RNs entregues
+
+| RN | Título | Camada |
+|----|--------|--------|
+| RN.71 | Documentos Aluno | Banco + Java |
+| RN.72 | Validação Secretaria | Banco + Frontend |
+| RN.74 | Mensalidades Base | Banco + Java |
+| RN.75 | Cálculo de Juros | Java (Model) |
+| RN.77 | Status Pagamento | Banco + Frontend |
+
+### Arquivos criados/alterados
+
+**Migrations:**
+- \`20260610080000_onda_d_lote3_financeiro_secretaria.sql\`
+
+**Java:**
+- \`model/Mensalidade.java\`
+- \`service/SecretariaService.java\`
+
+**Frontend:**
+- \`src/lib/secretaria-financeiro.functions.ts\`
+
+---
+
+## Próximos passos (Lote 4)
+
+- RN.65-70: Relatórios Avançados e BI Acadêmico.
+- RN.78-80: Integrações Externas e Webhooks.
+
 

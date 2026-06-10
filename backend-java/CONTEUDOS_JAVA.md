@@ -353,3 +353,13 @@ Novas classes que reforçam os conteúdos acadêmicos:
 | Encapsulamento | `model/SyncQueue.java` | Proteção de estado do item de sincronização via getters/setters. |
 | Coleções (List) | `service/IAService.java` | Processamento de `List<Double>` para cálculo de tendências acadêmicas. |
 | Lógica de Programação | `service/IAService.java` | Algoritmo de análise preditiva baseado em médias de desempenho (RN.59). |
+
+---
+
+# Onda D — Lote 3 (Secretaria e Financeiro)
+
+| Conteúdo | Arquivo | Descrição |
+|----------|---------|-----------|
+| BigDecimal | `model/Mensalidade.java` | Uso de precisão decimal para valores financeiros (RN.74). |
+| Encapsulamento | `model/Mensalidade.java` | Regras de cálculo de juros encapsuladas no modelo. |
+| Coleções (containsAll) | `service/SecretariaService.java` | Validação de conjunto de documentos obrigatórios (RN.71). |
