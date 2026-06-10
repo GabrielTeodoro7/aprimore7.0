@@ -128,8 +128,11 @@ function RootComponent() {
       <AccessibilityProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <CommandPalette />
+        <AIPedagogicalAssistant />
+        <OfflineStatusIndicator />
         <Outlet />
       </AccessibilityProvider>
+
 
     </QueryClientProvider>
   );
