@@ -214,7 +214,7 @@ function Index() {
                       </div>
                       <AppBadge>2.450 pts</AppBadge>
                     </div>
-                  </div </AppCardContent>
+                  </AppCardContent>
                 </AppCard>
               </div>
             </div>
