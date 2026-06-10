@@ -1,42 +1,45 @@
 # Relatório Onda D — Expansão, Gamificação e IA
 
-Data de início: 2026-06-10
-Status: Em execução (Lote 1 concluído).
+Data: 2026-06-10
+Status: Lote 2 concluído.
 
-## Lote 1: Multi-tenant e Gamificação
+## Lote 1: Multi-tenant e Gamificação (Concluído)
+- RN.41, 42, 43, 51, 52.
+
+## Lote 2: Offline e IA (Concluído)
 
 ### RNs entregues
 
 | RN | Título | Camada |
 |----|--------|--------|
-| RN.41 | Estrutura Multi-escola | Banco + Java |
-| RN.42 | Isolamento de Dados | Banco (RLS) |
-| RN.43 | Configuração por Escola | Banco |
-| RN.51 | Sistema de Ranking | Banco + Server function |
-| RN.52 | Selos e Conquistas | Banco + Java + Server function |
+| RN.53 | Fila Offline | Banco + Java |
+| RN.54 | Resiliência de Sync | Banco + Frontend |
+| RN.56 | SGE - Planos de Aula | Banco + Server Function |
+| RN.58 | Adaptação IA | Banco + Frontend |
+| RN.59 | Predição de Evasão | Banco + Java |
+| RN.60 | Dashboards SGE | Banco + Frontend |
 
-### Arquivos criados
+### Arquivos criados/alterados
 
 **Migrations:**
-- `supabase/migrations/20260610060000_onda_d_multi_tenant.sql`
-- `supabase/migrations/20260610060100_onda_d_gamificacao.sql`
+- `20260610070000_onda_d_lote2_offline_ia.sql`
 
 **Java:**
-- `model/Escola.java`, `model/Selo.java`
-- `service/MultiTenantService.java`, `service/GamificacaoService.java`
+- `model/SyncQueue.java`
+- `service/IAService.java`
 
 **Frontend:**
-- `src/lib/gamificacao.functions.ts`
+- `src/lib/ia-offline.functions.ts`
 
 ### Como testar
 
-1. **Multi-tenant:** Verifique se a coluna `escola_id` foi adicionada às tabelas `profiles`, `alunos` e `turmas`.
-2. **Gamificação:** Utilize `obterRankingAlunos` para listar o top 10 de uma escola.
+1. **Offline:** Simule uma inserção na tabela `sync_queue` com status `PENDENTE`.
+2. **IA:** Chame `gerarSugestaoPlanoAula` no console ou via teste unitário simulado.
 
 ---
 
-## Próximos passos (Lote 2)
+## Próximos passos (Lote 3)
 
-- RN.53/54: Offline e Resiliência.
-- RN.56-60: IA Avançada (SGE).
-- RN.65-77: Módulos Acadêmicos Adicionais.
+- RN.65-70: Relatórios Avançados e Exportação.
+- RN.71-77: Módulos de Secretaria e Financeiro.
+
