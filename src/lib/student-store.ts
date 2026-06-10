@@ -116,11 +116,12 @@ export function useRotina() {
   };
 }
 
-export type AlunoPerfil = { nome: string; estrelas: number };
+export type AlunoPerfil = { id: string; nome: string; estrelas: number };
 export function useAlunoPerfil() {
   const { data: meu } = useMeuAluno();
   const qc = useQueryClient();
   const perfil: AlunoPerfil = {
+    id: meu?.id ?? "",
     nome: meu?.nome ?? "",
     estrelas: meu?.estrelas ?? 0,
   };

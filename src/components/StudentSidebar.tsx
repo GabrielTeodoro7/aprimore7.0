@@ -1,5 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Calendar, MessageCircle, Puzzle, Star, Heart, Sparkles, MessagesSquare, LogOut } from "lucide-react";
+import { Home, Calendar, MessageCircle, Puzzle, Star, Heart, Sparkles, MessagesSquare, LogOut, Accessibility } from "lucide-react";
+import { AccessibilityPanel } from "@/components/AccessibilityPanel";
+import { useState } from "react";
 import logoUrl from "@/assets/aprimore-logo.png";
 
 const items = [
@@ -18,6 +20,7 @@ const items = [
 
 export function StudentSidebar() {
   const { pathname } = useLocation();
+  const [a11yOpen, setA11yOpen] = useState(false);
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-card">
       <Link to="/aluno" className="flex flex-col items-center gap-2 px-6 py-6">
@@ -42,9 +45,16 @@ export function StudentSidebar() {
           );
         })}
       </nav>
+      <button
+        onClick={() => setA11yOpen(true)}
+        className="mx-4 mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition hover:bg-accent"
+      >
+        <Accessibility className="h-5 w-5" /> Acessibilidade
+      </button>
+      <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
       <Link
         to="/entrar"
-        className="m-4 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-accent"
+        className="mx-4 mb-4 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-accent"
       >
         <LogOut className="h-5 w-5" /> Sair
       </Link>

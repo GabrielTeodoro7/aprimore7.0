@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, BookOpen, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle2, Sparkles, Filter, User } from "lucide-react";
 import { toast } from "sonner";
 import { StudentShell } from "@/components/StudentShell";
 import { useActivities } from "@/lib/store";
 import { useAlunoPerfil } from "@/lib/student-store";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 
 export const Route = createFileRoute("/aluno/atividades")({
@@ -14,9 +14,18 @@ export const Route = createFileRoute("/aluno/atividades")({
 
 function Atividades() {
   const { list } = useActivities();
+  const { perfil } = useAlunoPerfil();
   const { addEstrelas } = useAlunoPerfil();
   const { playStar } = useAudioFeedback();
   const [feitas, setFeitas] = useState<Record<string, boolean>>({});
+  const [filterMode, setFilterMode] = useState<"all" | "mine">("mine");
+
+  const filteredList = useMemo(() => {
+    if (filterMode === "mine") {
+      return list.filter(a => !a.alunoIds || a.alunoIds.length === 0 || a.alunoIds.includes(perfil.id));
+    }
+    return list;
+  }, [list, filterMode, perfil.id]);
 
   const fazer = (id: string, title: string) => {
     if (feitas[id]) return;
@@ -36,8 +45,32 @@ function Atividades() {
       }
       subtitle="Escolha uma atividade para fazer hoje."
     >
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 rounded-2xl bg-card p-1 shadow-sm">
+          <button
+            onClick={() => setFilterMode("mine")}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition ${
+              filterMode === "mine" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-accent"
+            }`}
+          >
+            <User className="h-4 w-4" /> Para Mim
+          </button>
+          <button
+            onClick={() => setFilterMode("all")}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition ${
+              filterMode === "all" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-accent"
+            }`}
+          >
+            <Filter className="h-4 w-4" /> Ver Todas
+          </button>
+        </div>
+        <div className="text-xs font-semibold text-muted-foreground">
+          Exibindo {filteredList.length} atividade{filteredList.length !== 1 ? "s" : ""}
+        </div>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
-        {list.map((a) => {
+        {filteredList.map((a) => {
           const done = feitas[a.id];
           return (
             <div key={a.id} className="rounded-3xl border border-border bg-card p-5 shadow-sm">
@@ -49,7 +82,14 @@ function Atividades() {
                   <BookOpen className="h-8 w-8" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-lg font-bold text-foreground">{a.title}</div>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-lg font-bold text-foreground">{a.title}</div>
+                    {a.alunoIds?.includes(perfil.id) && (
+                      <span className="flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
+                        <User className="h-3 w-3" /> ESPECIAL
+                      </span>
+                    )}
+                  </div>
                   <div className="text-sm font-semibold" style={{ color: `var(--stat-${a.tone})` }}>{a.mat}</div>
                   <p className="mt-2 text-sm text-muted-foreground">{a.descricao}</p>
                 </div>
