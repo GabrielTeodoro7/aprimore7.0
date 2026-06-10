@@ -184,7 +184,7 @@ export const StudentGamesCenter = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Gamepad2 className="h-7 w-7 text-primary" /> Arena de Aprendizagem
