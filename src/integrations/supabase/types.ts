@@ -317,6 +317,45 @@ export type Database = {
           },
         ]
       }
+      bloqueios_conta: {
+        Row: {
+          created_at: string
+          email: string
+          expira_em: string
+          id: string
+          iniciou_em: string
+          liberado: boolean
+          liberado_em: string | null
+          motivo: string
+          tentativas: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expira_em: string
+          id?: string
+          iniciou_em?: string
+          liberado?: boolean
+          liberado_em?: string | null
+          motivo?: string
+          tentativas?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expira_em?: string
+          id?: string
+          iniciou_em?: string
+          liberado?: boolean
+          liberado_em?: string | null
+          motivo?: string
+          tentativas?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       comunicados: {
         Row: {
           corpo: string
@@ -678,61 +717,124 @@ export type Database = {
           },
         ]
       }
+      politica_senha: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          escopo: string
+          exige_maiuscula: boolean
+          exige_minuscula: boolean
+          exige_numero: boolean
+          exige_simbolo: boolean
+          expiracao_dias: number
+          historico_n: number
+          id: string
+          janela_lock_min: number
+          max_tentativas: number
+          min_tamanho: number
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          escopo?: string
+          exige_maiuscula?: boolean
+          exige_minuscula?: boolean
+          exige_numero?: boolean
+          exige_simbolo?: boolean
+          expiracao_dias?: number
+          historico_n?: number
+          id?: string
+          janela_lock_min?: number
+          max_tentativas?: number
+          min_tamanho?: number
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          escopo?: string
+          exige_maiuscula?: boolean
+          exige_minuscula?: boolean
+          exige_numero?: boolean
+          exige_simbolo?: boolean
+          expiracao_dias?: number
+          historico_n?: number
+          id?: string
+          janela_lock_min?: number
+          max_tentativas?: number
+          min_tamanho?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           ano: string | null
+          bloqueado_ate: string | null
           cargo: string | null
           created_at: string
           deletado_em: string | null
           email: string
           escola: string | null
+          exige_troca: boolean
           id: string
           is_demo: boolean
           nome: string
           professor_id: string | null
           role: Database["public"]["Enums"]["app_role"]
+          senha_alterada_em: string | null
           status: string
           theme: string
           turma: string | null
           ultimo_acesso: string | null
+          ultimo_login: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           ano?: string | null
+          bloqueado_ate?: string | null
           cargo?: string | null
           created_at?: string
           deletado_em?: string | null
           email: string
           escola?: string | null
+          exige_troca?: boolean
           id?: string
           is_demo?: boolean
           nome?: string
           professor_id?: string | null
           role?: Database["public"]["Enums"]["app_role"]
+          senha_alterada_em?: string | null
           status?: string
           theme?: string
           turma?: string | null
           ultimo_acesso?: string | null
+          ultimo_login?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           ano?: string | null
+          bloqueado_ate?: string | null
           cargo?: string | null
           created_at?: string
           deletado_em?: string | null
           email?: string
           escola?: string | null
+          exige_troca?: boolean
           id?: string
           is_demo?: boolean
           nome?: string
           professor_id?: string | null
           role?: Database["public"]["Enums"]["app_role"]
+          senha_alterada_em?: string | null
           status?: string
           theme?: string
           turma?: string | null
           ultimo_acesso?: string | null
+          ultimo_login?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -826,6 +928,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      senha_historico: {
+        Row: {
+          algoritmo: string
+          created_at: string
+          hash: string
+          id: string
+          iteracoes: number
+          user_id: string
+        }
+        Insert: {
+          algoritmo?: string
+          created_at?: string
+          hash: string
+          id?: string
+          iteracoes?: number
+          user_id: string
+        }
+        Update: {
+          algoritmo?: string
+          created_at?: string
+          hash?: string
+          id?: string
+          iteracoes?: number
+          user_id?: string
+        }
+        Relationships: []
       }
       sentimentos: {
         Row: {
@@ -929,6 +1058,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tentativas_login: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          ip: string | null
+          motivo: string | null
+          sucesso: boolean
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          ip?: string | null
+          motivo?: string | null
+          sucesso: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          ip?: string | null
+          motivo?: string | null
+          sucesso?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
       }
       termos_aceitos: {
         Row: {
@@ -1131,6 +1293,7 @@ export type Database = {
       is_demo_user: { Args: { _user_id: string }; Returns: boolean }
       is_professor_of_turma: { Args: { _turma_id: string }; Returns: boolean }
       is_valid_cpf: { Args: { _cpf: string }; Returns: boolean }
+      senha_precisa_trocar: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "ceo" | "admin" | "professor" | "aluno"
