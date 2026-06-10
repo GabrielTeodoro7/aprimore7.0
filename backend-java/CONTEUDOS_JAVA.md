@@ -1,22 +1,21 @@
 # Índice Acadêmico — 14 Conteúdos de Java no Backend
 
-> **NOVIDADE: ACADEMIA DE HERÓIS POO**
-> Criamos uma pasta especial `backend-java/src/main/java/escola/tutorial/` onde cada 
-> conceito é explicado como se fosse para uma criança de 10 anos, usando heróis!
+> **ESTRUTURA PROFISSIONAL (CORE)**
+> Criamos uma arquitetura de alto nível em `backend-java/src/main/java/escola/core/` 
+> que organiza os conceitos de forma robusta e modular.
 > 
-> **Onde encontrar a explicação "Para Crianças":**
-> - `escola.tutorial.POOExplainer`: O "Professor" que roda tudo.
-> - `escola.tutorial.Hero`: Explica **Abstração** e **Encapsulamento**.
-> - `escola.tutorial.SuperHero`: Explica **Herança**, **Polimorfismo**, **Sobrecarga** e **Sobrescrita**.
-> - `escola.tutorial.Ability`: Explica **Interfaces**.
-> - `escola.tutorial.HeroMission`: Explica **Threads**, **Coleções** e **Exceções**.
-> - `escola.tutorial.HeroDAO`: Explica **JDBC**.
-> - `escola.tutorial.HeroFiles`: Explica **Java IO**.
-> - `escola.tutorial.HeroAcademyUI`: Explica **Java Swing**.
+> **Módulos Principais:**
+> - `escola.core.threads`: `ParallelExecutor` e `AsyncProcess` (Threads avançadas).
+> - `escola.core.jdbc`: `DatabaseAdapter` (Persistência padronizada).
+> - `escola.core.io`: `FileManager` (Manipulação de arquivos NIO).
+> - `escola.core.collections`: `DataManager` (Uso de Generics e Streams).
+> - `escola.core.exceptions`: `CoreException` (Hierarquia de erros).
+> - `escola.core.CoreEngine`: O motor que integra todos os componentes.
 
 ---
 
 ## 1. Classes e Objetos
+
 
 
 - **Arquivo:** `model/Aluno.java`, `model/Professor.java`, `model/Turma.java`, `model/Disciplina.java`
