@@ -133,8 +133,8 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
             <Field label="Nome completo" id="p-nome" error={profForm.formState.errors.nome?.message}>
               <input id="p-nome" {...profForm.register("nome")} className="form-input" />
             </Field>
-            <Field label="E-mail institucional" id="p-email" error={profForm.formState.errors.email?.message}>
-              <input id="p-email" type="email" {...profForm.register("email")} className="form-input" />
+            <Field label="E-mail @gmail.com" id="p-email" error={profForm.formState.errors.email?.message}>
+              <input id="p-email" type="email" placeholder="exemplo@gmail.com" {...profForm.register("email")} className="form-input" />
             </Field>
             <Field label="Escola" id="p-escola" error={profForm.formState.errors.escola?.message}>
               <input id="p-escola" {...profForm.register("escola")} className="form-input" />
@@ -150,8 +150,8 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
             <Field label="Nome do aluno" id="a-nome" error={alunoForm.formState.errors.nome?.message}>
               <input id="a-nome" {...alunoForm.register("nome")} className="form-input" />
             </Field>
-            <Field label="E-mail" id="a-email" error={alunoForm.formState.errors.email?.message}>
-              <input id="a-email" type="email" {...alunoForm.register("email")} className="form-input" />
+            <Field label="E-mail @gmail.com" id="a-email" error={alunoForm.formState.errors.email?.message}>
+              <input id="a-email" type="email" placeholder="exemplo@gmail.com" {...alunoForm.register("email")} className="form-input" />
             </Field>
             <Field label="Professor responsável" id="a-prof" error={alunoForm.formState.errors.professorId?.message}>
               <select id="a-prof" {...alunoForm.register("professorId")} className="form-input">
