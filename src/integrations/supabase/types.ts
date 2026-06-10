@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       alunos: {
         Row: {
+          cpf: string | null
           created_at: string
           email: string | null
           estrelas: number
@@ -35,6 +36,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          cpf?: string | null
           created_at?: string
           email?: string | null
           estrelas?: number
@@ -54,6 +56,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          cpf?: string | null
           created_at?: string
           email?: string | null
           estrelas?: number
@@ -711,6 +714,7 @@ export type Database = {
       turmas: {
         Row: {
           ano: string | null
+          capacidade: number
           created_at: string
           id: string
           nome: string
@@ -719,6 +723,7 @@ export type Database = {
         }
         Insert: {
           ano?: string | null
+          capacidade?: number
           created_at?: string
           id?: string
           nome: string
@@ -727,6 +732,7 @@ export type Database = {
         }
         Update: {
           ano?: string | null
+          capacidade?: number
           created_at?: string
           id?: string
           nome?: string
@@ -781,6 +787,7 @@ export type Database = {
       is_ceo: { Args: { _user_id: string }; Returns: boolean }
       is_demo_user: { Args: { _user_id: string }; Returns: boolean }
       is_professor_of_turma: { Args: { _turma_id: string }; Returns: boolean }
+      is_valid_cpf: { Args: { _cpf: string }; Returns: boolean }
     }
     Enums: {
       app_role: "ceo" | "admin" | "professor" | "aluno"
