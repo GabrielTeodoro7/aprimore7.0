@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -7,10 +7,14 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+import { TermsGate } from "@/components/TermsGate";
+import { AIAssistant } from "@/components/AIAssistant";
+import { supabase } from "@/integrations/supabase/client";
+import { AUTH_QUERY_KEY } from "@/lib/auth-store";
 
 function NotFoundComponent() {
   return (
@@ -37,9 +41,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -99,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
+function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -113,30 +114,30 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
-import { CommandPalette } from "@/components/CommandPalette";
-import { AIPedagogicalAssistant } from "@/components/AIPedagogicalAssistant";
-import { OfflineStatusIndicator } from "@/components/OfflineStatusIndicator";
-import { Toaster } from "@/components/ui/sonner";
+function AuthSync() {
+  const router = useRouter();
+  const qc = useQueryClient();
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange(() => {
+      qc.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
+      router.invalidate();
+    });
+    return () => data.subscription.unsubscribe();
+  }, [qc, router]);
+  return null;
+}
 
 function RootComponent() {
-
-
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthSync />
       <AccessibilityProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <CommandPalette />
-        <AIPedagogicalAssistant />
-        <OfflineStatusIndicator />
         <Outlet />
-        <Toaster />
+        <AIAssistant />
+        <TermsGate />
       </AccessibilityProvider>
-
-
     </QueryClientProvider>
   );
 }
-
