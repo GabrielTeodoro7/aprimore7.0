@@ -20,10 +20,15 @@ import {
   History,
   TrendingUp,
   Award,
-  FileText
+  FileText,
+  Handshake,
+  Trophy
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { SmartReportsModule } from "@/components/SmartReportsModule";
+import { FamilySchoolPortal } from "@/components/FamilySchoolPortal";
+import { GamificationCenter } from "@/components/GamificationCenter";
+
 
 
 
@@ -87,13 +92,16 @@ function Index() {
 
       <main className="container px-4 py-8 md:px-6 md:py-12">
         <Tabs defaultValue="dashboard" className="w-full space-y-8">
-          <TabsList className="grid w-full grid-cols-3 md:w-[600px]">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="reports">Relatórios</TabsTrigger>
-            <TabsTrigger value="accessibility" className="gap-2">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2 bg-transparent h-auto">
+            <TabsTrigger value="dashboard" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Dashboard</TabsTrigger>
+            <TabsTrigger value="family" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Família</TabsTrigger>
+            <TabsTrigger value="gamification" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Conquistas</TabsTrigger>
+            <TabsTrigger value="reports" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Relatórios</TabsTrigger>
+            <TabsTrigger value="accessibility" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <span className="text-base">♿</span> Acessibilidade
             </TabsTrigger>
           </TabsList>
+
 
 
           <TabsContent value="dashboard" className="space-y-12">
@@ -226,7 +234,16 @@ function Index() {
 
           </TabsContent>
 
+          <TabsContent value="family">
+            <FamilySchoolPortal />
+          </TabsContent>
+
+          <TabsContent value="gamification">
+            <GamificationCenter />
+          </TabsContent>
+
           <TabsContent value="reports">
+
             <SmartReportsModule />
           </TabsContent>
 
