@@ -1,82 +1,115 @@
-import React, { useState } from 'react';
-import { AppCard, AppCardContent, AppCardHeader, AppCardTitle } from '@/design-system/AppCard';
+import React, { useState, useEffect } from 'react';
+import { AppCard, AppCardContent } from '@/design-system/AppCard';
 import { AppButton } from '@/design-system/AppButton';
-import { AppBadge } from '@/design-system/AppBadge';
-import { Sparkles, Bot, BrainCircuit, Lightbulb, Wand2, X } from 'lucide-react';
-import { useAccessibility } from '@/contexts/AccessibilityContext';
+import { Bot, Sparkles, MessageSquare, Brain, Lightbulb, X, Wand2 } from 'lucide-react';
 
 export const AIPedagogicalAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { settings } = useAccessibility();
+  const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
+    { role: 'assistant', content: 'Olá! Sou o assistente IA do Aprimore. Como posso ajudar com o planejamento pedagógico ou acessibilidade hoje?' }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
-  if (!isOpen) {
-    return (
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-[90] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl shadow-primary/30 hover:scale-110 transition-transform animate-bounce"
-        aria-label="Assistente Pedagógico IA"
-      >
-        <Bot className="h-7 w-7" />
-        <span className="absolute -top-1 -right-1 flex h-4 w-4">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
-        </span>
-      </button>
-    );
-  }
+  const handleSend = () => {
+    if (!inputValue.trim()) return;
+    
+    const newUserMsg = { role: 'user' as const, content: inputValue };
+    setMessages(prev => [...prev, newUserMsg]);
+    setInputValue('');
+    setIsTyping(true);
+
+    // Simulando resposta da IA baseada no contexto pedagógico
+    setTimeout(() => {
+      let response = "Interessante! Para este caso de inclusão, sugiro adaptar a atividade usando recursos visuais e tempo estendido, conforme o PEI do aluno.";
+      if (inputValue.toLowerCase().includes('ideia') || inputValue.toLowerCase().includes('aula')) {
+        response = "Aqui está uma ideia criativa: Que tal um 'Escape Room' matemático onde os enigmas são baseados em situações do cotidiano dos alunos?";
+      } else if (inputValue.toLowerCase().includes('jogo')) {
+        response = "Posso sugerir o 'Desafio das Operações' na nossa Arena de Games. Ele ajuda muito na fixação de conceitos básicos de forma lúdica.";
+      }
+      
+      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      setIsTyping(false);
+    }, 1500);
+  };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] w-[350px] max-w-[90vw] animate-in slide-in-from-bottom-5">
-      <AppCard className={`border-2 shadow-2xl ${settings.highContrast ? 'border-primary' : 'border-primary/20'}`}>
-        <AppCardHeader className="bg-primary text-primary-foreground p-4 rounded-t-lg flex flex-row items-center justify-between space-y-0">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 fill-current" />
-            <AppCardTitle className="text-base font-bold italic">Aprimore IA</AppCardTitle>
-          </div>
-          <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 rounded p-1 transition-colors">
-            <X className="h-4 w-4" />
-          </button>
-        </AppCardHeader>
-        <AppCardContent className="p-4 space-y-4">
-          <div className="bg-primary/5 p-3 rounded-lg border border-primary/10">
-            <p className="text-xs font-medium text-primary flex items-center gap-1 mb-1">
-              <Lightbulb className="h-3 w-3" /> Insight do Dia:
-            </p>
-            <p className="text-[11px] leading-relaxed italic text-muted-foreground">
-              "Baseado nos últimos PEIs, 15% dos alunos com TDAH apresentaram melhor evolução com o uso do Modo Foco matinal."
-            </p>
-          </div>
+    <>
+      {/* Botão Flutuante IA */}
+      <button 
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-6 right-6 h-16 w-16 bg-gradient-to-br from-primary to-purple-600 rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-transform z-50 animate-bounce group"
+      >
+        <Bot className="h-8 w-8 group-hover:rotate-12 transition-transform" />
+        <span className="absolute -top-1 -right-1 h-5 w-5 bg-yellow-400 rounded-full flex items-center justify-center text-[10px] text-black font-black">AI</span>
+      </button>
 
-          <div className="space-y-3">
-            <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">Ações de Inteligência</p>
-            
-            <button className="flex w-full items-center gap-3 rounded-md border p-2 text-left text-xs hover:bg-accent transition-colors">
-              <div className="bg-blue-100 p-1.5 rounded text-blue-600"><BrainCircuit className="h-3 w-3" /></div>
-              <div>
-                <p className="font-bold">Adaptar Material</p>
-                <p className="text-[10px] text-muted-foreground">Simplificar texto para Dislexia.</p>
-              </div>
-            </button>
-
-            <button className="flex w-full items-center gap-3 rounded-md border p-2 text-left text-xs hover:bg-accent transition-colors">
-              <div className="bg-purple-100 p-1.5 rounded text-purple-600"><Wand2 className="h-3 w-3" /></div>
-              <div>
-                <p className="font-bold">Gerar Metas SMART</p>
-                <p className="text-[10px] text-muted-foreground">Auto-preencher novo plano PEI.</p>
-              </div>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 pt-2 border-t mt-4">
-            <div className="flex-1 bg-muted h-8 rounded-full px-3 flex items-center text-[10px] text-muted-foreground italic">
-              Pergunte algo ao assistente...
+      {/* Janela do Chat */}
+      {isOpen && (
+        <div className="fixed bottom-24 right-6 w-[350px] md:w-[400px] h-[500px] bg-background border border-primary/20 rounded-2xl shadow-2xl flex flex-col z-50 animate-in slide-in-from-bottom-10 duration-300 overflow-hidden">
+          <div className="p-4 bg-gradient-to-r from-primary to-purple-600 text-white flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-yellow-300" />
+              <span className="font-bold">Aprimore IA Pedagogica</span>
             </div>
-            <AppButton size="sm" className="h-8 w-8 rounded-full p-0">
-              <Sparkles className="h-3.5 w-3.5" />
-            </AppButton>
+            <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1 rounded-full transition-colors">
+              <X className="h-5 w-5" />
+            </button>
           </div>
-        </AppCardContent>
-      </AppCard>
-    </div>
+
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/50 dark:bg-slate-950">
+            {messages.map((m, i) => (
+              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
+                  m.role === 'user' 
+                    ? 'bg-primary text-white rounded-tr-none' 
+                    : 'bg-white dark:bg-slate-800 border border-border rounded-tl-none shadow-sm'
+                }`}>
+                  {m.content}
+                </div>
+              </div>
+            ))}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-white dark:bg-slate-800 border border-border p-3 rounded-2xl rounded-tl-none shadow-sm flex gap-1">
+                  <div className="h-1.5 w-1.5 bg-slate-400 rounded-full animate-bounce" />
+                  <div className="h-1.5 w-1.5 bg-slate-400 rounded-full animate-bounce delay-75" />
+                  <div className="h-1.5 w-1.5 bg-slate-400 rounded-full animate-bounce delay-150" />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 border-t bg-background">
+            <div className="flex gap-2">
+              <input 
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Peça uma sugestão de aula..."
+                className="flex-1 bg-muted border-none rounded-full px-4 text-sm focus:ring-2 focus:ring-primary h-10"
+              />
+              <AppButton size="icon" onClick={handleSend} className="rounded-full h-10 w-10">
+                <Wand2 className="h-4 w-4" />
+              </AppButton>
+            </div>
+            <div className="flex gap-2 mt-3 overflow-x-auto pb-1 no-scrollbar">
+              <button 
+                onClick={() => setInputValue('Ideia de aula para TDAH')}
+                className="whitespace-nowrap text-[10px] bg-muted hover:bg-primary/10 px-2 py-1 rounded-full transition-colors border border-border"
+              >
+                💡 Aula para TDAH
+              </button>
+              <button 
+                onClick={() => setInputValue('Sugira um jogo de Lógica')}
+                className="whitespace-nowrap text-[10px] bg-muted hover:bg-primary/10 px-2 py-1 rounded-full transition-colors border border-border"
+              >
+                🎮 Jogo de Lógica
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };

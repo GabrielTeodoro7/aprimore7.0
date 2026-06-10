@@ -32,6 +32,7 @@ import { FamilySchoolPortal } from "@/components/FamilySchoolPortal";
 import { GamificationCenter } from "@/components/GamificationCenter";
 import { StudentGamesCenter } from "@/components/StudentGamesCenter";
 import { PricingSimulator } from "@/components/PricingSimulator";
+import { AIPedagogicalAssistant } from "@/components/AIPedagogicalAssistant";
 
 
 
@@ -288,6 +289,7 @@ function Index() {
           </div>
         </div>
       </footer>
+      <AIPedagogicalAssistant />
     </div>
   );
 }
