@@ -105,10 +105,54 @@ export const StudentGamesCenter = () => {
       url: '#',
       isExternal: false,
       difficulty: 'Iniciante'
+    },
+    {
+      id: 'sci-2',
+      title: 'Ecossistema em Equilíbrio',
+      subject: 'Ciências',
+      description: 'Gerencie recursos e espécies para manter um ecossistema saudável.',
+      icon: Dna,
+      color: 'text-green-600',
+      url: 'https://phet.colorado.edu/pt_BR/simulations/natural-selection',
+      isExternal: true,
+      difficulty: 'Intermediário'
+    },
+    {
+      id: 'math-2',
+      title: 'Geometria Espacial',
+      subject: 'Matemática',
+      description: 'Identifique formas 3D e calcule volumes em um cenário futurista.',
+      icon: Calculator,
+      color: 'text-indigo-500',
+      url: 'https://www.geogebra.org/3d?lang=pt',
+      isExternal: true,
+      difficulty: 'Mestre'
+    },
+    {
+      id: 'hist-1',
+      title: 'Linha do Tempo: Brasil',
+      subject: 'História',
+      description: 'Organize eventos históricos na ordem correta para desbloquear capítulos.',
+      icon: Globe,
+      color: 'text-amber-600',
+      url: 'https://www.escolagames.com.br/jogos/linha-do-tempo',
+      isExternal: true,
+      difficulty: 'Iniciante'
+    },
+    {
+      id: 'eng-1',
+      title: 'Vocabulário Ninja',
+      subject: 'Inglês',
+      description: 'Corte as palavras corretas em inglês para vencer o torneio.',
+      icon: Languages,
+      color: 'text-red-500',
+      url: 'https://www.gamestolearnenglish.com/',
+      isExternal: true,
+      difficulty: 'Intermediário'
     }
   ];
 
-  const categories = ['Todos', 'Matemática', 'Português', 'Ciências', 'Geografia', 'Artes', 'Raciocínio'];
+  const categories = ['Todos', 'Matemática', 'Português', 'Inglês', 'Ciências', 'Geografia', 'História', 'Artes', 'Raciocínio'];
 
   const filteredGames = selectedCategory === 'Todos' 
     ? games 
