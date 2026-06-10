@@ -7,6 +7,6 @@ export const createLovableAiGatewayProvider = (lovableApiKey: string, baseURL?: 
     headers: {
       "Lovable-API-Key": lovableApiKey,
       "X-Lovable-AIG-SDK": "vercel-ai-sdk",
-      ...(lovableApiKey.startsWith("gsk_") ? { "Authorization": `Bearer ${lovableApiKey}` } : {})
+      ...(lovableApiKey?.startsWith("gsk_") ? { "Authorization": `Bearer ${lovableApiKey}` } : {})
     },
   });
