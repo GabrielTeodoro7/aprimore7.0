@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles, Gamepad2, BookOpen, Accessibility, Info } from "lucide-react";
+import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles, Gamepad2, BookOpen, Accessibility, Info, Flame } from "lucide-react";
 import { StudentShell } from "@/components/StudentShell";
 import { useAlunoPerfil, useRotina, useMedalhas, useMeuAluno } from "@/lib/student-store";
 import { useActivities } from "@/lib/store";
@@ -57,14 +57,22 @@ function AlunoHome() {
           </div>
         </div>
 
-        {/* Card de Estrelas Rápido */}
-        <div className="rounded-3xl bg-gradient-to-br from-yellow-400 to-orange-500 p-6 shadow-lg text-white flex flex-col items-center justify-center text-center">
-          <Star className="h-16 w-16 fill-white animate-pulse mb-2" />
-          <div className="text-4xl font-black">{perfil.estrelas}</div>
-          <div className="font-bold opacity-90">Estrelas Acumuladas</div>
-          <Link to="/aluno/loja" className="mt-4 w-full py-2 bg-white/20 hover:bg-white/30 rounded-xl font-bold transition-colors">
-            Ir para a Loja
-          </Link>
+        {/* Card de Estrelas e Streak */}
+        <div className="space-y-4">
+          <div className="rounded-3xl bg-gradient-to-br from-yellow-400 to-orange-500 p-6 shadow-lg text-white flex flex-col items-center justify-center text-center">
+            <Star className="h-10 w-10 fill-white animate-pulse mb-1" />
+            <div className="text-3xl font-black">{perfil.estrelas}</div>
+            <div className="text-xs font-bold opacity-90 uppercase tracking-wider">Estrelas</div>
+            <Link to="/aluno/loja" className="mt-3 w-full py-2 bg-white/20 hover:bg-white/30 rounded-xl text-xs font-bold transition-colors">
+              Ir para a Loja
+            </Link>
+          </div>
+          
+          <div className="rounded-3xl bg-gradient-to-br from-orange-500 to-red-600 p-6 shadow-lg text-white flex flex-col items-center justify-center text-center">
+            <Flame className="h-10 w-10 fill-white animate-bounce mb-1" />
+            <div className="text-3xl font-black">{(perfil as any).streak || 0}</div>
+            <div className="text-xs font-bold opacity-90 uppercase tracking-wider">Dias Seguidos</div>
+          </div>
         </div>
       </div>
 
