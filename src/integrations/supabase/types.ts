@@ -762,6 +762,99 @@ export type Database = {
           },
         ]
       }
+      ia_analise_aluno: {
+        Row: {
+          aluno_id: string | null
+          id: string
+          last_analise_at: string
+          plano_acao_sugerido: string | null
+          pontos_fortes: string[] | null
+          pontos_melhoria: string[] | null
+          risco_evasao: number | null
+        }
+        Insert: {
+          aluno_id?: string | null
+          id?: string
+          last_analise_at?: string
+          plano_acao_sugerido?: string | null
+          pontos_fortes?: string[] | null
+          pontos_melhoria?: string[] | null
+          risco_evasao?: number | null
+        }
+        Update: {
+          aluno_id?: string | null
+          id?: string
+          last_analise_at?: string
+          plano_acao_sugerido?: string | null
+          pontos_fortes?: string[] | null
+          pontos_melhoria?: string[] | null
+          risco_evasao?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ia_analise_aluno_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "alunos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ia_analise_aluno_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ia_sugestoes: {
+        Row: {
+          conteudo_original: string | null
+          created_at: string
+          feedback_usuario: string | null
+          id: string
+          professor_id: string | null
+          sugestao_ia: string
+          tipo_sugestao: string
+          turma_id: string | null
+        }
+        Insert: {
+          conteudo_original?: string | null
+          created_at?: string
+          feedback_usuario?: string | null
+          id?: string
+          professor_id?: string | null
+          sugestao_ia: string
+          tipo_sugestao: string
+          turma_id?: string | null
+        }
+        Update: {
+          conteudo_original?: string | null
+          created_at?: string
+          feedback_usuario?: string | null
+          id?: string
+          professor_id?: string | null
+          sugestao_ia?: string
+          tipo_sugestao?: string
+          turma_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ia_sugestoes_professor_id_fkey"
+            columns: ["professor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ia_sugestoes_turma_id_fkey"
+            columns: ["turma_id"]
+            isOneToOne: false
+            referencedRelation: "turmas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lgpd_exportacoes: {
         Row: {
           created_at: string
@@ -1424,6 +1517,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sync_queue: {
+        Row: {
+          created_at: string
+          id: string
+          last_error: string | null
+          operation: string
+          payload: Json
+          retry_count: number
+          status: string
+          synced_at: string | null
+          table_name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          operation: string
+          payload?: Json
+          retry_count?: number
+          status?: string
+          synced_at?: string | null
+          table_name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          operation?: string
+          payload?: Json
+          retry_count?: number
+          status?: string
+          synced_at?: string | null
+          table_name?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       tentativas_login: {
         Row: {
