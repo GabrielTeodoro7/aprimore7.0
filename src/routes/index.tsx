@@ -226,7 +226,12 @@ function Index() {
 
           </TabsContent>
 
+          <TabsContent value="reports">
+            <SmartReportsModule />
+          </TabsContent>
+
           <TabsContent value="accessibility">
+
             <AccessibilitySettings />
           </TabsContent>
         </Tabs>
