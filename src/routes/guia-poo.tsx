@@ -2,6 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { AdminShell } from "@/components/AdminShell";
 import { Code2, Shield, Zap, Layers, Share2, Box, Database, FileText, Cpu, Layout, Boxes, ListTree, AlertCircle, Bookmark } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/guia-poo")({
+  head: () => ({ meta: [{ title: "Guia POO Java — Aprimore" }] }),
+  component: GuiaPOO,
+});
 
 const concepts = [
   {
@@ -104,7 +110,7 @@ const concepts = [
   }
 ];
 
-export default function GuiaPOO() {
+function GuiaPOO() {
   return (
     <AdminShell title="Guia de Programação POO">
       <div className="space-y-6">
