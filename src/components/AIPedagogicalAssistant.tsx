@@ -2,35 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { AppCard, AppCardContent } from '@/design-system/AppCard';
 import { AppButton } from '@/design-system/AppButton';
 import { Bot, Sparkles, MessageSquare, Brain, Lightbulb, X, Wand2 } from 'lucide-react';
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export const AIPedagogicalAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
-    { role: 'assistant', content: 'Olá! Sou o assistente IA do Aprimore. Como posso ajudar com o planejamento pedagógico ou acessibilidade hoje?' }
+    { role: 'assistant', content: 'Olá! Sou o Aprimore IA. Como posso ajudar com sua estratégia pedagógica hoje?' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputValue.trim()) return;
     
-    const newUserMsg = { role: 'user' as const, content: inputValue };
+    const userPrompt = inputValue;
+    const newUserMsg = { role: 'user' as const, content: userPrompt };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
     setIsTyping(true);
 
-    // Simulando resposta da IA baseada no contexto pedagógico
-    setTimeout(() => {
-      let response = "Interessante! Para este caso de inclusão, sugiro adaptar a atividade usando recursos visuais e tempo estendido, conforme o PEI do aluno.";
-      if (inputValue.toLowerCase().includes('ideia') || inputValue.toLowerCase().includes('aula')) {
-        response = "Aqui está uma ideia criativa: Que tal um 'Escape Room' matemático onde os enigmas são baseados em situações do cotidiano dos alunos?";
-      } else if (inputValue.toLowerCase().includes('jogo')) {
-        response = "Posso sugerir o 'Desafio das Operações' na nossa Arena de Games. Ele ajuda muito na fixação de conceitos básicos de forma lúdica.";
-      }
-      
-      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+    try {
+      const { data, error } = await supabase.functions.invoke('pedagogical-ai', {
+        body: { 
+          prompt: userPrompt,
+          context: "Usuário interagindo via Chatbot flutuante no Dashboard do Aprimore Educação."
+        },
+      });
+
+      if (error) throw error;
+
+      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+    } catch (error) {
+      console.error('AI Error:', error);
+      toast({
+        title: "Erro na IA",
+        description: "Não consegui processar sua resposta agora. Tente novamente em instantes.",
+        variant: "destructive"
+      });
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: "Ops, tive um pequeno problema técnico. Pode repetir a pergunta?" 
+      }]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   return (
