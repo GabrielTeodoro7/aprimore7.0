@@ -19,9 +19,12 @@ import {
   Bell,
   History,
   TrendingUp,
-  Award
+  Award,
+  FileText
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { SmartReportsModule } from "@/components/SmartReportsModule";
+
 
 
 
