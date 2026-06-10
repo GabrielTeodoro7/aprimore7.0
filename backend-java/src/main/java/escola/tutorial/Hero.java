@@ -1,43 +1,58 @@
 package escola.tutorial;
 
 /**
- * [O QUE] Classe Abstrata e Encapsulamento
- * [POR QUE] Uma base para todos os heróis, guardando segredos (private).
- * [CONTEÚDO] Abstract Classes, Encapsulation
+ * [TÓPICO 1: CLASSES E OBJETOS] 
+ * Imagine que esta classe é a "Planta Baixa" ou o "Molde de Gesso" de um herói.
+ * O Objeto é o herói de verdade que nasce a partir deste molde.
  * 
- * Imagine que um Herói é como um desenho que ainda não terminou. 
- * Você sabe que ele tem nome e poder, mas não sabe como ele age ainda.
+ * [TÓPICO 6: CLASSES ABSTRATAS]
+ * Usamos 'abstract' porque não existe um herói "genérico". 
+ * Você nunca viu o "Herói" na rua, você viu o "Batman" ou o "Superman".
+ * A classe abstrata é uma ideia que precisa ser completada por alguém.
  */
 public abstract class Hero {
-    // Encapsulamento: Protegendo o nome real do herói!
-    // Ninguém pode mudar o nome sem permissão.
-    private String realName;
-    private String heroName;
-    private int powerLevel;
+    
+    /**
+     * [TÓPICO 3: ENCAPSULAMENTO]
+     * Usamos 'private' para esconder os segredos! 
+     * É como a identidade secreta: ninguém pode ver ou mexer direto no realName.
+     * Só acessamos através de métodos "seguros" (Getters/Setters).
+     */
+    private String realName; // Identidade secreta (escondida)
+    private String heroName; // Nome de herói (público via getter)
+    private int powerLevel;  // Nível de força
 
-    // Construtor: O momento em que o herói nasce!
+    /**
+     * [TÓPICO 2: CONSTRUTORES]
+     * O construtor é o "Grito de Nascimento" do objeto.
+     * Quando você faz 'new Hero(...)', este código roda para dar vida a ele.
+     */
     public Hero(String realName, String heroName, int powerLevel) {
         this.realName = realName;
         this.heroName = heroName;
         this.powerLevel = powerLevel;
     }
 
-    // Getters e Setters (Encapsulamento)
-    public String getHeroName() {
-        return heroName;
-    }
+    // --- GETTERS (ENCAPSULAMENTO) ---
+    // Deixamos o mundo ver o nome de herói, mas não mudar!
+    public String getHeroName() { return heroName; }
+    public int getPowerLevel() { return powerLevel; }
 
-    public int getPowerLevel() {
-        return powerLevel;
-    }
-
-    // Método Abstrato: Todo herói DEVE saber usar seu poder, 
-    // mas cada um faz de um jeito diferente!
+    /**
+     * [MÉTODO ABSTRATO]
+     * Eu sei que TODO herói usa poder, mas não sei COMO.
+     * Então eu digo: "Quem for meu filho, SE VIRE para explicar como usa o poder!"
+     */
     public abstract String useSpecialPower();
 
-    // Sobrescrita: Todos os heróis sabem se apresentar
+    /**
+     * [TÓPICO 4: SOBRESCRITA - @Override]
+     * O Java já tem um método toString(), mas ele é feio.
+     * Aqui nós "esmagamos" o original e fazemos o nosso bonitão.
+     */
     @Override
     public String toString() {
-        return "Sou o " + heroName + " (Nível: " + powerLevel + ")";
+        return "Herói: " + heroName + " | Força: " + powerLevel;
     }
 }
+
