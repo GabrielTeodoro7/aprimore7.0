@@ -23,7 +23,7 @@ export const obterPoliticaSenha = createServerFn({ method: "GET" }).handler(
   async () => {
     const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = _sb as any;
-    if (!supabaseAdmin.auth) return {
+    if (!supabaseAdmin?.auth) return {
         escopo: "global",
         min_tamanho: 10,
         exige_maiuscula: true,
@@ -70,7 +70,7 @@ export const verificarBloqueio = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = _sb as any;
-    if (!supabaseAdmin.auth) return { bloqueado: false as const };
+    if (!supabaseAdmin?.auth) return { bloqueado: false as const };
     const { data: lock } = await supabaseAdmin
       .from("bloqueios_conta")
       .select("expira_em, tentativas")
@@ -113,7 +113,7 @@ export const registrarTentativaLogin = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = _sb as any;
-    if (!supabaseAdmin.auth) return { ok: true as const };
+    if (!supabaseAdmin?.auth) return { ok: true as const };
 
     // 1) Resolver user_id sem expor existência ao cliente.
     const { data: prof } = await supabaseAdmin
@@ -183,7 +183,7 @@ export const verificarUnicidade = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = _sb as any;
-    if (!supabaseAdmin.auth) return { disponivel: true };
+    if (!supabaseAdmin?.auth) return { disponivel: true };
     if (data.campo === "email") {
       const { data: r } = await supabaseAdmin
         .from("profiles")
@@ -212,7 +212,7 @@ export const validarDominioEmail = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = _sb as any;
-    if (!supabaseAdmin.auth) return { permitido: true };
+    if (!supabaseAdmin?.auth) return { permitido: true };
     const { data: r } = await supabaseAdmin.rpc("dominio_email_permitido", {
       _email: data.email,
     });
@@ -230,7 +230,7 @@ export const solicitarRecuperacaoSenha = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = _sb as any;
-    if (!supabaseAdmin.auth) return { ok: true as const, mensagem: "Ambiente sandbox: e-mail de recuperação simulado." };
+    if (!supabaseAdmin?.auth) return { ok: true as const, mensagem: "Ambiente sandbox: e-mail de recuperação simulado." };
 
     // Trabalho equivalente em ambos os caminhos para evitar timing-attack:
     const { data: prof } = await supabaseAdmin
