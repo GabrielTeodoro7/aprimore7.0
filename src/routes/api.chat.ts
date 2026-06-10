@@ -81,20 +81,29 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        // Chave fixa da Aprimore para garantir funcionamento no GitHub/VSCode
-        const key = process.env.LOVABLE_API_KEY || "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";
-        
+        // Cadeia de fallback de IA (todas com camada gratuita):
+        // 1) LOVABLE_API_KEY (Lovable AI Gateway - Gemini)
+        // 2) GEMINI_API_KEY (Google Gemini direto - free tier generoso)
+        // 3) GROQ_API_KEY ou chave Groq fixa (Llama, super rápido)
+        const lovableKey = process.env.LOVABLE_API_KEY;
+        const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+        const groqKey = process.env.GROQ_API_KEY || "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";
+
         let gateway;
         let model;
 
-        if (key.startsWith("gsk_")) {
-          gateway = createLovableAiGatewayProvider(key, "https://api.groq.com/openai/v1");
-          // @ts-ignore
-          model = gateway("llama-3.3-70b-versatile");
-        } else {
-          gateway = createLovableAiGatewayProvider(key);
+        if (lovableKey) {
+          gateway = createLovableAiGatewayProvider(lovableKey);
           // @ts-ignore
           model = gateway("google/gemini-3-flash-preview");
+        } else if (geminiKey) {
+          gateway = createLovableAiGatewayProvider(geminiKey, "https://generativelanguage.googleapis.com/v1beta/openai");
+          // @ts-ignore
+          model = gateway("gemini-2.0-flash");
+        } else {
+          gateway = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
+          // @ts-ignore
+          model = gateway("llama-3.3-70b-versatile");
         }
 
         try {
