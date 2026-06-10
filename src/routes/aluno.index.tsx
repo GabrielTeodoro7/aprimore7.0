@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles } from "lucide-react";
+import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles, Gamepad2, BookOpen } from "lucide-react";
 import { StudentShell } from "@/components/StudentShell";
 import { useAlunoPerfil, useRotina, useMedalhas } from "@/lib/student-store";
 import { useActivities } from "@/lib/store";
@@ -13,8 +13,8 @@ export const Route = createFileRoute("/aluno/")({
 const cards = [
   { to: "/aluno/rotina", label: "Minha Rotina", icon: Calendar, bg: "bg-[oklch(0.96_0.04_255)]", color: "text-[oklch(0.5_0.18_255)]" },
   { to: "/aluno/atividades", label: "Atividades", icon: Puzzle, bg: "bg-[oklch(0.95_0.04_305)]", color: "text-[oklch(0.5_0.2_305)]" },
-  { to: "/aluno/loja", label: "Loja de Prêmios", icon: ShoppingBag, bg: "bg-[oklch(0.96_0.07_90)]", color: "text-[oklch(0.55_0.15_85)]" },
-  { to: "/aluno/conquistas", label: "Conquistas", icon: Trophy, bg: "bg-[oklch(0.95_0.06_155)]", color: "text-[oklch(0.5_0.16_155)]" },
+  { to: "/aluno/jogos", label: "Jogos", icon: Gamepad2, bg: "bg-[oklch(0.96_0.07_90)]", color: "text-[oklch(0.55_0.15_85)]" },
+  { to: "/aluno/biblioteca", label: "Biblioteca", icon: BookOpen, bg: "bg-[oklch(0.95_0.06_155)]", color: "text-[oklch(0.5_0.16_155)]" },
   { to: "/aluno/sentimentos", label: "Como estou?", icon: Heart, bg: "bg-[oklch(0.95_0.04_5)]", color: "text-[oklch(0.55_0.18_5)]" },
   { to: "/aluno/comunicacao", label: "Mensagens", icon: MessageCircle, bg: "bg-slate-100", color: "text-slate-600" },
 ];
