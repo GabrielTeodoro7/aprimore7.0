@@ -5,6 +5,7 @@ import logoUrl from "@/assets/aprimore-logo.png";
 const items = [
   { to: "/aluno", label: "Início", icon: Home, exact: true },
   { to: "/aluno/tutor", label: "Tutor IA", icon: MessagesSquare },
+  { to: "/aluno/ajudante-maximo", label: "Ajudante Máximo", icon: Sparkles },
   { to: "/aluno/ia", label: "Central de IA", icon: Sparkles },
   { to: "/aluno/rotina", label: "Minha Rotina", icon: Calendar },
   { to: "/aluno/comunicacao", label: "Comunicação", icon: MessageCircle },
