@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Calendar, MessageCircle, Puzzle, Star, Heart, Sparkles, MessagesSquare, LogOut, Accessibility } from "lucide-react";
+import { Home, Calendar, MessageCircle, Puzzle, Star, Heart, Sparkles, MessagesSquare, LogOut, Accessibility, BookOpen, Gamepad2, User } from "lucide-react";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 import { useState } from "react";
 import logoUrl from "@/assets/aprimore-logo.png";
@@ -13,7 +13,9 @@ const items = [
   { to: "/aluno/comunicacao", label: "Comunicação", icon: MessageCircle },
   { to: "/aluno/atividades", label: "Atividades", icon: Puzzle },
   { to: "/aluno/conquistas", label: "Minhas Conquistas", icon: Star },
-  { to: "/aluno/avatar", label: "Meu Avatar", icon: Heart },
+  { to: "/aluno/biblioteca", label: "Áudio Biblioteca", icon: BookOpen },
+  { to: "/aluno/jogos", label: "Jogos", icon: Gamepad2 },
+  { to: "/aluno/avatar", label: "Meu Avatar", icon: User },
   { to: "/aluno/loja", label: "Loja de Prêmios", icon: Star },
   { to: "/aluno/sentimentos", label: "Como estou me sentindo?", icon: Heart },
 ];
