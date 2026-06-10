@@ -4,6 +4,8 @@ import { Bell, Eye, Moon, Globe, Shield, LogOut, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardShell } from "@/components/DashboardShell";
 import { usePerfil } from "@/lib/store";
+import { useAuth } from "@/lib/auth-store";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/configuracoes")({
   head: () => ({ meta: [{ title: "Configurações — Aprimore" }] }),
@@ -26,6 +28,8 @@ function Toggle({ on, onChange, label }: { on: boolean; onChange: (v: boolean) =
 
 function ConfigPage() {
   const { perfil, update } = usePerfil();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [notif, setNotif] = useState(true);
   const [contrast, setContrast] = useState(false);
   const dark = perfil.theme === "dark";
@@ -130,7 +134,16 @@ function ConfigPage() {
             </button>
           ))}
           <button
-            onClick={() => toast.error("Sair", { description: "Encerrando sessão..." })}
+            onClick={async () => {
+              const tid = toast.loading("Encerrando sessão...");
+              try {
+                await logout();
+                navigate({ to: "/login" });
+                toast.dismiss(tid);
+              } catch (e) {
+                toast.error("Erro ao sair", { id: tid });
+              }
+            }}
             className="flex w-full items-center gap-3 rounded-2xl border border-destructive/30 bg-card p-4 text-left text-destructive shadow-sm hover:bg-destructive/5"
           >
             <LogOut className="h-5 w-5" />
