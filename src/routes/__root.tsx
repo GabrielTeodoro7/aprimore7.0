@@ -113,13 +113,18 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AccessibilityProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </AccessibilityProvider>
     </QueryClientProvider>
   );
 }
+
