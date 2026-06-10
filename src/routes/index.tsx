@@ -234,7 +234,16 @@ function Index() {
 
           </TabsContent>
 
+          <TabsContent value="family">
+            <FamilySchoolPortal />
+          </TabsContent>
+
+          <TabsContent value="gamification">
+            <GamificationCenter />
+          </TabsContent>
+
           <TabsContent value="reports">
+
             <SmartReportsModule />
           </TabsContent>
 
