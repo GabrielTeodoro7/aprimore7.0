@@ -10,13 +10,9 @@ function createSupabaseAdminClient() {
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    // Retorna um placeholder amigável em vez de crashar o boot.
+    // O erro real aparecerá apenas se alguém tentar usar o cliente.
+    return null;
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
@@ -33,9 +29,20 @@ let _supabaseAdmin: ReturnType<typeof createSupabaseAdminClient> | undefined;
 // Server-side Supabase client with service role - bypasses RLS
 // SECURITY: Only use this for trusted server-side operations, never expose to client code
 // Import like: import { supabaseAdmin } from "@/integrations/supabase/client.server";
-export const supabaseAdmin = new Proxy({} as ReturnType<typeof createSupabaseAdminClient>, {
+export const supabaseAdmin = new Proxy({} as any, {
   get(_, prop, receiver) {
-    if (!_supabaseAdmin) _supabaseAdmin = createSupabaseAdminClient();
+    if (_supabaseAdmin === undefined) _supabaseAdmin = createSupabaseAdminClient();
+    
+    if (_supabaseAdmin === null) {
+       const msg = "SUPABASE_SERVICE_ROLE_KEY ausente. Conecte o Supabase em Lovable Cloud ou configure .env.local";
+       console.error(`[Supabase Admin] ${msg}`);
+       // Retorna uma função que lança erro se invocado, ou objeto que lança erro ao acessar prop
+       return new Proxy(() => {}, {
+         get() { throw new Error(msg); },
+         apply() { throw new Error(msg); }
+       });
+    }
+    
     return Reflect.get(_supabaseAdmin, prop, receiver);
   },
 });

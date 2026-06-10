@@ -2,6 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { AdminShell } from "@/components/AdminShell";
 import { Code2, Shield, Zap, Layers, Share2, Box, Database, FileText, Cpu, Layout, Boxes, ListTree, AlertCircle, Bookmark } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/guia-poo")({
+  head: () => ({ meta: [{ title: "Guia POO Java — Aprimore" }] }),
+  component: GuiaPOO,
+});
 
 const concepts = [
   {
@@ -104,7 +110,7 @@ const concepts = [
   }
 ];
 
-export default function GuiaPOO() {
+function GuiaPOO() {
   return (
     <AdminShell title="Guia de Programação POO">
       <div className="space-y-6">
@@ -116,6 +122,9 @@ export default function GuiaPOO() {
           <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 mt-2">
             <p className="text-xs text-emerald-700 font-bold">
               ✅ SISTEMA DE IA ESTÁVEL: Backup fixo configurado (Groq/Llama-3.3-70B) para garantir funcionamento offline e no GitHub.
+            </p>
+            <p className="text-[10px] text-emerald-600 mt-1">
+              DICA PARA VS CODE: Copie o arquivo <strong>.env.example</strong> para <strong>.env.local</strong> e insira suas chaves do Supabase para o backend real.
             </p>
           </div>
         </div>
