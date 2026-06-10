@@ -22,6 +22,7 @@ export type Database = {
           data_desligamento: string | null
           deletado_em: string | null
           email: string | null
+          escola_id: string | null
           estrelas: number
           freq: string | null
           id: string
@@ -45,6 +46,7 @@ export type Database = {
           data_desligamento?: string | null
           deletado_em?: string | null
           email?: string | null
+          escola_id?: string | null
           estrelas?: number
           freq?: string | null
           id?: string
@@ -68,6 +70,7 @@ export type Database = {
           data_desligamento?: string | null
           deletado_em?: string | null
           email?: string | null
+          escola_id?: string | null
           estrelas?: number
           freq?: string | null
           id?: string
@@ -85,6 +88,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "alunos_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: false
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "alunos_profile_id_fkey"
             columns: ["profile_id"]
@@ -364,6 +374,74 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      bi_consolidado_turma: {
+        Row: {
+          created_at: string
+          id: string
+          media_geral: number | null
+          percentual_aprovacao: number | null
+          referencia_mes_ano: string
+          total_alunos: number | null
+          turma_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          media_geral?: number | null
+          percentual_aprovacao?: number | null
+          referencia_mes_ano: string
+          total_alunos?: number | null
+          turma_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          media_geral?: number | null
+          percentual_aprovacao?: number | null
+          referencia_mes_ano?: string
+          total_alunos?: number | null
+          turma_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_consolidado_turma_turma_id_fkey"
+            columns: ["turma_id"]
+            isOneToOne: false
+            referencedRelation: "turmas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_logs_exportacao: {
+        Row: {
+          created_at: string
+          filtros_aplicados: Json | null
+          formato_exportacao: string
+          id: string
+          registros_afetados: number | null
+          tipo_dados: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          filtros_aplicados?: Json | null
+          formato_exportacao: string
+          id?: string
+          registros_afetados?: number | null
+          tipo_dados: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          filtros_aplicados?: Json | null
+          formato_exportacao?: string
+          id?: string
+          registros_afetados?: number | null
+          tipo_dados?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       bloqueios_conta: {
         Row: {
@@ -1811,6 +1889,7 @@ export type Database = {
           capacidade: number
           created_at: string
           deletado_em: string | null
+          escola_id: string | null
           id: string
           nome: string
           professor_id: string
@@ -1821,6 +1900,7 @@ export type Database = {
           capacidade?: number
           created_at?: string
           deletado_em?: string | null
+          escola_id?: string | null
           id?: string
           nome: string
           professor_id: string
@@ -1831,12 +1911,20 @@ export type Database = {
           capacidade?: number
           created_at?: string
           deletado_em?: string | null
+          escola_id?: string | null
           id?: string
           nome?: string
           professor_id?: string
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "turmas_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: false
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "turmas_professor_id_fkey"
             columns: ["professor_id"]
@@ -1955,6 +2043,14 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      v_bi_comparativo_escolas: {
+        Row: {
+          escola_nome: string | null
+          media_escola: number | null
+          total_alunos: number | null
+        }
+        Relationships: []
       }
     }
     Functions: {
