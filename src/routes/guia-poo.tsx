@@ -106,7 +106,7 @@ const concepts = [
 
 export default function GuiaPOO() {
   return (
-    <AdminShell>
+    <AdminShell title="Guia de Programação POO">
       <div className="space-y-6">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold tracking-tight text-primary">Guia de Programação POO (Java)</h1>
