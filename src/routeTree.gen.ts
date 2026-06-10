@@ -46,9 +46,11 @@ import { Route as ApiChatRouteImport } from './routes/api.chat'
 import { Route as AlunoTutorRouteImport } from './routes/aluno.tutor'
 import { Route as AlunoSentimentosRouteImport } from './routes/aluno.sentimentos'
 import { Route as AlunoRotinaRouteImport } from './routes/aluno.rotina'
+import { Route as AlunoLojaRouteImport } from './routes/aluno.loja'
 import { Route as AlunoIaRouteImport } from './routes/aluno.ia'
 import { Route as AlunoConquistasRouteImport } from './routes/aluno.conquistas'
 import { Route as AlunoComunicacaoRouteImport } from './routes/aluno.comunicacao'
+import { Route as AlunoAvatarRouteImport } from './routes/aluno.avatar'
 import { Route as AlunoAtividadesRouteImport } from './routes/aluno.atividades'
 import { Route as AlunoAjudanteMaximoRouteImport } from './routes/aluno.ajudante-maximo'
 import { Route as AdminRipdRouteImport } from './routes/admin.ripd'
@@ -242,6 +244,11 @@ const AlunoRotinaRoute = AlunoRotinaRouteImport.update({
   path: '/aluno/rotina',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlunoLojaRoute = AlunoLojaRouteImport.update({
+  id: '/aluno/loja',
+  path: '/aluno/loja',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AlunoIaRoute = AlunoIaRouteImport.update({
   id: '/aluno/ia',
   path: '/aluno/ia',
@@ -255,6 +262,11 @@ const AlunoConquistasRoute = AlunoConquistasRouteImport.update({
 const AlunoComunicacaoRoute = AlunoComunicacaoRouteImport.update({
   id: '/aluno/comunicacao',
   path: '/aluno/comunicacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlunoAvatarRoute = AlunoAvatarRouteImport.update({
+  id: '/aluno/avatar',
+  path: '/aluno/avatar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlunoAtividadesRoute = AlunoAtividadesRouteImport.update({
@@ -319,9 +331,11 @@ export interface FileRoutesByFullPath {
   '/admin/ripd': typeof AdminRipdRoute
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
+  '/aluno/avatar': typeof AlunoAvatarRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
   '/aluno/ia': typeof AlunoIaRoute
+  '/aluno/loja': typeof AlunoLojaRoute
   '/aluno/rotina': typeof AlunoRotinaRoute
   '/aluno/sentimentos': typeof AlunoSentimentosRoute
   '/aluno/tutor': typeof AlunoTutorRoute
@@ -368,9 +382,11 @@ export interface FileRoutesByTo {
   '/admin/ripd': typeof AdminRipdRoute
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
+  '/aluno/avatar': typeof AlunoAvatarRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
   '/aluno/ia': typeof AlunoIaRoute
+  '/aluno/loja': typeof AlunoLojaRoute
   '/aluno/rotina': typeof AlunoRotinaRoute
   '/aluno/sentimentos': typeof AlunoSentimentosRoute
   '/aluno/tutor': typeof AlunoTutorRoute
@@ -418,9 +434,11 @@ export interface FileRoutesById {
   '/admin/ripd': typeof AdminRipdRoute
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
+  '/aluno/avatar': typeof AlunoAvatarRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
   '/aluno/ia': typeof AlunoIaRoute
+  '/aluno/loja': typeof AlunoLojaRoute
   '/aluno/rotina': typeof AlunoRotinaRoute
   '/aluno/sentimentos': typeof AlunoSentimentosRoute
   '/aluno/tutor': typeof AlunoTutorRoute
@@ -469,9 +487,11 @@ export interface FileRouteTypes {
     | '/admin/ripd'
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
+    | '/aluno/avatar'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
     | '/aluno/ia'
+    | '/aluno/loja'
     | '/aluno/rotina'
     | '/aluno/sentimentos'
     | '/aluno/tutor'
@@ -518,9 +538,11 @@ export interface FileRouteTypes {
     | '/admin/ripd'
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
+    | '/aluno/avatar'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
     | '/aluno/ia'
+    | '/aluno/loja'
     | '/aluno/rotina'
     | '/aluno/sentimentos'
     | '/aluno/tutor'
@@ -567,9 +589,11 @@ export interface FileRouteTypes {
     | '/admin/ripd'
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
+    | '/aluno/avatar'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
     | '/aluno/ia'
+    | '/aluno/loja'
     | '/aluno/rotina'
     | '/aluno/sentimentos'
     | '/aluno/tutor'
@@ -617,9 +641,11 @@ export interface RootRouteChildren {
   AdminRipdRoute: typeof AdminRipdRoute
   AlunoAjudanteMaximoRoute: typeof AlunoAjudanteMaximoRoute
   AlunoAtividadesRoute: typeof AlunoAtividadesRoute
+  AlunoAvatarRoute: typeof AlunoAvatarRoute
   AlunoComunicacaoRoute: typeof AlunoComunicacaoRoute
   AlunoConquistasRoute: typeof AlunoConquistasRoute
   AlunoIaRoute: typeof AlunoIaRoute
+  AlunoLojaRoute: typeof AlunoLojaRoute
   AlunoRotinaRoute: typeof AlunoRotinaRoute
   AlunoSentimentosRoute: typeof AlunoSentimentosRoute
   AlunoTutorRoute: typeof AlunoTutorRoute
@@ -896,6 +922,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlunoRotinaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aluno/loja': {
+      id: '/aluno/loja'
+      path: '/aluno/loja'
+      fullPath: '/aluno/loja'
+      preLoaderRoute: typeof AlunoLojaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/aluno/ia': {
       id: '/aluno/ia'
       path: '/aluno/ia'
@@ -915,6 +948,13 @@ declare module '@tanstack/react-router' {
       path: '/aluno/comunicacao'
       fullPath: '/aluno/comunicacao'
       preLoaderRoute: typeof AlunoComunicacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aluno/avatar': {
+      id: '/aluno/avatar'
+      path: '/aluno/avatar'
+      fullPath: '/aluno/avatar'
+      preLoaderRoute: typeof AlunoAvatarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aluno/atividades': {
@@ -1045,9 +1085,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRipdRoute: AdminRipdRoute,
   AlunoAjudanteMaximoRoute: AlunoAjudanteMaximoRoute,
   AlunoAtividadesRoute: AlunoAtividadesRoute,
+  AlunoAvatarRoute: AlunoAvatarRoute,
   AlunoComunicacaoRoute: AlunoComunicacaoRoute,
   AlunoConquistasRoute: AlunoConquistasRoute,
   AlunoIaRoute: AlunoIaRoute,
+  AlunoLojaRoute: AlunoLojaRoute,
   AlunoRotinaRoute: AlunoRotinaRoute,
   AlunoSentimentosRoute: AlunoSentimentosRoute,
   AlunoTutorRoute: AlunoTutorRoute,
