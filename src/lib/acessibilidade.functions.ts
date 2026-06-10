@@ -7,10 +7,8 @@ import { z } from "zod";
 export const sincronizarPreferenciasAcessibilidade = createServerFn({ method: "POST" })
   .inputValidator((d: any) => d)
   .handler(async ({ data: p }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-    
-    const { error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await (supabaseAdmin as any)
       .from('preferencias_acessibilidade')
       .upsert({
         user_id: p.userId,
@@ -32,10 +30,8 @@ export const sincronizarPreferenciasAcessibilidade = createServerFn({ method: "P
 export const salvarPranchaComunicacao = createServerFn({ method: "POST" })
   .inputValidator((d: any) => d)
   .handler(async ({ data: p }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-
-    const { data, error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await (supabaseAdmin as any)
       .from('pranchas_comunicacao')
       .upsert({
         id: p.id || undefined,
@@ -55,10 +51,8 @@ export const salvarPranchaComunicacao = createServerFn({ method: "POST" })
 export const listarPranchasUsuario = createServerFn({ method: "GET" })
   .inputValidator((userId: string) => userId)
   .handler(async ({ data: userId }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-
-    const { data, error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await (supabaseAdmin as any)
       .from('pranchas_comunicacao')
       .select('*')
       .eq('user_id', userId)

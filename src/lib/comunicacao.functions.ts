@@ -6,10 +6,8 @@ import { createServerFn } from "@tanstack/react-start";
 export const denunciarConteudo = createServerFn({ method: "POST" })
   .inputValidator((d: any) => d)
   .handler(async ({ data: p }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-
-    const { error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await (supabaseAdmin as any)
       .from('denuncias_mensagem')
       .insert({
         mensagem_id: p.mensagemId,
@@ -29,10 +27,8 @@ export const denunciarConteudo = createServerFn({ method: "POST" })
 export const atualizarCanalNotificacao = createServerFn({ method: "POST" })
   .inputValidator((d: any) => d)
   .handler(async ({ data: p }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-
-    const { error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await (supabaseAdmin as any)
       .from('profiles')
       .update({ canal_preferido: p.canal } as any)
       .eq('id', p.userId);

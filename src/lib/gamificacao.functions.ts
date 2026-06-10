@@ -6,10 +6,8 @@ import { createServerFn } from "@tanstack/react-start";
 export const obterRankingAlunos = createServerFn({ method: "GET" })
   .inputValidator((escolaId: string) => escolaId)
   .handler(async ({ data: escolaId }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-
-    const { data, error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await (supabaseAdmin as any)
       .from('ranking_pontuacao')
       .select('*, profiles(nome, avatar_url)')
       .eq('profiles.escola_id', escolaId)
@@ -23,10 +21,8 @@ export const obterRankingAlunos = createServerFn({ method: "GET" })
 export const listarConquistasAluno = createServerFn({ method: "GET" })
   .inputValidator((alunoId: string) => alunoId)
   .handler(async ({ data: alunoId }) => {
-    const { supabaseAdmin: _sb } = await import("@/integrations/supabase/client.server");
-    const supabaseAdmin = _sb as any;
-
-    const { data, error } = await supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await (supabaseAdmin as any)
       .from('conquistas_aluno')
       .select('*, selos(*)')
       .eq('aluno_id', alunoId);
