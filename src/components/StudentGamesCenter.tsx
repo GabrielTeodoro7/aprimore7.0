@@ -149,10 +149,32 @@ export const StudentGamesCenter = () => {
       url: 'https://www.gamestolearnenglish.com/',
       isExternal: true,
       difficulty: 'Intermediário'
+    },
+    {
+      id: 'ai-creative-1',
+      title: 'Desafio Criativo IA',
+      subject: 'Artes/Lógica',
+      description: 'Use prompts de texto para que a IA gere imagens e resolva desafios visuais.',
+      icon: Sparkles,
+      color: 'text-indigo-600',
+      url: 'https://quickdraw.withgoogle.com/',
+      isExternal: true,
+      difficulty: 'Mestre'
+    },
+    {
+      id: 'music-1',
+      title: 'Ritmo & Melodia',
+      subject: 'Música',
+      description: 'Crie suas próprias composições musicais usando blocos de som interativos.',
+      icon: Palette,
+      color: 'text-orange-400',
+      url: 'https://musiclab.chromeexperiments.com/Song-Maker/',
+      isExternal: true,
+      difficulty: 'Iniciante'
     }
   ];
 
-  const categories = ['Todos', 'Matemática', 'Português', 'Inglês', 'Ciências', 'Geografia', 'História', 'Artes', 'Raciocínio'];
+  const categories = ['Todos', 'Matemática', 'Português', 'Inglês', 'Ciências', 'Geografia', 'História', 'Artes', 'Música', 'Raciocínio'];
 
   const filteredGames = selectedCategory === 'Todos' 
     ? games 
