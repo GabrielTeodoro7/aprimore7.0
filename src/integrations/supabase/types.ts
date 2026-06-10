@@ -101,6 +101,54 @@ export type Database = {
           },
         ]
       }
+      anomalias_acesso: {
+        Row: {
+          cidade: string | null
+          created_at: string
+          detalhes: Json
+          gravidade: string
+          id: string
+          ip: string | null
+          notificado: boolean
+          pais: string | null
+          reconhecido: boolean
+          reconhecido_em: string | null
+          tipo: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          cidade?: string | null
+          created_at?: string
+          detalhes?: Json
+          gravidade?: string
+          id?: string
+          ip?: string | null
+          notificado?: boolean
+          pais?: string | null
+          reconhecido?: boolean
+          reconhecido_em?: string | null
+          tipo: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          cidade?: string | null
+          created_at?: string
+          detalhes?: Json
+          gravidade?: string
+          id?: string
+          ip?: string | null
+          notificado?: boolean
+          pais?: string | null
+          reconhecido?: boolean
+          reconhecido_em?: string | null
+          tipo?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       atividade_alunos: {
         Row: {
           aluno_id: string
@@ -512,6 +560,33 @@ export type Database = {
         }
         Relationships: []
       }
+      dominios_institucionais: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          descricao: string | null
+          dominio: string
+          id: string
+          obrigatorio: boolean
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string | null
+          dominio: string
+          id?: string
+          obrigatorio?: boolean
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string | null
+          dominio?: string
+          id?: string
+          obrigatorio?: boolean
+        }
+        Relationships: []
+      }
       frequencia: {
         Row: {
           aluno_id: string
@@ -848,6 +923,56 @@ export type Database = {
           },
         ]
       }
+      refresh_tokens: {
+        Row: {
+          emitido_em: string
+          expira_em: string
+          id: string
+          ip: string | null
+          revogado: boolean
+          rotacionado: boolean
+          rotacionado_em: string | null
+          sucessor_id: string | null
+          token_hash: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          emitido_em?: string
+          expira_em: string
+          id?: string
+          ip?: string | null
+          revogado?: boolean
+          rotacionado?: boolean
+          rotacionado_em?: string | null
+          sucessor_id?: string | null
+          token_hash: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          emitido_em?: string
+          expira_em?: string
+          id?: string
+          ip?: string | null
+          revogado?: boolean
+          rotacionado?: boolean
+          rotacionado_em?: string | null
+          sucessor_id?: string | null
+          token_hash?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "refresh_tokens_sucessor_id_fkey"
+            columns: ["sucessor_id"]
+            isOneToOne: false
+            referencedRelation: "refresh_tokens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ripd_relatorios: {
         Row: {
           ano: number
@@ -1127,6 +1252,45 @@ export type Database = {
           },
         ]
       }
+      tokens_recuperacao_senha: {
+        Row: {
+          criado_em: string
+          email_alvo: string
+          expira_em: string
+          id: string
+          ip_origem: string | null
+          token_hash: string
+          usado: boolean
+          usado_em: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          criado_em?: string
+          email_alvo: string
+          expira_em: string
+          id?: string
+          ip_origem?: string | null
+          token_hash: string
+          usado?: boolean
+          usado_em?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          criado_em?: string
+          email_alvo?: string
+          expira_em?: string
+          id?: string
+          ip_origem?: string | null
+          token_hash?: string
+          usado?: boolean
+          usado_em?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       turmas: {
         Row: {
           ano: string | null
@@ -1281,6 +1445,7 @@ export type Database = {
     }
     Functions: {
       current_profile_id: { Args: never; Returns: string }
+      dominio_email_permitido: { Args: { _email: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
