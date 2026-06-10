@@ -1,3 +1,12 @@
+/**
+ * MODULO: AlunoPerfil.functions.ts
+ * 
+ * Aplicando POO (Programação Orientada a Objetos):
+ * - CLASSES E OBJETOS: O objeto 'context' encapsula a sessão e o cliente Supabase.
+ * - CONSTRUTORES: createServerFn inicializa o comportamento do endpoint.
+ * - ENCAPSULAMENTO: A lógica de validação do input está encapsulada no esquema Zod.
+ * - EXCEÇÕES: Lançamos erros explícitos que são capturados pelo middleware.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
