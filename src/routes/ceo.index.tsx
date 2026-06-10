@@ -10,7 +10,7 @@ import { useUsers } from "@/lib/auth-store";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-export const Route = createFileRoute("/ceo")({
+export const Route = createFileRoute("/ceo/")({
   head: () => ({ meta: [{ title: "Onda Zero — Acesso Clearance" }] }),
   component: () => (<RequireRole roles={["ceo"]}><CEODashboard /></RequireRole>),
 });
