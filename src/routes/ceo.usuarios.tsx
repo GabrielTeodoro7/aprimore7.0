@@ -3,7 +3,7 @@ import { useState } from "react";
 import { 
   ShieldCheck, UserPlus, Key, Mail, User, 
   Search, ShieldAlert, CheckCircle2, AlertTriangle,
-  Lock, ArrowRight, Activity, Database
+  Lock, ArrowRight, Activity, Database, Globe
 } from "lucide-react";
 import { CEOShell } from "@/components/CEOShell";
 import { RequireRole } from "@/components/RequireRole";
