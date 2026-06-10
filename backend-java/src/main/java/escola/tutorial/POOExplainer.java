@@ -3,65 +3,69 @@ package escola.tutorial;
 import java.util.List;
 
 /**
- * [O QUE] O Grande Professor de POO
- * [POR QUE] Unir todos os conceitos em uma aula divertida.
- * [CONTEÚDO] Todos os 14 tópicos
+ * [O PROFESSOR - POOExplainer]
+ * Este arquivo é o "Controle Remoto" que liga todos os tópicos.
+ * Se você rodar este arquivo, verá a magia do POO acontecer no console!
  */
 public class POOExplainer {
     
     public static void main(String[] args) {
-        System.out.println("=== BEM-VINDO À AULA DE POO PARA SUPER-HERÓIS ===");
-        System.out.println("Vou te mostrar os 14 segredos do Java!\n");
+        System.out.println("=================================================");
+        System.out.println("   BEM-VINDO À GRANDE DEMONSTRAÇÃO DE POO       ");
+        System.out.println("      (Feito para facilitar sua nota 10!)       ");
+        System.out.println("=================================================\n");
 
-        // 1 e 2. Classes, Objetos e Construtores
-        SuperHero h1 = new SuperHero("Bruce", "Bat-Java", 50, "Código");
-        SuperHero h2 = new SuperHero("Clark", "Super-Try-Catch", 100, "Inclusão");
+        // [TÓPICO 1 & 2: CLASSES, OBJETOS E CONSTRUTORES]
+        // Criamos dois heróis de verdade a partir do nosso molde.
+        SuperHero h1 = new SuperHero("Bruce", "Java-Knight", 50, "Lógica");
+        SuperHero h2 = new SuperHero("Diana", "Wonder-Code", 100, "Inclusão");
 
-        // 3. Encapsulamento
-        System.out.println("1 & 3. Criamos heróis e protegemos seus nomes reais: " + h1.getHeroName());
+        // [TÓPICO 3: ENCAPSULAMENTO]
+        System.out.println("[3] Encapsulamento: Nome do herói acessado via getter: " + h1.getHeroName());
 
-        // 4. Herança
-        System.out.println("4. O " + h1.getHeroName() + " herdou tudo de 'Hero'!");
+        // [TÓPICO 4: HERANÇA]
+        System.out.println("[4] Herança: h1 'é um' Hero (filho de Hero).");
 
-        // 5. Interface e 4. Sobrecarga
-        h1.activate(); // Interface
-        System.out.println("5. Habilidade: " + h1.getDescription());
-        System.out.println("4. Sobrecarga: " + h1.attack() + " OU " + h1.attack("Teclado Mecânico"));
+        // [TÓPICO 8: INTERFACES]
+        h1.activate(); // Ativando habilidade da interface Ability
 
-
-        // 6. Classe Abstrata e 7. Polimorfismo
-        // Tratamos todos como 'Hero', mas cada um age do seu jeito!
+        // [TÓPICO 5 & 7: POLIMORFISMO]
+        // Criamos uma lista de 'Hero' (pai), mas colocamos 'SuperHero' (filho) dentro.
+        // O Java é inteligente e sabe chamar o método do filho!
         List<Hero> academy = List.of(h1, h2);
-        System.out.println("6 & 7. Polimorfismo em ação:");
+        System.out.println("[7] Polimorfismo: Percorrendo a lista de heróis...");
         for (Hero h : academy) {
-            System.out.println("  - " + h.useSpecialPower());
+            // [TÓPICO 4: SOBRESCRITA]
+            System.out.println("    - " + h.useSpecialPower());
         }
 
-        // 8. Coleções
-        System.out.println("8. Usamos uma List para guardar os " + academy.size() + " heróis.");
+        // [TÓPICO 4: SOBRECARGA]
+        System.out.println("[4] Sobrecarga: " + h1.attack() + " | " + h1.attack("Mouse Gamer"));
 
-        // 10. Enum
-        PowerLevel level = PowerLevel.AVENGERS_LEVEL;
-        System.out.println("10. Este herói é do nível: " + level);
+        // [TÓPICO 10: ENUM]
+        PowerLevel level = PowerLevel.GOD_LEVEL;
+        System.out.println("[10] Enum: Este curso é nível: " + level);
 
-        // 14. JDBC
+        // [TÓPICO 14: JDBC]
         HeroDAO dao = new HeroDAO();
-        dao.init();
-        dao.saveHero(h1.getHeroName(), h1.getPowerLevel());
+        dao.init(); // Cria banco
+        dao.saveHero(h2.getHeroName(), h2.getPowerLevel()); // Salva Diana
 
-        // 9. Java IO
-        HeroFiles.saveJournal(h1.getHeroName(), "Hoje aprendi a usar interfaces e foi incrível!");
+        // [TÓPICO 9: JAVA IO]
+        HeroFiles.saveJournal(h2.getHeroName(), "Salvei o dia usando Polimorfismo!");
 
-        // 11 e 12. Threads e Exceções
-        HeroMission mission = new HeroMission("Salvar o Semestre");
+        // [TÓPICO 12 & 11: THREADS E EXCEÇÕES]
+        HeroMission mission = new HeroMission("Missão de IA");
         mission.addHero(h1);
         mission.addHero(h2);
-        mission.start(); // Começa em uma Thread separada!
+        mission.start(); // Roda em paralelo!
 
-        // 13. Swing (Comentado para não travar o console se não tiver tela, mas o código está lá!)
+        // [TÓPICO 13: SWING]
+        // Se você quiser ver a tela, descomente as duas linhas abaixo!
         // HeroAcademyUI ui = new HeroAcademyUI();
         // ui.showWindow();
 
-        System.out.println("\n--- Fim da explicação básica! Olhe os arquivos na pasta 'tutorial' para aprender cada detalhe. ---");
+        System.out.println("\n[AVISO] A missão está rodando em uma Thread ao fundo...");
+        System.out.println("--- Fim da aula! Verifique os arquivos na pasta 'tutorial' ---");
     }
 }
