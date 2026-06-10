@@ -101,7 +101,7 @@ export const Route = createFileRoute("/api/chat")({
           // @ts-ignore
           model = gateway("gemini-2.0-flash");
         } else {
-          gateway = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
+          gateway = createLovableAiGatewayProvider(groqKey || "", "https://api.groq.com/openai/v1");
           // @ts-ignore
           model = gateway("llama-3.3-70b-versatile");
         }

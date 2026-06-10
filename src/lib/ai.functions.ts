@@ -21,7 +21,7 @@ function getModel() {
     // @ts-ignore
     return provider("gemini-2.0-flash");
   }
-  const provider = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
+  const provider = createLovableAiGatewayProvider(groqKey || "", "https://api.groq.com/openai/v1");
   // @ts-ignore
   return provider("llama-3.3-70b-versatile");
 }
