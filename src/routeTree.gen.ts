@@ -16,6 +16,7 @@ import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as MensagensRouteImport } from './routes/mensagens'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InclusaoRouteImport } from './routes/inclusao'
+import { Route as GuiaPooRouteImport } from './routes/guia-poo'
 import { Route as FrequenciaRouteImport } from './routes/frequencia'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
@@ -95,6 +96,11 @@ const LoginRoute = LoginRouteImport.update({
 const InclusaoRoute = InclusaoRouteImport.update({
   id: '/inclusao',
   path: '/inclusao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiaPooRoute = GuiaPooRouteImport.update({
+  id: '/guia-poo',
+  path: '/guia-poo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FrequenciaRoute = FrequenciaRouteImport.update({
@@ -335,6 +341,7 @@ export interface FileRoutesByFullPath {
   '/configuracoes': typeof ConfiguracoesRoute
   '/entrar': typeof EntrarRoute
   '/frequencia': typeof FrequenciaRoute
+  '/guia-poo': typeof GuiaPooRoute
   '/inclusao': typeof InclusaoRoute
   '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
@@ -389,6 +396,7 @@ export interface FileRoutesByTo {
   '/configuracoes': typeof ConfiguracoesRoute
   '/entrar': typeof EntrarRoute
   '/frequencia': typeof FrequenciaRoute
+  '/guia-poo': typeof GuiaPooRoute
   '/inclusao': typeof InclusaoRoute
   '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
@@ -444,6 +452,7 @@ export interface FileRoutesById {
   '/configuracoes': typeof ConfiguracoesRoute
   '/entrar': typeof EntrarRoute
   '/frequencia': typeof FrequenciaRoute
+  '/guia-poo': typeof GuiaPooRoute
   '/inclusao': typeof InclusaoRoute
   '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
@@ -500,6 +509,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/entrar'
     | '/frequencia'
+    | '/guia-poo'
     | '/inclusao'
     | '/login'
     | '/mensagens'
@@ -554,6 +564,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/entrar'
     | '/frequencia'
+    | '/guia-poo'
     | '/inclusao'
     | '/login'
     | '/mensagens'
@@ -608,6 +619,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/entrar'
     | '/frequencia'
+    | '/guia-poo'
     | '/inclusao'
     | '/login'
     | '/mensagens'
@@ -663,6 +675,7 @@ export interface RootRouteChildren {
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   EntrarRoute: typeof EntrarRoute
   FrequenciaRoute: typeof FrequenciaRoute
+  GuiaPooRoute: typeof GuiaPooRoute
   InclusaoRoute: typeof InclusaoRoute
   LoginRoute: typeof LoginRoute
   MensagensRoute: typeof MensagensRoute
@@ -749,6 +762,13 @@ declare module '@tanstack/react-router' {
       path: '/inclusao'
       fullPath: '/inclusao'
       preLoaderRoute: typeof InclusaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guia-poo': {
+      id: '/guia-poo'
+      path: '/guia-poo'
+      fullPath: '/guia-poo'
+      preLoaderRoute: typeof GuiaPooRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/frequencia': {
@@ -1131,6 +1151,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConfiguracoesRoute: ConfiguracoesRoute,
   EntrarRoute: EntrarRoute,
   FrequenciaRoute: FrequenciaRoute,
+  GuiaPooRoute: GuiaPooRoute,
   InclusaoRoute: InclusaoRoute,
   LoginRoute: LoginRoute,
   MensagensRoute: MensagensRoute,
@@ -1170,13 +1191,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
