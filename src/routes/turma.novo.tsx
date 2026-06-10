@@ -219,8 +219,8 @@ function NovoAlunoPage() {
             <Field label="Responsável" hint="Nome do responsável principal">
               <input value={form.responsavel} onChange={(e) => set("responsavel", e.target.value)} className="input" disabled={loading} />
             </Field>
-            <Field label="E-mail do aluno" hint="Usado para fazer login e receber comunicados" required>
-              <input type="email" value={form.email} onChange={(e) => set("email", e.target.value)} className="input" disabled={loading} />
+            <Field label="E-mail do aluno (@gmail.com)" hint="O admin define o acesso inicial" required>
+              <input type="email" placeholder="exemplo@gmail.com" value={form.email} onChange={(e) => set("email", e.target.value)} className="input" disabled={loading} />
             </Field>
             <Field label="Telefone" hint="Com DDD, ex: (11) 90000-0000">
               <input value={form.telefone} onChange={(e) => set("telefone", e.target.value)} className="input" disabled={loading} />
