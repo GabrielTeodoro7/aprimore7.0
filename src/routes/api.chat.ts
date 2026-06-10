@@ -81,13 +81,18 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const key = process.env.LOVABLE_API_KEY;
-        if (!key) {
-          return new Response("Missing LOVABLE_API_KEY", { status: 500 });
-        }
+        const key = process.env.LOVABLE_API_KEY || "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";
+        
+        let gateway;
+        let model;
 
-        const gateway = createLovableAiGatewayProvider(key);
-        const model = gateway("google/gemini-3-flash-preview");
+        if (key.startsWith("gsk_")) {
+          gateway = createLovableAiGatewayProvider(key, "https://api.groq.com/openai/v1");
+          model = gateway("llama-3.3-70b-versatile");
+        } else {
+          gateway = createLovableAiGatewayProvider(key);
+          model = gateway("google/gemini-3-flash-preview");
+        }
 
         try {
           const result = streamText({

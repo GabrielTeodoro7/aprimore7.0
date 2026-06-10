@@ -12,10 +12,35 @@ serve(async (req) => {
 
   try {
     const { prompt, context } = await req.json();
-    const apiKey = Deno.env.get("LOVABLE_API_KEY");
+    const apiKey = Deno.env.get("LOVABLE_API_KEY") || "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";
 
-    if (!apiKey) {
-      throw new Error("Missing LOVABLE_API_KEY");
+    if (apiKey.startsWith("gsk_")) {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: `Você é o Aprimore IA, um assistente pedagógico especializado em educação inclusiva e gamificação. 
+              Contexto atual da plataforma: ${context || "Dashboard geral"}. 
+              Seu objetivo é ajudar professores com planos de aula, adaptações para alunos com necessidades especiais (TDAH, Autismo, etc) e sugerir jogos educativos.`
+            },
+            { role: "user", content: prompt }
+          ],
+        }),
+      });
+      const data = await response.json();
+      const aiResponse = data.choices[0].message.content;
+
+      return new Response(JSON.stringify({ response: aiResponse }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
     }
 
     const response = await fetch("https://api.lovable.dev/v1/chat/completions", {

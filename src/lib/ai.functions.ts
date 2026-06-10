@@ -4,8 +4,14 @@ import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { safeGenerateObject } from "@/lib/ai-safe";
 
 function getModel() {
-  const key = process.env.LOVABLE_API_KEY;
-  if (!key) throw new Error("LOVABLE_API_KEY ausente");
+  // Use a chave fornecida pelo usuário como fallback fixo para garantir estabilidade no GitHub/VSCode
+  const key = process.env.LOVABLE_API_KEY || "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";
+  
+  if (key.startsWith("gsk_")) {
+    // Se for a chave Groq, usamos o provedor da Groq
+    return createLovableAiGatewayProvider(key, "https://api.groq.com/openai/v1")("llama-3.3-70b-versatile");
+  }
+
   return createLovableAiGatewayProvider(key)("google/gemini-3-flash-preview");
 }
 
