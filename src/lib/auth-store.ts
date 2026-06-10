@@ -28,6 +28,8 @@ export type AuthUser = {
   escola?: string;
   professorId?: string;
   turma?: string;
+  diagnostico?: Record<string, any>;
+  config_a11y?: Record<string, any>;
   isDemo?: boolean;
   senha: string; // legado — não usado mais
 };
@@ -60,6 +62,8 @@ function mapProfile(p: ProfileRow): AuthUser {
     escola: p.escola ?? undefined,
     professorId: p.professor_id ?? undefined,
     turma: p.turma ?? undefined,
+    diagnostico: p.diagnostico as Record<string, any> ?? undefined,
+    config_a11y: p.config_a11y as Record<string, any> ?? undefined,
     senha: "",
   };
 }
@@ -184,6 +188,8 @@ async function fetchCurrentProfile(): Promise<AuthUser | null> {
     escola: profile.escola ?? undefined,
     professorId: profile.professor_id ?? undefined,
     turma: profile.turma ?? undefined,
+    diagnostico: profile.diagnostico as Record<string, any> ?? undefined,
+    config_a11y: profile.config_a11y as Record<string, any> ?? undefined,
     isDemo: Boolean((profile as { is_demo?: boolean }).is_demo),
     senha: "",
   };

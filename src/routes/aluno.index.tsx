@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles, Gamepad2, BookOpen } from "lucide-react";
+import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles, Gamepad2, BookOpen, Accessibility, Info } from "lucide-react";
 import { StudentShell } from "@/components/StudentShell";
 import { useAlunoPerfil, useRotina, useMedalhas } from "@/lib/student-store";
 import { useActivities } from "@/lib/store";
@@ -21,6 +21,7 @@ const cards = [
 
 function AlunoHome() {
   const { perfil } = useAlunoPerfil();
+  const { data: meuAluno } = useMeuAluno();
   const { total, concluidas } = useRotina();
   const { list: medalhas } = useMedalhas();
   const { list: atividades } = useActivities();
@@ -66,6 +67,38 @@ function AlunoHome() {
           </Link>
         </div>
       </div>
+
+      {/* Seção de Diagnóstico e Apoio (Visível apenas se houver info) */}
+      {(meuAluno?.diagnostico && Object.values(meuAluno.diagnostico).some(v => v === true || (typeof v === 'string' && v.length > 0))) && (
+        <div className="rounded-3xl bg-blue-50/50 border border-blue-100 p-4 flex items-start gap-4">
+          <div className="p-2 rounded-xl bg-white text-blue-500 shadow-sm">
+            <Info className="h-5 w-5" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-blue-900 text-sm">Meu Perfil de Apoio</h3>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {Object.entries(meuAluno.diagnostico).map(([key, value]) => {
+                if (value === true) {
+                  const labels: Record<string, string> = {
+                    tea: "TEA", dcd: "DCD/TDC", motor: "Motor", cognitivo: "Cognitivo", visual: "Visual", auditivo: "Auditivo"
+                  };
+                  return (
+                    <span key={key} className="px-2 py-1 rounded-lg bg-white text-[10px] font-black uppercase text-blue-600 border border-blue-200 shadow-sm">
+                      {labels[key] || key}
+                    </span>
+                  );
+                }
+                return null;
+              })}
+              {meuAluno.diagnostico.outros && (
+                <span className="text-xs text-blue-700/70 italic italic-none font-medium">
+                  "{meuAluno.diagnostico.outros}"
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
         {cards.map(({ to, label, icon: Icon, bg, color }) => (
