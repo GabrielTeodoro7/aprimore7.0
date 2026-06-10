@@ -54,6 +54,20 @@
 
 ## 3. Encapsulamento
 
+## 4. Sobrecarga
+- **Arquivo:** `model/PoliticaSenha.java`, `tutorial/SuperHero.java`
+- **Trecho principal:**
+  ```java
+  public String attack() { ... }
+  public String attack(String weapon) { ... }
+  ```
+- **Motivo:** permitir que uma mesma ação seja executada com diferentes parâmetros, aumentando a flexibilidade.
+- **Conceito demonstrado:** múltiplos métodos com mesmo nome e assinaturas diferentes.
+- **Como testar:** rodar `POOExplainer.java`.
+
+## 5. Encapsulamento
+
+
 - **Arquivo:** todas as classes em `model/`.
 - **Trecho principal:**
   ```java
