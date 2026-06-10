@@ -154,7 +154,7 @@ function GestorSupremoCEO() {
             <Card className="p-4 border-zinc-800 bg-zinc-800/20 flex flex-col gap-2">
               <ShieldAlert className="h-5 w-5 text-zinc-500" />
               <div className="text-2xl font-black text-zinc-100">0</div>
-              <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Brechas</div>
+              <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Falhas</div>
             </Card>
           </div>
         </div>
