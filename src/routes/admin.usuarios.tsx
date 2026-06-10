@@ -18,16 +18,15 @@ import { Badge } from "@/components/ui/badge";
 import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/admin/usuarios")({
-  head: () => ({ meta: [{ title: "Acesso Negado — Aprimore" }] }),
+  head: () => ({ meta: [{ title: "Gestão de Usuários — Aprimore" }] }),
   component: () => (
-    <div className="flex h-screen flex-col items-center justify-center bg-background p-4 text-center">
-      <h1 className="text-2xl font-bold">Acesso restrito ao CEO</h1>
-      <p className="mt-2 text-muted-foreground">Esta funcionalidade foi movida para o painel de Onda Zero.</p>
-    </div>
+    <RequireRole roles={["admin"]}>
+      <GestorDeUsuarios />
+    </RequireRole>
   ),
 });
 
-function GestorSupremo() {
+function GestorDeUsuarios() {
   const { list } = useUsers();
   const criarFn = useServerFn(criarUsuarioReal);
   
@@ -67,13 +66,15 @@ function GestorSupremo() {
   };
 
   const visible = list.filter(u => 
-    `${u.nome} ${u.email} ${u.role}`.toLowerCase().includes(q.toLowerCase())
+    u.role !== 'ceo' && (
+      `${u.nome} ${u.email} ${u.role}`.toLowerCase().includes(q.toLowerCase())
+    )
   );
 
   return (
     <AdminShell 
-      title="Gestor Supremo" 
-      subtitle="Controle total sobre identidades e acessos da plataforma"
+      title="Gestão de Usuários" 
+      subtitle="Gerencie professores e alunos da unidade"
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
         {/* Lado Esquerdo: Lista de Identidades */}
@@ -176,7 +177,7 @@ function GestorSupremo() {
               </div>
               <div>
                 <h3 className="text-lg font-black tracking-tight">Nova Identidade</h3>
-                <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider">Criação Direta Supabase</p>
+                <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider">Gestão Administrativa</p>
               </div>
             </div>
 
@@ -234,11 +235,11 @@ function GestorSupremo() {
                 </button>
                 <button 
                   type="button"
-                  onClick={() => setForm({...form, role: 'admin'})}
-                  className={`py-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${form.role === 'admin' ? 'border-rose-500 bg-rose-500/5' : 'border-border hover:bg-accent'}`}
+                  onClick={() => setForm({...form, role: 'aluno'})}
+                  className={`py-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${form.role === 'aluno' ? 'border-emerald-500 bg-emerald-500/5' : 'border-border hover:bg-accent'}`}
                 >
-                  <ShieldCheck className="h-4 w-4" />
-                  <span className="text-[10px] font-black uppercase">Admin</span>
+                  <User className="h-4 w-4" />
+                  <span className="text-[10px] font-black uppercase">Aluno</span>
                 </button>
               </div>
 
