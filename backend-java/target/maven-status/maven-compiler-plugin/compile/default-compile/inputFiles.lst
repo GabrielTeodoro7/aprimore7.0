@@ -1,4 +1,11 @@
 /dev-server/backend-java/src/main/java/escola/Main.java
+/dev-server/backend-java/src/main/java/escola/core/CoreEngine.java
+/dev-server/backend-java/src/main/java/escola/core/collections/DataManager.java
+/dev-server/backend-java/src/main/java/escola/core/exceptions/CoreException.java
+/dev-server/backend-java/src/main/java/escola/core/io/FileManager.java
+/dev-server/backend-java/src/main/java/escola/core/jdbc/DatabaseAdapter.java
+/dev-server/backend-java/src/main/java/escola/core/threads/AsyncProcess.java
+/dev-server/backend-java/src/main/java/escola/core/threads/ParallelExecutor.java
 /dev-server/backend-java/src/main/java/escola/dao/AlunoDAO.java
 /dev-server/backend-java/src/main/java/escola/dao/ApiKeyDAO.java
 /dev-server/backend-java/src/main/java/escola/dao/BloqueioContaDAO.java
