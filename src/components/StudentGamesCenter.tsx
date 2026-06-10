@@ -17,7 +17,10 @@ import {
 } from 'lucide-react';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 
+import { InternalMathGame } from './InternalMathGame';
+
 interface Game {
+
   id: string;
   title: string;
   subject: string;
@@ -32,6 +35,8 @@ interface Game {
 export const StudentGamesCenter = () => {
   const { settings } = useAccessibility();
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+  const [activeInternalGame, setActiveInternalGame] = useState<string | null>(null);
+
 
   const games: Game[] = [
     {
@@ -41,8 +46,9 @@ export const StudentGamesCenter = () => {
       description: 'Resolva problemas matemáticos para avançar níveis e ganhar selos.',
       icon: Calculator,
       color: 'text-blue-500',
-      url: 'https://www.matific.com/brazil/pt-br/home/',
-      isExternal: true,
+      url: 'internal-math',
+      isExternal: false,
+
       difficulty: 'Iniciante'
     },
     {
@@ -138,6 +144,10 @@ export const StudentGamesCenter = () => {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {activeInternalGame === 'internal-math' && (
+          <InternalMathGame onClose={() => setActiveInternalGame(null)} />
+        )}
+
         {filteredGames.map((game) => (
           <AppCard key={game.id} className="group hover:border-primary/50 transition-all hover:shadow-xl overflow-hidden flex flex-col">
             <div className={`h-2 w-full bg-current ${game.color}`} />
@@ -160,8 +170,15 @@ export const StudentGamesCenter = () => {
               <AppButton 
                 className="w-full gap-2 group/btn" 
                 variant={game.isExternal ? "outline" : "default"}
-                onClick={() => game.url !== '#' && window.open(game.url, '_blank')}
+                onClick={() => {
+                  if (game.url === 'internal-math') {
+                    setActiveInternalGame('internal-math');
+                  } else if (game.url !== '#') {
+                    window.open(game.url, '_blank');
+                  }
+                }}
               >
+
                 {game.isExternal ? (
                   <>Jogar Externo <ExternalLink className="h-3.5 w-3.5" /></>
                 ) : (
