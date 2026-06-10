@@ -202,12 +202,12 @@ export const analisarDesempenho = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const notasTxt = data.notas.map(n => `${n.materia}: ${n.nota}`).join(", ");
     const prompt = [
-      `Analise o desempenho escolar de ${data.alunoNome}.`,
+      `Analise o desempenho escolar de ${data.alunoNome}, aluno do Ensino Fundamental/Médio.`,
       data.necessidade ? `Necessidade educacional: ${data.necessidade}.` : "",
       `Notas: ${notasTxt}. Frequência: ${data.frequencia}%.`,
       data.observacoes ? `Observações: ${data.observacoes}.` : "",
-      "Gere diagnóstico construtivo com pontos fortes, pontos de atenção, recomendações práticas (com prioridade), próximos passos e mensagem curta e acolhedora para a família.",
-      "NUNCA diagnostique condições médicas.",
+      "Gere diagnóstico construtivo adequado para a idade escolar (fundamental/médio), com pontos fortes, pontos de atenção, recomendações práticas e lúdicas (com prioridade), próximos passos e mensagem curta e acolhedora para a família.",
+      "NUNCA diagnostique condições médicas ou use termos universitários/corporativos complexos.",
       TOM_DIDATICO,
     ].filter(Boolean).join("\n");
 
