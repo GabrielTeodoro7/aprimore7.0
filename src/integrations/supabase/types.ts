@@ -16,8 +16,11 @@ export type Database = {
     Tables: {
       alunos: {
         Row: {
+          anonimizado: boolean
           cpf: string | null
           created_at: string
+          data_desligamento: string | null
+          deletado_em: string | null
           email: string | null
           estrelas: number
           freq: string | null
@@ -36,8 +39,11 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          anonimizado?: boolean
           cpf?: string | null
           created_at?: string
+          data_desligamento?: string | null
+          deletado_em?: string | null
           email?: string | null
           estrelas?: number
           freq?: string | null
@@ -56,8 +62,11 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          anonimizado?: boolean
           cpf?: string | null
           created_at?: string
+          data_desligamento?: string | null
+          deletado_em?: string | null
           email?: string | null
           estrelas?: number
           freq?: string | null
@@ -117,6 +126,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "atividade_alunos_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "atividade_alunos_atividade_id_fkey"
             columns: ["atividade_id"]
             isOneToOne: false
@@ -130,6 +146,7 @@ export type Database = {
           adaptada: boolean
           created_at: string
           data: string | null
+          deletado_em: string | null
           descricao: string | null
           dificuldade: string | null
           id: string
@@ -147,6 +164,7 @@ export type Database = {
           adaptada?: boolean
           created_at?: string
           data?: string | null
+          deletado_em?: string | null
           descricao?: string | null
           dificuldade?: string | null
           id?: string
@@ -164,6 +182,7 @@ export type Database = {
           adaptada?: boolean
           created_at?: string
           data?: string | null
+          deletado_em?: string | null
           descricao?: string | null
           dificuldade?: string | null
           id?: string
@@ -237,6 +256,7 @@ export type Database = {
           alunos: number
           created_at: string
           data: string | null
+          deletado_em: string | null
           id: string
           materia: string
           media: number | null
@@ -252,6 +272,7 @@ export type Database = {
           alunos?: number
           created_at?: string
           data?: string | null
+          deletado_em?: string | null
           id?: string
           materia?: string
           media?: number | null
@@ -267,6 +288,7 @@ export type Database = {
           alunos?: number
           created_at?: string
           data?: string | null
+          deletado_em?: string | null
           id?: string
           materia?: string
           media?: number | null
@@ -373,7 +395,83 @@ export type Database = {
             referencedRelation: "alunos"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "conquistas_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      consentimentos: {
+        Row: {
+          concedido: boolean
+          concedido_em: string | null
+          created_at: string
+          finalidade: Database["public"]["Enums"]["finalidade_consentimento"]
+          id: string
+          ip: string | null
+          profile_id: string
+          revogado_em: string | null
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          concedido: boolean
+          concedido_em?: string | null
+          created_at?: string
+          finalidade: Database["public"]["Enums"]["finalidade_consentimento"]
+          id?: string
+          ip?: string | null
+          profile_id: string
+          revogado_em?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          concedido?: boolean
+          concedido_em?: string | null
+          created_at?: string
+          finalidade?: Database["public"]["Enums"]["finalidade_consentimento"]
+          id?: string
+          ip?: string | null
+          profile_id?: string
+          revogado_em?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      documentos_legais: {
+        Row: {
+          created_at: string
+          id: string
+          obrigatorio: boolean
+          texto: string
+          tipo: Database["public"]["Enums"]["tipo_documento_legal"]
+          versao: string
+          vigente_em: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          obrigatorio?: boolean
+          texto: string
+          tipo: Database["public"]["Enums"]["tipo_documento_legal"]
+          versao: string
+          vigente_em?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          obrigatorio?: boolean
+          texto?: string
+          tipo?: Database["public"]["Enums"]["tipo_documento_legal"]
+          versao?: string
+          vigente_em?: string
+        }
+        Relationships: []
       }
       frequencia: {
         Row: {
@@ -412,6 +510,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "frequencia_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "frequencia_turma_id_fkey"
             columns: ["turma_id"]
             isOneToOne: false
@@ -419,6 +524,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      lgpd_exportacoes: {
+        Row: {
+          created_at: string
+          erro: string | null
+          expira_em: string | null
+          id: string
+          profile_id: string
+          status: string
+          storage_path: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          erro?: string | null
+          expira_em?: string | null
+          id?: string
+          profile_id: string
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          erro?: string | null
+          expira_em?: string | null
+          id?: string
+          profile_id?: string
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      logs_acesso_sensiveis: {
+        Row: {
+          actor_id: string | null
+          aluno_id: string | null
+          campo: string
+          contexto_normal: boolean
+          created_at: string
+          id: string
+          justificativa: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          aluno_id?: string | null
+          campo: string
+          contexto_normal?: boolean
+          created_at?: string
+          id?: string
+          justificativa?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          aluno_id?: string | null
+          campo?: string
+          contexto_normal?: boolean
+          created_at?: string
+          id?: string
+          justificativa?: string | null
+        }
+        Relationships: []
       }
       mensagens: {
         Row: {
@@ -515,6 +683,7 @@ export type Database = {
           ano: string | null
           cargo: string | null
           created_at: string
+          deletado_em: string | null
           email: string
           escola: string | null
           id: string
@@ -533,6 +702,7 @@ export type Database = {
           ano?: string | null
           cargo?: string | null
           created_at?: string
+          deletado_em?: string | null
           email: string
           escola?: string | null
           id?: string
@@ -551,6 +721,7 @@ export type Database = {
           ano?: string | null
           cargo?: string | null
           created_at?: string
+          deletado_em?: string | null
           email?: string
           escola?: string | null
           id?: string
@@ -574,6 +745,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      ripd_relatorios: {
+        Row: {
+          ano: number
+          gerado_em: string
+          id: string
+          resumo: Json | null
+          storage_path: string | null
+          trimestre: number
+        }
+        Insert: {
+          ano: number
+          gerado_em?: string
+          id?: string
+          resumo?: Json | null
+          storage_path?: string | null
+          trimestre: number
+        }
+        Update: {
+          ano?: number
+          gerado_em?: string
+          id?: string
+          resumo?: Json | null
+          storage_path?: string | null
+          trimestre?: number
+        }
+        Relationships: []
       }
       rotina_itens: {
         Row: {
@@ -620,6 +818,13 @@ export type Database = {
             referencedRelation: "alunos"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "rotina_itens_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
         ]
       }
       sentimentos: {
@@ -656,6 +861,13 @@ export type Database = {
             columns: ["aluno_id"]
             isOneToOne: false
             referencedRelation: "alunos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentimentos_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
             referencedColumns: ["id"]
           },
         ]
@@ -703,10 +915,52 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "submissoes_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "v_alunos_ativos"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "submissoes_atividade_id_fkey"
             columns: ["atividade_id"]
             isOneToOne: false
             referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      termos_aceitos: {
+        Row: {
+          aceito_em: string
+          documento_id: string
+          id: string
+          ip: string | null
+          profile_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          aceito_em?: string
+          documento_id: string
+          id?: string
+          ip?: string | null
+          profile_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          aceito_em?: string
+          documento_id?: string
+          id?: string
+          ip?: string | null
+          profile_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "termos_aceitos_documento_id_fkey"
+            columns: ["documento_id"]
+            isOneToOne: false
+            referencedRelation: "documentos_legais"
             referencedColumns: ["id"]
           },
         ]
@@ -716,6 +970,7 @@ export type Database = {
           ano: string | null
           capacidade: number
           created_at: string
+          deletado_em: string | null
           id: string
           nome: string
           professor_id: string
@@ -725,6 +980,7 @@ export type Database = {
           ano?: string | null
           capacidade?: number
           created_at?: string
+          deletado_em?: string | null
           id?: string
           nome: string
           professor_id: string
@@ -734,6 +990,7 @@ export type Database = {
           ano?: string | null
           capacidade?: number
           created_at?: string
+          deletado_em?: string | null
           id?: string
           nome?: string
           professor_id?: string
@@ -772,7 +1029,93 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_alunos_ativos: {
+        Row: {
+          anonimizado: boolean | null
+          cpf: string | null
+          created_at: string | null
+          data_desligamento: string | null
+          deletado_em: string | null
+          email: string | null
+          estrelas: number | null
+          freq: string | null
+          id: string | null
+          idade: number | null
+          media: number | null
+          necessidade: string | null
+          nome: string | null
+          observacoes: string | null
+          profile_id: string | null
+          responsavel: string | null
+          tag: string | null
+          telefone: string | null
+          tone: string | null
+          turma_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          anonimizado?: boolean | null
+          cpf?: string | null
+          created_at?: string | null
+          data_desligamento?: string | null
+          deletado_em?: string | null
+          email?: string | null
+          estrelas?: number | null
+          freq?: string | null
+          id?: string | null
+          idade?: number | null
+          media?: number | null
+          necessidade?: string | null
+          nome?: string | null
+          observacoes?: string | null
+          profile_id?: string | null
+          responsavel?: string | null
+          tag?: string | null
+          telefone?: string | null
+          tone?: string | null
+          turma_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          anonimizado?: boolean | null
+          cpf?: string | null
+          created_at?: string | null
+          data_desligamento?: string | null
+          deletado_em?: string | null
+          email?: string | null
+          estrelas?: number | null
+          freq?: string | null
+          id?: string | null
+          idade?: number | null
+          media?: number | null
+          necessidade?: string | null
+          nome?: string | null
+          observacoes?: string | null
+          profile_id?: string | null
+          responsavel?: string | null
+          tag?: string | null
+          telefone?: string | null
+          tone?: string | null
+          turma_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alunos_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alunos_turma_id_fkey"
+            columns: ["turma_id"]
+            isOneToOne: false
+            referencedRelation: "turmas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       current_profile_id: { Args: never; Returns: string }
@@ -791,6 +1134,12 @@ export type Database = {
     }
     Enums: {
       app_role: "ceo" | "admin" | "professor" | "aluno"
+      finalidade_consentimento:
+        | "CADASTRO"
+        | "IMAGEM"
+        | "COMUNICACOES"
+        | "COMPARTILHAMENTO"
+      tipo_documento_legal: "TERMOS_USO" | "POLITICA_PRIVACIDADE"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -919,6 +1268,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["ceo", "admin", "professor", "aluno"],
+      finalidade_consentimento: [
+        "CADASTRO",
+        "IMAGEM",
+        "COMUNICACOES",
+        "COMPARTILHAMENTO",
+      ],
+      tipo_documento_legal: ["TERMOS_USO", "POLITICA_PRIVACIDADE"],
     },
   },
 } as const
