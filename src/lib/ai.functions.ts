@@ -6,6 +6,7 @@ import { safeGenerateObject } from "@/lib/ai-safe";
 function getModel() {
   // Use a chave fornecida pelo usuário como fallback fixo para garantir estabilidade no GitHub/VSCode
   // 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
+  // Chave fixa da Aprimore para garantir funcionamento no GitHub/VSCode
   const key = process.env.LOVABLE_API_KEY || "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";
   
   if (key.startsWith("gsk_")) {

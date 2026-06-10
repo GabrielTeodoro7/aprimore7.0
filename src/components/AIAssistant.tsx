@@ -299,7 +299,7 @@ function AIAssistantInner() {
             )}
             {error && (
               <div role="alert" className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                Ops! Não consegui responder agora. {error.message}
+                🤔 Desculpe, estou aprendendo… Quer tentar outra pergunta?
               </div>
             )}
           </div>
