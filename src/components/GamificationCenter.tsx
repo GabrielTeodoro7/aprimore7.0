@@ -1,8 +1,9 @@
 import React from 'react';
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle } from '@/design-system/AppCard';
 import { AppBadge } from '@/design-system/AppBadge';
-import { AppProgress } from '@/components/ui/progress';
+import { AppButton } from '@/design-system/AppButton';
 import { Trophy, Star, Target, Award, Zap } from 'lucide-react';
+
 
 export const GamificationCenter = () => {
   const achievements = [
