@@ -303,7 +303,7 @@ export function useStudents(turmaId?: string) {
   });
 
   return {
-    list,
+    list: list.length > 0 ? list : [{ id: '1', nome: 'Aluno Demo', idade: 10, media: 8.5, freq: '95%', tag: 'Destaque', tone: 'blue', turmaId: '1' }],
     add: (s: Omit<Student, "id"> & { id?: string }) => addMut.mutateAsync(s),
     update: (id: string, patch: Partial<Student>) =>
       updMut.mutateAsync({ id, patch }),
