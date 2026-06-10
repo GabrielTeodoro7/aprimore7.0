@@ -3,11 +3,9 @@ import { AppCard, AppCardContent } from '@/design-system/AppCard';
 import { AppButton } from '@/design-system/AppButton';
 import { Bot, Sparkles, MessageSquare, Brain, Lightbulb, X, Wand2 } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast-hook";
 
 export const AIPedagogicalAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { toast } = useToast();
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
     { role: 'assistant', content: 'Olá! Sou o Aprimore IA. Como posso ajudar com sua estratégia pedagógica hoje?' }
   ]);
@@ -36,11 +34,6 @@ export const AIPedagogicalAssistant = () => {
       setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
     } catch (error) {
       console.error('AI Error:', error);
-      toast({
-        title: "Erro na IA",
-        description: "Não consegui processar sua resposta agora. Tente novamente em instantes.",
-        variant: "destructive"
-      });
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: "Ops, tive um pequeno problema técnico. Pode repetir a pergunta?" 
