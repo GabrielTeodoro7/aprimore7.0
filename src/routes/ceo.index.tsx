@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { 
   ShieldAlert, Activity, Users2, Brain, 
   Eye, KeyRound, Globe, Server, Database,
-  TrendingUp, AlertTriangle, ShieldCheck
+  TrendingUp, AlertTriangle, ShieldCheck,
+  Terminal, Shield, Zap, Search
 } from "lucide-react";
 import { CEOShell } from "@/components/CEOShell";
 import { RequireRole } from "@/components/RequireRole";
