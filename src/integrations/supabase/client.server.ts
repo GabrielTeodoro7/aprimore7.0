@@ -10,13 +10,9 @@ function createSupabaseAdminClient() {
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    // Retorna um proxy "nulo" em vez de lançar erro global para não quebrar o boot do app local
+    console.warn("[Supabase] SUPABASE_SERVICE_ROLE_KEY ausente. Operações admin falharão.");
+    return null;
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
@@ -36,6 +32,10 @@ let _supabaseAdmin: ReturnType<typeof createSupabaseAdminClient> | undefined;
 export const supabaseAdmin = new Proxy({} as ReturnType<typeof createSupabaseAdminClient>, {
   get(_, prop, receiver) {
     if (!_supabaseAdmin) _supabaseAdmin = createSupabaseAdminClient();
+    if (!_supabaseAdmin) {
+       // Se o cliente for nulo (faltando chave), lança o erro apenas no momento do acesso à propriedade
+       throw new Error("SUPABASE_SERVICE_ROLE_KEY ausente ou inválida. Operação administrativa abortada.");
+    }
     return Reflect.get(_supabaseAdmin, prop, receiver);
   },
 });
