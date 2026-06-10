@@ -48,90 +48,106 @@ function Index() {
       </header>
 
       <main className="container px-4 py-8 md:px-6 md:py-12">
-        {/* Seção Hero / Boas-vindas */}
-        <section className="mb-12">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Olá, Bem-vindo ao Aprimore</h1>
-              <p className="text-muted-foreground mt-1 text-lg">Gerencie sua escola com eficiência e foco na inclusão.</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <AppButton variant="outline" className="flex-1 sm:flex-none">Ver Agenda</AppButton>
-              <AppButton className="flex-1 sm:flex-none">Novo Cadastro</AppButton>
-            </div>
-          </div>
-        </section>
+        <Tabs defaultValue="dashboard" className="w-full space-y-8">
+          <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="accessibility" className="gap-2">
+              <span className="text-base">♿</span> Acessibilidade
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Grid de Atalhos Rápidos / Módulos */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
-            <AppCardHeader>
-              <Users className="h-8 w-8 text-blue-500 mb-2 group-hover:scale-110 transition-transform" />
-              <AppCardTitle>Gestão de Alunos</AppCardTitle>
-              <AppCardDescription>Cadastro, matrículas e fichas individuais.</AppCardDescription>
-            </AppCardHeader>
-            <AppCardContent>
-              <div className="text-2xl font-bold">1.284</div>
-              <p className="text-xs text-muted-foreground mt-1">+12 novos esta semana</p>
-            </AppCardContent>
-          </AppCard>
-
-          <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
-            <AppCardHeader>
-              <ClipboardCheck className="h-8 w-8 text-green-500 mb-2 group-hover:scale-110 transition-transform" />
-              <AppCardTitle>Diário de Classe</AppCardTitle>
-              <AppCardDescription>Lançamento de frequência e notas.</AppCardDescription>
-            </AppCardHeader>
-            <AppCardContent>
-              <div className="text-2xl font-bold">98%</div>
-              <p className="text-xs text-muted-foreground mt-1">Presença média global</p>
-            </AppCardContent>
-          </AppCard>
-
-          <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
-            <AppCardHeader>
-              <ShieldCheck className="h-8 w-8 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
-              <AppCardTitle>Inclusão (PEI)</AppCardTitle>
-              <AppCardDescription>Planos de Desenvolvimento Individualizados.</AppCardDescription>
-            </AppCardHeader>
-            <AppCardContent>
-              <div className="text-2xl font-bold">42</div>
-              <p className="text-xs text-muted-foreground mt-1">Planos ativos e monitorados</p>
-            </AppCardContent>
-          </AppCard>
-
-          <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
-            <AppCardHeader>
-              <MessageSquare className="h-8 w-8 text-orange-500 mb-2 group-hover:scale-110 transition-transform" />
-              <AppCardTitle>Comunicação</AppCardTitle>
-              <AppCardDescription>Mensagens diretas e avisos no mural.</AppCardDescription>
-            </AppCardHeader>
-            <AppCardContent>
-              <div className="text-2xl font-bold">15</div>
-              <p className="text-xs text-muted-foreground mt-1">Novos avisos pendentes</p>
-            </AppCardContent>
-          </AppCard>
-        </div>
-
-        {/* Seção de Busca Rápida (UX) */}
-        <section className="mt-12">
-          <AppCard className="bg-primary/5 border-primary/10">
-            <AppCardContent className="pt-6">
-              <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold">Busca Rápida</h3>
-                  <p className="text-sm text-muted-foreground">Localize alunos, professores ou turmas instantaneamente.</p>
+          <TabsContent value="dashboard" className="space-y-12">
+            {/* Seção Hero / Boas-vindas */}
+            <section>
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Olá, Bem-vindo ao Aprimore</h1>
+                  <p className="text-muted-foreground mt-1 text-lg">Gerencie sua escola com eficiência e foco na inclusão.</p>
                 </div>
-                <div className="relative flex-1 md:max-w-md">
-                  <AppInput placeholder="Nome, CPF ou Matrícula..." className="pl-10" />
-                  <LayoutDashboard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                <div className="flex items-center gap-3">
+                  <AppButton variant="outline" className="flex-1 sm:flex-none">Ver Agenda</AppButton>
+                  <AppButton className="flex-1 sm:flex-none">Novo Cadastro</AppButton>
                 </div>
-                <AppButton>Pesquisar</AppButton>
               </div>
-            </AppCardContent>
-          </AppCard>
-        </section>
+            </section>
+
+            {/* Grid de Atalhos Rápidos / Módulos */}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+                <AppCardHeader>
+                  <Users className="h-8 w-8 text-blue-500 mb-2 group-hover:scale-110 transition-transform" />
+                  <AppCardTitle>Gestão de Alunos</AppCardTitle>
+                  <AppCardDescription>Cadastro, matrículas e fichas individuais.</AppCardDescription>
+                </AppCardHeader>
+                <AppCardContent>
+                  <div className="text-2xl font-bold">1.284</div>
+                  <p className="text-xs text-muted-foreground mt-1">+12 novos esta semana</p>
+                </AppCardContent>
+              </AppCard>
+
+              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+                <AppCardHeader>
+                  <ClipboardCheck className="h-8 w-8 text-green-500 mb-2 group-hover:scale-110 transition-transform" />
+                  <AppCardTitle>Diário de Classe</AppCardTitle>
+                  <AppCardDescription>Lançamento de frequência e notas.</AppCardDescription>
+                </AppCardHeader>
+                <AppCardContent>
+                  <div className="text-2xl font-bold">98%</div>
+                  <p className="text-xs text-muted-foreground mt-1">Presença média global</p>
+                </AppCardContent>
+              </AppCard>
+
+              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+                <AppCardHeader>
+                  <ShieldCheck className="h-8 w-8 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
+                  <AppCardTitle>Inclusão (PEI)</AppCardTitle>
+                  <AppCardDescription>Planos de Desenvolvimento Individualizados.</AppCardDescription>
+                </AppCardHeader>
+                <AppCardContent>
+                  <div className="text-2xl font-bold">42</div>
+                  <p className="text-xs text-muted-foreground mt-1">Planos ativos e monitorados</p>
+                </AppCardContent>
+              </AppCard>
+
+              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+                <AppCardHeader>
+                  <MessageSquare className="h-8 w-8 text-orange-500 mb-2 group-hover:scale-110 transition-transform" />
+                  <AppCardTitle>Comunicação</AppCardTitle>
+                  <AppCardDescription>Mensagens diretas e avisos no mural.</AppCardDescription>
+                </AppCardHeader>
+                <AppCardContent>
+                  <div className="text-2xl font-bold">15</div>
+                  <p className="text-xs text-muted-foreground mt-1">Novos avisos pendentes</p>
+                </AppCardContent>
+              </AppCard>
+            </div>
+
+            {/* Seção de Busca Rápida (UX) */}
+            <section className="hide-on-focus">
+              <AppCard className="bg-primary/5 border-primary/10">
+                <AppCardContent className="pt-6">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold">Busca Rápida</h3>
+                      <p className="text-sm text-muted-foreground">Localize alunos, professores ou turmas instantaneamente.</p>
+                    </div>
+                    <div className="relative flex-1 md:max-w-md">
+                      <AppInput placeholder="Nome, CPF ou Matrícula..." className="pl-10" />
+                      <LayoutDashboard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <AppButton>Pesquisar</AppButton>
+                  </div>
+                </AppCardContent>
+              </AppCard>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="accessibility">
+            <AccessibilitySettings />
+          </TabsContent>
+        </Tabs>
       </main>
+
 
       {/* Footer Responsivo */}
       <footer className="mt-auto border-t py-6 md:py-0">
