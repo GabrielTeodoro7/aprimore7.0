@@ -124,6 +124,6 @@ function AdminDashboard() {
           </div>
         </aside>
       </div>
-    </AdminDashboard>
+    </AdminShell>
   );
 }
