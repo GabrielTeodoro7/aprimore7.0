@@ -1,13 +1,23 @@
 # Índice Acadêmico — 14 Conteúdos de Java no Backend
 
-> Documento destinado à correção acadêmica. Para cada um dos 14 conteúdos
-> obrigatórios do bimestre, este índice indica **arquivo**, **trecho
-> principal**, **motivo de uso**, **conceito demonstrado** e **como testar**.
-> Caminhos são relativos a `backend-java/src/main/java/escola/`.
+> **NOVIDADE: ACADEMIA DE HERÓIS POO**
+> Criamos uma pasta especial `backend-java/src/main/java/escola/tutorial/` onde cada 
+> conceito é explicado como se fosse para uma criança de 10 anos, usando heróis!
+> 
+> **Onde encontrar a explicação "Para Crianças":**
+> - `escola.tutorial.POOExplainer`: O "Professor" que roda tudo.
+> - `escola.tutorial.Hero`: Explica **Abstração** e **Encapsulamento**.
+> - `escola.tutorial.SuperHero`: Explica **Herança**, **Polimorfismo**, **Sobrecarga** e **Sobrescrita**.
+> - `escola.tutorial.Ability`: Explica **Interfaces**.
+> - `escola.tutorial.HeroMission`: Explica **Threads**, **Coleções** e **Exceções**.
+> - `escola.tutorial.HeroDAO`: Explica **JDBC**.
+> - `escola.tutorial.HeroFiles`: Explica **Java IO**.
+> - `escola.tutorial.HeroAcademyUI`: Explica **Java Swing**.
 
 ---
 
 ## 1. Classes e Objetos
+
 
 - **Arquivo:** `model/Aluno.java`, `model/Professor.java`, `model/Turma.java`, `model/Disciplina.java`
 - **Trecho principal:**
@@ -43,6 +53,20 @@
 - **Como testar:** instanciar com argumentos inválidos lança `MatriculaInvalidaException` em `AlunoDAO.inserir(...)`.
 
 ## 3. Encapsulamento
+
+## 4. Sobrecarga
+- **Arquivo:** `model/PoliticaSenha.java`, `tutorial/SuperHero.java`
+- **Trecho principal:**
+  ```java
+  public String attack() { ... }
+  public String attack(String weapon) { ... }
+  ```
+- **Motivo:** permitir que uma mesma ação seja executada com diferentes parâmetros, aumentando a flexibilidade.
+- **Conceito demonstrado:** múltiplos métodos com mesmo nome e assinaturas diferentes.
+- **Como testar:** rodar `POOExplainer.java`.
+
+## 5. Encapsulamento
+
 
 - **Arquivo:** todas as classes em `model/`.
 - **Trecho principal:**

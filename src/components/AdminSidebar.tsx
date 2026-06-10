@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { LayoutDashboard, Users, GraduationCap, ScrollText, Settings, LogOut, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Users, GraduationCap, ScrollText, Settings, LogOut, ShieldCheck, Code2 } from "lucide-react";
 import { useAuth } from "@/lib/auth-store";
 import logoUrl from "@/assets/aprimore-logo.png";
 
@@ -7,10 +7,12 @@ const items = [
   { to: "/admin", label: "Visão Geral", icon: LayoutDashboard, exact: true },
   { to: "/admin/professores", label: "Professores", icon: Users },
   { to: "/admin/alunos", label: "Alunos", icon: GraduationCap },
+  { to: "/guia-poo", label: "Guia POO (Java)", icon: Code2 },
   { to: "/admin/logs", label: "Logs", icon: ScrollText },
   { to: "/admin/usuarios", label: "Gestor Supremo", icon: ShieldCheck },
   { to: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
+
 
 export function AdminSidebar() {
   const { pathname } = useLocation();
