@@ -12,8 +12,10 @@ import {
   Filter,
   Eye
 } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast-hook";
 
 export const SmartReportsModule = () => {
+  const { toast } = useToast();
   const [reports] = useState([
     { id: 1, name: 'Desempenho por Turma', type: 'Pedagógico', date: 'Hoje', status: 'Pronto' },
     { id: 2, name: 'Frequência Consolidada', type: 'Administrativo', date: 'Ontem', status: 'Processando' },
@@ -27,10 +29,10 @@ export const SmartReportsModule = () => {
           <FileText className="h-5 w-5 text-primary" /> Central de Relatórios Inteligentes
         </h2>
         <div className="flex gap-2">
-          <AppButton variant="outline" size="sm" className="gap-1">
+          <AppButton onClick={() => toast({title: "Filtros", description: "Abrindo painel de filtros avançados."})} variant="outline" size="sm" className="gap-1">
             <Filter className="h-3.5 w-3.5" /> Filtrar
           </AppButton>
-          <AppButton size="sm" className="gap-1">
+          <AppButton onClick={() => toast({title: "Exportar", description: "Preparando todos os relatórios para download."})} size="sm" className="gap-1">
             <Download className="h-3.5 w-3.5" /> Exportar Todos
           </AppButton>
         </div>
@@ -60,13 +62,13 @@ export const SmartReportsModule = () => {
                 </AppBadge>
                 <div className="h-8 w-px bg-border" />
                 <div className="flex gap-1">
-                  <AppButton variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                  <AppButton onClick={() => toast({title: "Visualizar", description: `Visualizando relatório: ${r.name}`})} variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
                     <Eye className="h-4 w-4" />
                   </AppButton>
-                  <AppButton variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                  <AppButton onClick={() => toast({title: "Imprimir", description: `Enviando para impressora: ${r.name}`})} variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
                     <Printer className="h-4 w-4" />
                   </AppButton>
-                  <AppButton variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                  <AppButton onClick={() => toast({title: "Compartilhar", description: `Compartilhando relatório: ${r.name}`})} variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
                     <Share2 className="h-4 w-4" />
                   </AppButton>
                 </div>
@@ -87,7 +89,7 @@ export const SmartReportsModule = () => {
               <p className="text-xs text-muted-foreground">A nossa IA pode cruzar dados específicos para você.</p>
             </div>
           </div>
-          <AppButton className="gap-2">
+          <AppButton onClick={() => toast({title: "Solicitação IA", description: "Conectando ao assistente pedagógico para relatório customizado."})} className="gap-2">
             Iniciar Solicitação <ChevronRight className="h-4 w-4" />
           </AppButton>
         </AppCardContent>

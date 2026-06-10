@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccessibilitySettings } from "@/components/accessibility/AccessibilitySettings";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { AuditTimeline } from "@/components/AuditTimeline";
+import { useToast } from "@/hooks/use-toast-hook";
 import { 
   GraduationCap, 
   Users, 
@@ -52,6 +53,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { toast } = useToast();
+
+  const handleUnderDev = (feature: string) => {
+    toast({
+      title: "Módulo em Desenvolvimento",
+      description: `O módulo "${feature}" está sendo sincronizado com a rede escolar.`,
+    });
+  };
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* Header Responsivo */}
@@ -69,9 +78,9 @@ function Index() {
           <nav className="hidden lg:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">Dashboard</Link>
             <Link to="/alunos" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Alunos</Link>
-            <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Turmas</a>
+            <a href="#" onClick={() => handleUnderDev("Turmas")} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Turmas</a>
             <div className="h-4 w-px bg-border" />
-            <button className="flex items-center gap-2 text-sm font-bold text-primary hover:opacity-80 transition-opacity bg-primary/5 px-3 py-1.5 rounded-full">
+            <button onClick={() => handleUnderDev("Acessibilidade Rápida")} className="flex items-center gap-2 text-sm font-bold text-primary hover:opacity-80 transition-opacity bg-primary/5 px-3 py-1.5 rounded-full">
               <span className="text-lg">♿</span> Acessibilidade
             </button>
           </nav>
@@ -91,7 +100,7 @@ function Index() {
                 <NotificationCenter />
               </PopoverContent>
             </Popover>
-            <AppButton size="sm" className="shadow-lg shadow-primary/20">Entrar</AppButton>
+            <AppButton size="sm" onClick={() => handleUnderDev("Portal de Login")} className="shadow-lg shadow-primary/20">Entrar</AppButton>
           </div>
 
 
@@ -131,7 +140,7 @@ function Index() {
                   <p className="text-muted-foreground mt-1 text-lg">Gerencie sua escola com eficiência e foco na inclusão.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <AppButton variant="outline" className="flex-1 sm:flex-none">Ver Agenda</AppButton>
+                  <AppButton variant="outline" onClick={() => handleUnderDev("Agenda Escolar")} className="flex-1 sm:flex-none">Ver Agenda</AppButton>
                   <Link to="/alunos">
                     <AppButton className="flex-1 sm:flex-none">Novo Cadastro</AppButton>
                   </Link>
@@ -142,7 +151,7 @@ function Index() {
 
             {/* Grid de Atalhos Rápidos / Módulos */}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+              <AppCard onClick={() => handleUnderDev("Gestão de Alunos Detalhada")} className="group hover:border-primary/50 transition-all cursor-pointer">
                 <AppCardHeader>
                   <Users className="h-8 w-8 text-blue-500 mb-2 group-hover:scale-110 transition-transform" />
                   <AppCardTitle>Gestão de Alunos</AppCardTitle>
@@ -154,7 +163,7 @@ function Index() {
                 </AppCardContent>
               </AppCard>
 
-              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+              <AppCard onClick={() => handleUnderDev("Diário de Classe Digital")} className="group hover:border-primary/50 transition-all cursor-pointer">
                 <AppCardHeader>
                   <ClipboardCheck className="h-8 w-8 text-green-500 mb-2 group-hover:scale-110 transition-transform" />
                   <AppCardTitle>Diário de Classe</AppCardTitle>
@@ -166,7 +175,7 @@ function Index() {
                 </AppCardContent>
               </AppCard>
 
-              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+              <AppCard onClick={() => handleUnderDev("Módulo de Inclusão PEI")} className="group hover:border-primary/50 transition-all cursor-pointer">
                 <AppCardHeader>
                   <ShieldCheck className="h-8 w-8 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
                   <AppCardTitle>Inclusão (PEI)</AppCardTitle>
@@ -178,7 +187,7 @@ function Index() {
                 </AppCardContent>
               </AppCard>
 
-              <AppCard className="group hover:border-primary/50 transition-all cursor-pointer">
+              <AppCard onClick={() => handleUnderDev("Central de Comunicação")} className="group hover:border-primary/50 transition-all cursor-pointer">
                 <AppCardHeader>
                   <MessageSquare className="h-8 w-8 text-orange-500 mb-2 group-hover:scale-110 transition-transform" />
                   <AppCardTitle>Comunicação</AppCardTitle>
@@ -220,7 +229,7 @@ function Index() {
                           <AppInput placeholder="Nome, CPF ou Matrícula..." className="pl-10" />
                           <LayoutDashboard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                         </div>
-                        <AppButton>Pesquisar</AppButton>
+                        <AppButton onClick={() => handleUnderDev("Busca Global")}>Pesquisar</AppButton>
                       </div>
                     </AppCardContent>
                   </AppCard>

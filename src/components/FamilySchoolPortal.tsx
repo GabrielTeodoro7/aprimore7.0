@@ -11,8 +11,17 @@ import {
   ArrowRight,
   ShieldCheck
 } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast-hook";
 
 export const FamilySchoolPortal = () => {
+  const { toast } = useToast();
+  
+  const handleAction = (action: string) => {
+    toast({
+      title: "Ação Registrada",
+      description: `Iniciando processo de "${action}" no portal da família.`,
+    });
+  };
   const updates = [
     { id: 1, student: 'Maria Oliveira', event: 'Nova conquista no PEI', date: 'Hoje', type: 'Pedagógico' },
     { id: 2, student: 'Maria Oliveira', event: 'Presença confirmada', date: 'Hoje', type: 'Frequência' },
@@ -33,7 +42,7 @@ export const FamilySchoolPortal = () => {
         <div className="space-y-4">
           <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Últimas Atualizações</h3>
           {updates.map((u) => (
-            <div key={u.id} className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
+            <div key={u.id} onClick={() => handleAction(`Detalhes de ${u.student}`)} className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer">
               <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                 <UserCheck className="h-4 w-4" />
               </div>
@@ -57,17 +66,17 @@ export const FamilySchoolPortal = () => {
                 Envie uma mensagem direta para a coordenação pedagógica ou para o professor regente.
               </p>
               <div className="flex gap-2">
-                <AppButton size="sm" className="flex-1 gap-2">
+                <AppButton onClick={() => handleAction("Chat com Professor")} size="sm" className="flex-1 gap-2">
                   <MessageCircle className="h-3.5 w-3.5" /> Chat Direto
                 </AppButton>
-                <AppButton size="sm" variant="outline" className="flex-1 gap-2">
+                <AppButton onClick={() => handleAction("Agendamento")} size="sm" variant="outline" className="flex-1 gap-2">
                   <Calendar className="h-3.5 w-3.5" /> Agendar Reunião
                 </AppButton>
               </div>
             </AppCardContent>
           </AppCard>
 
-          <div className="p-3 rounded-lg border border-dashed flex items-center justify-between group cursor-pointer hover:bg-accent transition-colors">
+          <div onClick={() => handleAction("Autorizações")} className="p-3 rounded-lg border border-dashed flex items-center justify-between group cursor-pointer hover:bg-accent transition-colors">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-muted rounded">
                 <ShieldCheck className="h-4 w-4 text-muted-foreground" />
