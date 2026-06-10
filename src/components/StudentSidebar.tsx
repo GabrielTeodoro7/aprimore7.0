@@ -11,6 +11,8 @@ const items = [
   { to: "/aluno/comunicacao", label: "Comunicação", icon: MessageCircle },
   { to: "/aluno/atividades", label: "Atividades", icon: Puzzle },
   { to: "/aluno/conquistas", label: "Minhas Conquistas", icon: Star },
+  { to: "/aluno/avatar", label: "Meu Avatar", icon: Heart },
+  { to: "/aluno/loja", label: "Loja de Prêmios", icon: Star },
   { to: "/aluno/sentimentos", label: "Como estou me sentindo?", icon: Heart },
 ];
 
