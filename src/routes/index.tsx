@@ -27,24 +27,28 @@ function Index() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <GraduationCap className="h-6 w-6" />
             </div>
-            <span className="text-xl font-bold tracking-tight">Aprimore</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold tracking-tight leading-none">Aprimore</span>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Educação Inclusiva</span>
+            </div>
           </div>
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">Dashboard</Link>
             <Link to="/alunos" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Alunos</Link>
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Turmas</a>
-            <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Relatórios</a>
             <div className="h-4 w-px bg-border" />
-            <button className="flex items-center gap-1 text-sm font-bold text-primary animate-pulse">
+            <button className="flex items-center gap-2 text-sm font-bold text-primary hover:opacity-80 transition-opacity bg-primary/5 px-3 py-1.5 rounded-full">
               <span className="text-lg">♿</span> Acessibilidade
             </button>
           </nav>
-
-
-          <div className="flex items-center gap-2">
-            <AppButton variant="outline" size="sm" className="hidden sm:flex">Suporte</AppButton>
-            <AppButton size="sm">Entrar</AppButton>
+          <div className="flex items-center gap-3">
+            <kbd className="hidden md:flex h-8 select-none items-center gap-1 rounded border bg-muted px-2 font-mono text-[10px] font-medium opacity-100">
+              <span className="text-xs text-muted-foreground font-bold">⌘</span>
+              <span className="text-xs text-muted-foreground font-bold">K</span>
+            </kbd>
+            <AppButton size="sm" className="shadow-lg shadow-primary/20">Entrar</AppButton>
           </div>
+
         </div>
       </header>
 
