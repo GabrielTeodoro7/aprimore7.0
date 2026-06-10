@@ -171,8 +171,21 @@ function NovoAlunoPage() {
             <Field label="Nome completo" hint="Como o aluno será chamado nas listas" required>
               <input value={form.nome} onChange={(e) => set("nome", e.target.value)} className="input" autoFocus disabled={loading} />
             </Field>
-            <Field label="Turma" hint="Ex: 5º Ano A">
-              <input value={form.turma} onChange={(e) => set("turma", e.target.value)} className="input" disabled={loading} />
+            <Field label="Turma" hint="Selecione a turma">
+              <select value={form.turma} onChange={(e) => set("turma", e.target.value)} className="input" disabled={loading}>
+                <option value="1º Ano">1º Ano</option>
+                <option value="2º Ano">2º Ano</option>
+                <option value="3º Ano">3º Ano</option>
+                <option value="4º Ano">4º Ano</option>
+                <option value="5º Ano">5º Ano</option>
+                <option value="6º Ano">6º Ano</option>
+                <option value="7º Ano">7º Ano</option>
+                <option value="8º Ano">8º Ano</option>
+                <option value="9º Ano">9º Ano</option>
+                <option value="1º Médio">1º Médio</option>
+                <option value="2º Médio">2º Médio</option>
+                <option value="3º Médio">3º Médio</option>
+              </select>
             </Field>
             <Field label="Idade" hint="Em anos completos">
               <input type="number" min="4" max="20" value={form.idade} onChange={(e) => set("idade", +e.target.value)} className="input" disabled={loading} />

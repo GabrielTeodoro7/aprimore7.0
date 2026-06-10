@@ -67,7 +67,23 @@ function PlanoAulaTab() {
       <Card className="p-5 space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div><Label>Matéria</Label><Input value={materia} onChange={e=>setMateria(e.target.value)} /></div>
-          <div><Label>Série</Label><Input value={serie} onChange={e=>setSerie(e.target.value)} /></div>
+          <div>
+            <Label>Série</Label>
+            <select value={serie} onChange={e=>setSerie(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+              <option value="1º Ano">1º Ano</option>
+              <option value="2º Ano">2º Ano</option>
+              <option value="3º Ano">3º Ano</option>
+              <option value="4º Ano">4º Ano</option>
+              <option value="5º Ano">5º Ano</option>
+              <option value="6º Ano">6º Ano</option>
+              <option value="7º Ano">7º Ano</option>
+              <option value="8º Ano">8º Ano</option>
+              <option value="9º Ano">9º Ano</option>
+              <option value="1º Médio">1º Médio</option>
+              <option value="2º Médio">2º Médio</option>
+              <option value="3º Médio">3º Médio</option>
+            </select>
+          </div>
         </div>
         <div><Label>Tema</Label><Input value={tema} onChange={e=>setTema(e.target.value)} placeholder="Ex.: frações equivalentes" /></div>
         <div className="grid grid-cols-2 gap-3">
