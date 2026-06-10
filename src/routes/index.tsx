@@ -109,21 +109,21 @@ function Index() {
 
       <main className="container px-4 py-8 md:px-6 md:py-12">
         <Tabs defaultValue="dashboard" className="w-full space-y-8">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-8 gap-2 bg-transparent h-auto">
-            <TabsTrigger value="dashboard" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Dashboard</TabsTrigger>
-            <TabsTrigger value="family" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Família</TabsTrigger>
-            <TabsTrigger value="gamification" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Conquistas</TabsTrigger>
-            <TabsTrigger value="games" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground gap-2">
+          <TabsList className="flex flex-wrap lg:grid w-full lg:grid-cols-8 gap-2 bg-transparent h-auto overflow-x-auto pb-2 scrollbar-hide">
+            <TabsTrigger value="dashboard" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Dashboard</TabsTrigger>
+            <TabsTrigger value="family" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Família</TabsTrigger>
+            <TabsTrigger value="gamification" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Conquistas</TabsTrigger>
+            <TabsTrigger value="games" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground gap-2">
               <Gamepad2 className="h-4 w-4" /> Games
             </TabsTrigger>
-            <TabsTrigger value="lab" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground gap-1">
+            <TabsTrigger value="lab" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground gap-1">
               <FlaskConical className="h-4 w-4" /> Lab Virtual
             </TabsTrigger>
-            <TabsTrigger value="reports" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Relatórios</TabsTrigger>
-            <TabsTrigger value="pricing" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground gap-1">
+            <TabsTrigger value="reports" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Relatórios</TabsTrigger>
+            <TabsTrigger value="pricing" className="flex-shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground gap-1">
               <DollarSign className="h-4 w-4" /> Planos
             </TabsTrigger>
-            <TabsTrigger value="accessibility" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="accessibility" className="flex-shrink-0 gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <span className="text-base">♿</span> Acessibilidade
             </TabsTrigger>
           </TabsList>

@@ -77,7 +77,7 @@ export const VirtualLaboratory = () => {
 
         {/* Centro/Direita: Visualizador Holográfico */}
         <div className="lg:col-span-2 relative">
-          <AppCard className="h-[450px] bg-slate-950 border-slate-800 overflow-hidden relative flex flex-col items-center justify-center border-4">
+          <AppCard className="h-[300px] md:h-[450px] bg-slate-950 border-slate-800 overflow-hidden relative flex flex-col items-center justify-center border-4">
             {/* Grid Tech de fundo */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
             
@@ -90,13 +90,13 @@ export const VirtualLaboratory = () => {
                     <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl animate-pulse" />
                     
                     {specimens.find(s => s.id === selectedSpecimen)?.id === 'cell' && (
-                       <Dna className="h-40 w-40 text-blue-400 animate-[spin_10s_linear_infinite] drop-shadow-[0_0_15px_rgba(96,165,250,0.8)]" />
+                       <Dna className="h-24 w-24 md:h-40 md:h-40 text-blue-400 animate-[spin_10s_linear_infinite] drop-shadow-[0_0_15px_rgba(96,165,250,0.8)]" />
                     )}
                     {specimens.find(s => s.id === selectedSpecimen)?.id === 'planet' && (
-                       <Telescope className="h-40 w-40 text-orange-400 animate-bounce drop-shadow-[0_0_15px_rgba(251,146,60,0.8)]" />
+                       <Telescope className="h-24 w-24 md:h-40 md:h-40 text-orange-400 animate-bounce drop-shadow-[0_0_15px_rgba(251,146,60,0.8)]" />
                     )}
                     {specimens.find(s => s.id === selectedSpecimen)?.id === 'atom' && (
-                       <Zap className="h-40 w-40 text-yellow-400 animate-pulse drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
+                       <Zap className="h-24 w-24 md:h-40 md:h-40 text-yellow-400 animate-pulse drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
                     )}
                   </div>
 
@@ -150,7 +150,7 @@ export const VirtualLaboratory = () => {
       <div className="bg-slate-950 rounded-3xl p-8 border border-white/5 relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-50" />
         <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-          <div className="h-24 w-24 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)] animate-pulse">
+          <div className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)] animate-pulse flex-shrink-0">
             <Crown className="h-12 w-12 text-white" />
           </div>
           <div className="flex-1 text-center md:text-left space-y-2">
