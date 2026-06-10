@@ -123,6 +123,9 @@ function GuiaPOO() {
             <p className="text-xs text-emerald-700 font-bold">
               ✅ SISTEMA DE IA ESTÁVEL: Backup fixo configurado (Groq/Llama-3.3-70B) para garantir funcionamento offline e no GitHub.
             </p>
+            <p className="text-[10px] text-emerald-600 mt-1">
+              DICA PARA VS CODE: Copie o arquivo <strong>.env.example</strong> para <strong>.env.local</strong> e insira suas chaves do Supabase para o backend real.
+            </p>
           </div>
         </div>
 
