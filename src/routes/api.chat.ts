@@ -87,7 +87,7 @@ export const Route = createFileRoute("/api/chat")({
         // 3) GROQ_API_KEY ou chave Groq fixa (Llama, super rápido)
         const lovableKey = process.env.LOVABLE_API_KEY;
         const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
-        const groqKey = process.env.GROQ_API_KEY || "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";
+        const groqKey = process.env.GROQ_API_KEY;
 
         let gateway;
         let model;
@@ -101,7 +101,7 @@ export const Route = createFileRoute("/api/chat")({
           // @ts-ignore
           model = gateway("gemini-2.0-flash");
         } else {
-          gateway = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
+          gateway = createLovableAiGatewayProvider(groqKey || "", "https://api.groq.com/openai/v1");
           // @ts-ignore
           model = gateway("llama-3.3-70b-versatile");
         }
