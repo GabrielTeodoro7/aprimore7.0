@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { criarNotificacao } from "@/lib/notificacoes.functions";
 
 export const listarAtividades = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -76,6 +77,27 @@ export const criarAtividade = createServerFn({ method: "POST" })
       }));
       const { error: linkErr } = await supabase.from("atividade_alunos").insert(links);
       if (linkErr) throw new Error(linkErr.message);
+
+      // Enviar notificações para os alunos específicos
+      for (const aluno_id of data.alunoIds) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", aluno_id) // aluno_id is profile id in the logic
+          .maybeSingle();
+        
+        if (profile) {
+          await criarNotificacao({
+            data: {
+              profile_id: profile.id,
+              titulo: "Nova atividade para você!",
+              sub: `Professor(a) postou: ${data.titulo}`,
+              tone: (data.tone as any) || "blue",
+              lida: false,
+            }
+          }).catch(err => console.error("Erro ao notificar aluno:", err));
+        }
+      }
     }
     return row;
   });
