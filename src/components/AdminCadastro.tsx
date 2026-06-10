@@ -20,6 +20,15 @@ const alunoSchema = z.object({
   email: z.string().email("E-mail inválido"),
   professorId: z.string().min(1, "Selecione um professor"),
   turma: z.string().min(1, "Informe a turma"),
+  diagnostico: z.object({
+    tea: z.boolean().default(false),
+    dcd: z.boolean().default(false),
+    motor: z.boolean().default(false),
+    cognitivo: z.boolean().default(false),
+    visual: z.boolean().default(false),
+    auditivo: z.boolean().default(false),
+    outros: z.string().optional(),
+  }).optional(),
 });
 
 export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defaultRole?: Role; onClose: () => void }) {
@@ -31,7 +40,24 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
 
 
   const profForm = useForm({ resolver: zodResolver(profSchema), defaultValues: { nome: "", email: "", escola: "EMEF Aprimore" } });
-  const alunoForm = useForm({ resolver: zodResolver(alunoSchema), defaultValues: { nome: "", email: "", professorId: professores[0]?.id ?? "", turma: "5º Ano A" } });
+  const alunoForm = useForm({ 
+    resolver: zodResolver(alunoSchema), 
+    defaultValues: { 
+      nome: "", 
+      email: "", 
+      professorId: professores[0]?.id ?? "", 
+      turma: "5º Ano A",
+      diagnostico: {
+        tea: false,
+        dcd: false,
+        motor: false,
+        cognitivo: false,
+        visual: false,
+        auditivo: false,
+        outros: ""
+      }
+    } 
+  });
 
   async function criarProfessor(data: z.infer<typeof profSchema>) {
     const senha = gerarSenhaTemporaria();
@@ -62,7 +88,14 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
     };
     add(novo);
     enviarEmail(templates.boasVindas(novo.nome, novo.email, senha, "aluno"));
-    const res = await criarReal({ data: { email: data.email, senha, nome: data.nome, role: "aluno", turma: data.turma } });
+    const res = await criarReal({ data: { 
+      email: data.email, 
+      senha, 
+      nome: data.nome, 
+      role: "aluno", 
+      turma: data.turma,
+      diagnostico: data.diagnostico
+    } });
     if (!res.ok) toast.error("Conta backend não criada", { description: res.error });
     else toast.success("Aluno criado (login real ativo)");
     onClose();
@@ -126,6 +159,30 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
             <Field label="Turma" id="a-turma" error={alunoForm.formState.errors.turma?.message}>
               <input id="a-turma" {...alunoForm.register("turma")} className="form-input" />
             </Field>
+
+            <div className="space-y-2 rounded-xl border border-border p-3">
+              <label className="text-xs font-bold text-foreground">Diagnóstico / Necessidades Assistivas</label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: "tea", label: "TEA" },
+                  { id: "dcd", label: "DCD / TDC" },
+                  { id: "motor", label: "Motor" },
+                  { id: "cognitivo", label: "Cognitivo" },
+                  { id: "visual", label: "Visual" },
+                  { id: "auditivo", label: "Auditivo" },
+                ].map((d) => (
+                  <label key={d.id} className="flex items-center gap-2 text-xs cursor-pointer hover:text-primary">
+                    <input type="checkbox" {...alunoForm.register(`diagnostico.${d.id}` as any)} className="rounded border-input text-primary focus:ring-primary" />
+                    {d.label}
+                  </label>
+                ))}
+              </div>
+              <input 
+                placeholder="Outras observações..." 
+                {...alunoForm.register("diagnostico.outros")} 
+                className="form-input text-xs" 
+              />
+            </div>
             <button disabled={isDemo} className="w-full rounded-xl bg-primary py-2.5 text-sm font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
               <Plus className="mr-1 inline h-4 w-4" /> Criar aluno
             </button>

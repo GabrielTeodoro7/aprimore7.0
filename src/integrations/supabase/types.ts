@@ -1364,8 +1364,10 @@ export type Database = {
           ano: string | null
           bloqueado_ate: string | null
           cargo: string | null
+          config_a11y: Json | null
           created_at: string
           deletado_em: string | null
+          diagnostico: Json | null
           email: string
           escola: string | null
           escola_id: string | null
@@ -1388,8 +1390,10 @@ export type Database = {
           ano?: string | null
           bloqueado_ate?: string | null
           cargo?: string | null
+          config_a11y?: Json | null
           created_at?: string
           deletado_em?: string | null
+          diagnostico?: Json | null
           email: string
           escola?: string | null
           escola_id?: string | null
@@ -1412,8 +1416,10 @@ export type Database = {
           ano?: string | null
           bloqueado_ate?: string | null
           cargo?: string | null
+          config_a11y?: Json | null
           created_at?: string
           deletado_em?: string | null
+          diagnostico?: Json | null
           email?: string
           escola?: string | null
           escola_id?: string | null
