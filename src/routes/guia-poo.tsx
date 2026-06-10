@@ -115,7 +115,7 @@ export default function GuiaPOO() {
           </p>
           <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 mt-2">
             <p className="text-xs text-emerald-700 font-bold">
-              ✅ SISTEMA DE IA ESTÁVEL: Backup fixo configurado (Llama 3.3 70B via Groq) para garantir funcionamento offline e no GitHub.
+              ✅ SISTEMA DE IA ESTÁVEL: Backup fixo configurado (Groq/Llama-3.3-70B) para garantir funcionamento offline e no GitHub.
             </p>
           </div>
         </div>
