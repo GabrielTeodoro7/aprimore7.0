@@ -12,7 +12,7 @@ export const listarUsuarios = createServerFn({ method: "GET" })
     let q = context.supabase
       .from("profiles")
       .select(
-        "id, user_id, nome, email, role, escola, professor_id, turma, status, ultimo_acesso, created_at",
+        "id, user_id, nome, email, role, escola, professor_id, turma, status, ultimo_acesso, created_at, diagnostico, config_a11y",
       )
       .order("created_at", { ascending: false });
     if (data.role) q = q.eq("role", data.role);
@@ -27,6 +27,8 @@ const updatePerfilSchema = z.object({
   status: z.enum(["ativo", "inativo"]).optional(),
   escola: z.string().max(120).nullable().optional(),
   turma: z.string().max(60).nullable().optional(),
+  diagnostico: z.record(z.any()).optional(),
+  config_a11y: z.record(z.any()).optional(),
 });
 
 export const atualizarUsuario = createServerFn({ method: "POST" })
@@ -77,6 +79,8 @@ const schema = z.object({
   escola: z.string().max(120).optional(),
   turma: z.string().max(60).optional(),
   professorId: z.string().uuid().optional(),
+  diagnostico: z.record(z.any()).optional(),
+  config_a11y: z.record(z.any()).optional(),
 });
 
 /**
@@ -135,6 +139,8 @@ export const criarUsuarioReal = createServerFn({ method: "POST" })
         escola: data.escola ?? null,
         turma: data.turma ?? null,
         professor_id: professorId,
+        diagnostico: data.diagnostico ?? {},
+        config_a11y: data.config_a11y ?? {},
       },
     });
 
