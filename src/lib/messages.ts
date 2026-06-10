@@ -368,12 +368,26 @@ export const showAppMessage = (key: string, type: "success" | "error" | "info" |
   for (const cat in AppMessages) {
     const category = (AppMessages as any)[cat];
     if (category[key]) {
-      const finalType = type === "info" ? 
+      const message = category[key];
+      const toastType = type === "info" ? 
         (cat === "SUCCESS" ? "success" : cat === "ERROR" ? "error" : "info") : 
         type;
-      toast[finalType as keyof typeof toast](category[key]);
+      
+      switch (toastType) {
+        case "success": toast.success(message); break;
+        case "error": toast.error(message); break;
+        case "warning": toast.warning(message); break;
+        default: toast.info(message);
+      }
       return;
     }
   }
-  toast[type as keyof typeof toast](key);
+  
+  switch (type) {
+    case "success": toast.success(key); break;
+    case "error": toast.error(key); break;
+    case "warning": toast.warning(key); break;
+    default: toast.info(key);
+  }
 };
+
