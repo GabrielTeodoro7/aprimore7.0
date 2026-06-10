@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Send, Search, Sparkles, Loader2, Wand2, Plus, MessageSquare, Phone, X, Users } from "lucide-react";
+import { Send, Search, Sparkles, Loader2, Wand2, Plus, MessageSquare, Phone, X, Users, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { rascunhoMensagem } from "@/lib/ai.functions";
 import { DashboardShell } from "@/components/DashboardShell";
@@ -100,7 +100,19 @@ function MensagensPage() {
             <div>
               <div className="text-sm font-semibold text-foreground flex items-center gap-2">
                 {active?.nome}
-                {active?.id?.startsWith("wa:") && <span className="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">WhatsApp</span>}
+                {active?.id?.startsWith("wa:") && (
+                  <div className="flex items-center gap-2">
+                    <span className="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">WhatsApp</span>
+                    <a 
+                      href={`https://wa.me/${(active as any).whatsapp?.replace(/\D/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] font-bold text-green-600 hover:underline"
+                    >
+                      <ExternalLink className="h-3 w-3" /> Abrir no WhatsApp
+                    </a>
+                  </div>
+                )}
               </div>
               <div className="text-xs text-muted-foreground">{active?.papel}</div>
             </div>
