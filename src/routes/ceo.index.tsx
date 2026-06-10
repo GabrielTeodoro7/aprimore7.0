@@ -78,6 +78,43 @@ function CEODashboard() {
         </Card>
       </div>
 
+      <div className="grid gap-6 md:grid-cols-3 mt-6">
+        <Card className="p-6 border-zinc-800 bg-zinc-900/50 flex flex-col items-center text-center group cursor-pointer hover:bg-zinc-800/50 transition-all">
+          <Terminal className="h-10 w-10 text-fuchsia-500 mb-3 group-hover:scale-110 transition-transform" />
+          <h4 className="font-bold text-sm text-zinc-100">Console SQL Direto</h4>
+          <p className="text-[10px] text-zinc-500 mt-1">Executar queries raw no banco de dados.</p>
+        </Card>
+        <Card className="p-6 border-zinc-800 bg-zinc-900/50 flex flex-col items-center text-center group cursor-pointer hover:bg-zinc-800/50 transition-all">
+          <Shield className="h-10 w-10 text-indigo-500 mb-3 group-hover:scale-110 transition-transform" />
+          <h4 className="font-bold text-sm text-zinc-100">Políticas de Segurança</h4>
+          <p className="text-[10px] text-zinc-500 mt-1">Gerenciar RLS e permissões de roles.</p>
+        </Card>
+        <Card className="p-6 border-zinc-800 bg-zinc-900/50 flex flex-col items-center text-center group cursor-pointer hover:bg-zinc-800/50 transition-all">
+          <Zap className="h-10 w-10 text-amber-500 mb-3 group-hover:scale-110 transition-transform" />
+          <h4 className="font-bold text-sm text-zinc-100">Módulos de IA</h4>
+          <p className="text-[10px] text-zinc-500 mt-1">Ajustar temperatura e parâmetros dos modelos.</p>
+        </Card>
+      </div>
+
+      <Card className="p-6 border-zinc-800 bg-zinc-950/80 shadow-xl mt-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+            <Search className="h-5 w-5 text-zinc-500" /> Monitoramento de Sessões Realtime
+          </h3>
+          <Badge className="bg-fuchsia-500/20 text-fuchsia-400 animate-pulse">Live</Badge>
+        </div>
+        <div className="space-y-3">
+          {[1,2,3].map(i => (
+            <div key={i} className="flex items-center gap-4 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
+              <div className="h-2 w-2 rounded-full bg-emerald-500" />
+              <div className="flex-1 text-xs font-mono text-zinc-400">SESSION_ID_{Math.random().toString(36).substr(2, 9).toUpperCase()}</div>
+              <div className="text-[10px] font-bold text-zinc-500">IP: 189.12.{i}.142</div>
+              <Badge variant="outline" className="text-[9px] border-zinc-700 text-zinc-500">USER_AUTH_OK</Badge>
+            </div>
+          ))}
+        </div>
+      </Card>
+
       <Card className="p-6 border-fuchsia-500/20 bg-fuchsia-500/5 shadow-2xl mt-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <KeyRound className="h-24 w-24 text-fuchsia-400" />

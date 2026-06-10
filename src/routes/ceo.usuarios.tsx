@@ -34,7 +34,9 @@ function GestorSupremoCEO() {
     senha: "",
     role: "professor" as any,
     escola: "",
-    turma: ""
+    turma: "",
+    is_demo: false,
+    status: "ativo" as "ativo" | "inativo"
   });
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -45,17 +47,23 @@ function GestorSupremoCEO() {
 
     setLoading(true);
     try {
-      const res = await criarFn({ data: form });
+      const res = await criarFn({ data: {
+        ...form,
+        email: form.email.toLowerCase().trim(),
+        diagnostico: {},
+        config_a11y: {}
+      }});
+      
       if (res.ok) {
-        toast.success("Usuário criado com sucesso!", {
-          description: `Credenciais ativas para ${form.email}`
+        toast.success("Usuário manifestado com sucesso!", {
+          description: `Identidade ${form.email} ativa na rede global.`
         });
-        setForm({ nome: "", email: "", senha: "", role: "professor", escola: "", turma: "" });
+        setForm({ nome: "", email: "", senha: "", role: "professor", escola: "", turma: "", is_demo: false, status: "ativo" });
       } else {
-        toast.error(res.error || "Erro ao criar usuário");
+        toast.error(res.error || "Erro ao manifestar identidade");
       }
     } catch (err) {
-      toast.error("Erro na comunicação com o servidor");
+      toast.error("Falha crítica na rede local");
     } finally {
       setLoading(false);
     }
@@ -269,6 +277,22 @@ function GestorSupremoCEO() {
                   <ShieldAlert className="h-4 w-4" />
                   <span className="text-[10px] font-black uppercase">CEO</span>
                 </button>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900 border border-zinc-800 mb-2">
+                <div className="flex-1">
+                  <div className="text-[10px] font-black text-zinc-500 uppercase">Status Inicial</div>
+                  <div className="flex gap-2 mt-1">
+                    <button type="button" onClick={()=>setForm({...form, status: 'ativo'})} className={`text-[10px] font-bold px-2 py-1 rounded ${form.status === 'ativo' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-zinc-800 text-zinc-500'}`}>Ativo</button>
+                    <button type="button" onClick={()=>setForm({...form, status: 'inativo'})} className={`text-[10px] font-bold px-2 py-1 rounded ${form.status === 'inativo' ? 'bg-rose-500/20 text-rose-400' : 'bg-zinc-800 text-zinc-500'}`}>Inativo</button>
+                  </div>
+                </div>
+                <div className="flex-1 border-l border-zinc-800 pl-3">
+                  <div className="text-[10px] font-black text-zinc-500 uppercase">Modo Demo</div>
+                  <button type="button" onClick={()=>setForm({...form, is_demo: !form.is_demo})} className={`mt-1 text-[10px] font-bold px-2 py-1 rounded ${form.is_demo ? 'bg-fuchsia-500 text-white' : 'bg-zinc-800 text-zinc-500'}`}>
+                    {form.is_demo ? 'Ligado' : 'Desligado'}
+                  </button>
+                </div>
               </div>
 
               <Button 
