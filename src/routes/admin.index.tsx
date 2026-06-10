@@ -11,7 +11,7 @@ import { useUsers } from "@/lib/auth-store";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/admin/")({
   head: () => ({ meta: [{ title: "Admin — Dashboard" }] }),
   component: () => (<RequireRole roles={["admin"]}><AdminDashboard /></RequireRole>),
 });
