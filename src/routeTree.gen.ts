@@ -53,6 +53,7 @@ import { Route as AlunoComunicacaoRouteImport } from './routes/aluno.comunicacao
 import { Route as AlunoAvatarRouteImport } from './routes/aluno.avatar'
 import { Route as AlunoAtividadesRouteImport } from './routes/aluno.atividades'
 import { Route as AlunoAjudanteMaximoRouteImport } from './routes/aluno.ajudante-maximo'
+import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
 import { Route as AdminRipdRouteImport } from './routes/admin.ripd'
 import { Route as AdminProfessoresRouteImport } from './routes/admin.professores'
 import { Route as AdminLogsRouteImport } from './routes/admin.logs'
@@ -279,6 +280,11 @@ const AlunoAjudanteMaximoRoute = AlunoAjudanteMaximoRouteImport.update({
   path: '/aluno/ajudante-maximo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
+  id: '/admin/usuarios',
+  path: '/admin/usuarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRipdRoute = AdminRipdRouteImport.update({
   id: '/admin/ripd',
   path: '/admin/ripd',
@@ -329,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/admin/logs': typeof AdminLogsRoute
   '/admin/professores': typeof AdminProfessoresRoute
   '/admin/ripd': typeof AdminRipdRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/avatar': typeof AlunoAvatarRoute
@@ -380,6 +387,7 @@ export interface FileRoutesByTo {
   '/admin/logs': typeof AdminLogsRoute
   '/admin/professores': typeof AdminProfessoresRoute
   '/admin/ripd': typeof AdminRipdRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/avatar': typeof AlunoAvatarRoute
@@ -432,6 +440,7 @@ export interface FileRoutesById {
   '/admin/logs': typeof AdminLogsRoute
   '/admin/professores': typeof AdminProfessoresRoute
   '/admin/ripd': typeof AdminRipdRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/avatar': typeof AlunoAvatarRoute
@@ -485,6 +494,7 @@ export interface FileRouteTypes {
     | '/admin/logs'
     | '/admin/professores'
     | '/admin/ripd'
+    | '/admin/usuarios'
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/avatar'
@@ -536,6 +546,7 @@ export interface FileRouteTypes {
     | '/admin/logs'
     | '/admin/professores'
     | '/admin/ripd'
+    | '/admin/usuarios'
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/avatar'
@@ -587,6 +598,7 @@ export interface FileRouteTypes {
     | '/admin/logs'
     | '/admin/professores'
     | '/admin/ripd'
+    | '/admin/usuarios'
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/avatar'
@@ -639,6 +651,7 @@ export interface RootRouteChildren {
   AdminLogsRoute: typeof AdminLogsRoute
   AdminProfessoresRoute: typeof AdminProfessoresRoute
   AdminRipdRoute: typeof AdminRipdRoute
+  AdminUsuariosRoute: typeof AdminUsuariosRoute
   AlunoAjudanteMaximoRoute: typeof AlunoAjudanteMaximoRoute
   AlunoAtividadesRoute: typeof AlunoAtividadesRoute
   AlunoAvatarRoute: typeof AlunoAvatarRoute
@@ -971,6 +984,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlunoAjudanteMaximoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/usuarios': {
+      id: '/admin/usuarios'
+      path: '/admin/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AdminUsuariosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/ripd': {
       id: '/admin/ripd'
       path: '/admin/ripd'
@@ -1083,6 +1103,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLogsRoute: AdminLogsRoute,
   AdminProfessoresRoute: AdminProfessoresRoute,
   AdminRipdRoute: AdminRipdRoute,
+  AdminUsuariosRoute: AdminUsuariosRoute,
   AlunoAjudanteMaximoRoute: AlunoAjudanteMaximoRoute,
   AlunoAtividadesRoute: AlunoAtividadesRoute,
   AlunoAvatarRoute: AlunoAvatarRoute,

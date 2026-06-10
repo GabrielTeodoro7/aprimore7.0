@@ -8,6 +8,7 @@ const items = [
   { to: "/admin/professores", label: "Professores", icon: Users },
   { to: "/admin/alunos", label: "Alunos", icon: GraduationCap },
   { to: "/admin/logs", label: "Logs", icon: ScrollText },
+  { to: "/admin/usuarios", label: "Gestor Supremo", icon: ShieldCheck },
   { to: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 
