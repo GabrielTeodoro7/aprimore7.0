@@ -23,8 +23,11 @@ public class POOExplainer {
         // 4. Herança
         System.out.println("4. O " + h1.getHeroName() + " herdou tudo de 'Hero'!");
 
-        // 5. Interface
-        h1.activate(); // Usando método da interface Ability
+        // 5. Interface e 4. Sobrecarga
+        h1.activate(); // Interface
+        System.out.println("5. Habilidade: " + h1.getDescription());
+        System.out.println("4. Sobrecarga: " + h1.attack() + " OU " + h1.attack("Teclado Mecânico"));
+
 
         // 6. Classe Abstrata e 7. Polimorfismo
         // Tratamos todos como 'Hero', mas cada um age do seu jeito!
