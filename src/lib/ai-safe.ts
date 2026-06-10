@@ -108,5 +108,5 @@ export function tryParseJson(raw: string): unknown | null {
  * Mensagem amigável padrão pra quando a IA "trava" no front-end.
  * Os componentes podem importar e exibir ao usuário em qualquer falha.
  */
-export const MSG_IA_AMIGAVEL = "A IA está pensando… 🤔 Tente novamente em alguns segundos.";
-export const MSG_IA_DEMO_FALLBACK = "Desculpe, estou aprendendo… Quer tentar outra pergunta?";
+export const MSG_IA_AMIGAVEL = "A IA está se organizando para te ajudar melhor! 🤔 Tente novamente em alguns segundos.";
+export const MSG_IA_DEMO_FALLBACK = "Estou processando muitas informações no momento! 🚀 Que tal tentar outra pergunta ou aguardar um pouquinho?";
