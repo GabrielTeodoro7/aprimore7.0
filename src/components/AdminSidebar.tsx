@@ -4,11 +4,10 @@ import { useAuth } from "@/lib/auth-store";
 import logoUrl from "@/assets/aprimore-logo.png";
 
 const items = [
-  { to: "/admin", label: "Visão Geral", icon: LayoutDashboard, exact: true },
-  { to: "/admin/professores", label: "Professores", icon: Users },
-  { to: "/admin/alunos", label: "Alunos", icon: GraduationCap },
-  { to: "/guia-poo", label: "Guia POO (Java)", icon: Code2 },
-  { to: "/admin/logs", label: "Logs", icon: ScrollText },
+  { to: "/admin", label: "Minha Unidade", icon: LayoutDashboard, exact: true },
+  { to: "/admin/professores", label: "Docentes", icon: Users },
+  { to: "/admin/alunos", label: "Discentes", icon: GraduationCap },
+  { to: "/admin/logs", label: "Audit Local", icon: ScrollText },
   { to: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 

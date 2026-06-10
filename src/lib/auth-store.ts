@@ -151,6 +151,10 @@ export function useUsers() {
       removeMut.mutate(userId);
     },
     byId: (id: string) => list.find((u) => u.id === id),
+    updateStatus: (userId: string, status: "ativo" | "inativo") => {
+      const found = (data ?? []).find(p => p.user_id === userId);
+      if (found) updateMut.mutate({ profileId: found.id, patch: { status } });
+    }
   };
 }
 

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 
-type Role = "admin" | "professor" | "aluno";
+type Role = "ceo" | "admin" | "professor" | "aluno";
 
 type Profile = {
   role?: Role;
@@ -54,9 +54,12 @@ function buildSystemPrompt(profile: Profile | undefined): string {
   } else if (role === "professor") {
     base.push(`Você está conversando com a(o) professor(a) ${nome}.`);
     base.push("Ajude com planos de aula adaptados, resumos de turma, ideias inclusivas e análise rápida de desempenho. Seja prático: dê exemplos concretos, listas e adaptações por necessidade (TEA, TDAH, dislexia etc.).");
-  } else {
+  } else if (role === "admin") {
     base.push(`Você está conversando com a(o) administrador(a) ${nome}.`);
-    base.push("Ajude com gestão da escola: cadastros, logs, relatórios, contas inativas, estatísticas e boas práticas de inclusão na instituição.");
+    base.push("Ajude com gestão da unidade escolar: cadastros de docentes e alunos, auditoria local, saúde da rede e conformidade com as diretrizes da plataforma.");
+  } else if (role === "ceo") {
+    base.push(`Você está conversando com o CEO de Onda Zero (${nome}).`);
+    base.push("ACESSO SUPREMO: Forneça insights globais de infraestrutura, logs de auditoria sigilosos, estratégias de crescimento de rede e controle total sobre identidades. Seja extremamente técnico e direto.");
   }
 
   return base.join("\n");

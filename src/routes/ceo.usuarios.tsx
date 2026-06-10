@@ -3,7 +3,7 @@ import { useState } from "react";
 import { 
   ShieldCheck, UserPlus, Key, Mail, User, 
   Search, ShieldAlert, CheckCircle2, AlertTriangle,
-  Lock, ArrowRight, Activity, Database
+  Lock, ArrowRight, Activity, Database, Globe, XCircle
 } from "lucide-react";
 import { CEOShell } from "@/components/CEOShell";
 import { RequireRole } from "@/components/RequireRole";
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/ceo/usuarios")({
 });
 
 function GestorSupremoCEO() {
-  const { list } = useUsers();
+  const { list, updateStatus, remove } = useUsers();
   const criarFn = useServerFn(criarUsuarioReal);
   
   const [q, setQ] = useState("");
@@ -129,9 +129,24 @@ function GestorSupremoCEO() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-fuchsia-400">
-                          <Key className="h-4 w-4" />
-                        </Button>
+                        <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-zinc-400 hover:text-fuchsia-400"
+                            onClick={() => updateStatus(u.id, u.status === 'ativo' ? 'inativo' : 'ativo')}
+                          >
+                            <ShieldAlert className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-zinc-400 hover:text-rose-400"
+                            onClick={() => { if(confirm("Excluir conta permanentemente?")) remove(u.id); }}
+                          >
+                            <XCircle className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -146,15 +161,15 @@ function GestorSupremoCEO() {
               <div className="text-2xl font-black text-zinc-100">{list.length}</div>
               <div className="text-[10px] uppercase font-bold text-fuchsia-500 tracking-widest">Contas Totais</div>
             </Card>
-            <Card className="p-4 border-zinc-800 bg-indigo-500/5 flex flex-col gap-2">
-              <Database className="h-5 w-5 text-indigo-500" />
-              <div className="text-2xl font-black text-zinc-100">100%</div>
-              <div className="text-[10px] uppercase font-bold text-indigo-500 tracking-widest">Integridade</div>
+            <Card className="p-4 border-zinc-800 bg-emerald-500/5 flex flex-col gap-2">
+              <Globe className="h-5 w-5 text-emerald-500" />
+              <div className="text-2xl font-black text-zinc-100">12</div>
+              <div className="text-[10px] uppercase font-bold text-emerald-500 tracking-widest">Unidades Ativas</div>
             </Card>
             <Card className="p-4 border-zinc-800 bg-zinc-800/20 flex flex-col gap-2">
               <ShieldAlert className="h-5 w-5 text-zinc-500" />
               <div className="text-2xl font-black text-zinc-100">0</div>
-              <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Falhas</div>
+              <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Falhas Rede</div>
             </Card>
           </div>
         </div>

@@ -120,10 +120,11 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
           {(["professor", "aluno"] as Role[]).map((r) => (
             <button
               key={r}
+              type="button"
               onClick={() => setTab(r)}
               className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold capitalize ${tab === r ? "bg-card shadow text-foreground" : "text-muted-foreground"}`}
             >
-              {r}
+              {r === "professor" ? "Docente" : "Discente"}
             </button>
           ))}
         </div>
@@ -141,7 +142,7 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
             </Field>
             <p className="text-xs text-muted-foreground">O admin define o e-mail @gmail.com e a senha inicial.</p>
             <button disabled={isDemo} className="w-full rounded-xl bg-primary py-2.5 text-sm font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
-              <Plus className="mr-1 inline h-4 w-4" /> Criar professor
+              <Plus className="mr-1 inline h-4 w-4" /> Cadastrar Docente
             </button>
 
           </form>
@@ -186,7 +187,7 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
               />
             </div>
             <button disabled={isDemo} className="w-full rounded-xl bg-primary py-2.5 text-sm font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
-              <Plus className="mr-1 inline h-4 w-4" /> Criar aluno
+              <Plus className="mr-1 inline h-4 w-4" /> Cadastrar Discente
             </button>
 
           </form>

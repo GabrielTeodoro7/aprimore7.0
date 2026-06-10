@@ -1,111 +1,103 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ShieldAlert, Users2, Activity, Brain, Eye, KeyRound } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { 
+  ShieldAlert, Activity, Users2, Brain, 
+  Eye, KeyRound, Globe, Server, Database,
+  TrendingUp, AlertTriangle, ShieldCheck
+} from "lucide-react";
 import { CEOShell } from "@/components/CEOShell";
 import { RequireRole } from "@/components/RequireRole";
-import { useUsers, useLogs } from "@/lib/auth-store";
+import { useUsers } from "@/lib/auth-store";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/ceo/")({
-  // título genérico e sem indexação implícita
-  head: () => ({
-    meta: [
-      { title: "·" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
-  }),
-  component: () => (
-    <RequireRole roles={["ceo"]}>
-      <CEOHome />
-    </RequireRole>
-  ),
+  head: () => ({ meta: [{ title: "Onda Zero — Acesso Clearance" }] }),
+  component: () => (<RequireRole roles={["ceo"]}><CEODashboard /></RequireRole>),
 });
 
-function CEOHome() {
+function CEODashboard() {
   const { list } = useUsers();
-  const { list: logs } = useLogs();
-  const total = list.length;
-  const por = (role: string) => list.filter((u) => u.role === role).length;
 
-  const cards = [
-    { to: "/ceo/usuarios", icon: Users2, title: "Usuários globais", desc: "Todas as escolas, todos os perfis" },
-    { to: "/ceo/auditoria", icon: Activity, title: "Auditoria total", desc: "Trilha de cada ação no sistema" },
-    { to: "/ceo/insights-ia", icon: Brain, title: "Insights de IA", desc: "Análise estratégica gerada por IA" },
-    { to: "/ceo/override", icon: KeyRound, title: "Override de admins", desc: "Sobrescrever decisões de admins" },
-    { to: "/ceo/observar", icon: Eye, title: "Modo observador", desc: "Ver o sistema como qualquer usuário" },
-  ] as const;
+  const stats = [
+    { label: "Usuários na Rede", val: list.length, icon: Users2, color: "text-fuchsia-500", bg: "bg-fuchsia-500/10" },
+    { label: "Unidades Escolares", val: "12", icon: Globe, color: "text-indigo-500", bg: "bg-indigo-500/10" },
+    { label: "Requisições/dia", val: "1.2k", icon: Activity, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { label: "Saúde da Rede", val: "99.9%", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10" },
+  ];
 
   return (
-    <CEOShell title="Onda Zero" subtitle="Camada estratégica · clearance CEO">
-      <div className="rounded-xl border border-fuchsia-500/30 bg-gradient-to-br from-fuchsia-500/10 via-indigo-500/5 to-transparent p-5">
-        <div className="flex items-center gap-3">
-          <ShieldAlert className="h-5 w-5 text-fuchsia-300" />
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-fuchsia-200">
-            Confidencial
-          </h2>
-        </div>
-        <p className="mt-2 max-w-2xl text-sm text-zinc-400">
-          Esta área não está listada em nenhum menu da plataforma. Sua existência
-          é desconhecida para admins, professores e alunos. Toda ação aqui fica
-          registrada na auditoria com selo <code className="text-fuchsia-300">ceo.override</code>.
-        </p>
+    <CEOShell title="Onda Zero" subtitle="Controle central e visão global da infraestrutura">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s, i) => (
+          <Card key={i} className="p-5 border-zinc-800 bg-zinc-900/50 shadow-lg flex items-center gap-4">
+            <div className={`h-12 w-12 rounded-2xl ${s.bg} flex items-center justify-center`}>
+              <s.icon className={`h-6 w-6 ${s.color}`} />
+            </div>
+            <div>
+              <div className="text-2xl font-black text-zinc-100">{s.val}</div>
+              <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">{s.label}</div>
+            </div>
+          </Card>
+        ))}
       </div>
 
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Metric label="Usuários" value={total} />
-        <Metric label="Admins" value={por("admin")} />
-        <Metric label="Professores" value={por("professor")} />
-        <Metric label="Alunos" value={por("aluno")} />
-      </section>
-
-      <section className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-        {cards.map((c) => {
-          const Icon = c.icon;
-          return (
-            <Link
-              key={c.to}
-              to={c.to}
-              className="group rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 transition hover:border-fuchsia-500/40 hover:bg-zinc-900/70"
-            >
-              <Icon className="h-5 w-5 text-fuchsia-300" />
-              <h3 className="mt-3 text-base font-semibold">{c.title}</h3>
-              <p className="mt-1 text-xs text-zinc-400">{c.desc}</p>
-            </Link>
-          );
-        })}
-      </section>
-
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-300">
-          Últimos eventos
-        </h3>
-        {logs.length === 0 ? (
-          <p className="text-sm text-zinc-500">Nenhum evento registrado.</p>
-        ) : (
-          <ul className="divide-y divide-zinc-800">
-            {logs.slice(0, 8).map((l) => (
-              <li key={l.id} className="flex items-center justify-between py-2 text-sm">
-                <div>
-                  <div className="font-semibold text-zinc-100">{l.usuario}</div>
-                  <div className="text-xs text-zinc-500">
-                    [{l.perfil}] {l.acao}
-                  </div>
+      <div className="grid gap-6 lg:grid-cols-2 mt-6">
+        <Card className="p-6 border-zinc-800 bg-zinc-900/50 shadow-xl">
+          <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-zinc-100">
+            <Server className="h-5 w-5 text-fuchsia-500" /> Infraestrutura Crítica
+          </h3>
+          <div className="space-y-4">
+            {[
+              { t: "Clusters Supabase", s: "Operacional", icon: Database },
+              { t: "Gateway de IA", s: "Latência Baixa", icon: Brain },
+              { t: "Node Engine", s: "Estável", icon: Activity },
+            ].map((infra, i) => (
+              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-zinc-800">
+                <div className="flex items-center gap-3 text-sm text-zinc-300">
+                  <infra.icon className="h-4 w-4 text-zinc-500" /> {infra.t}
                 </div>
-                <span className="text-xs text-zinc-500">
-                  {new Date(l.data).toLocaleString("pt-BR")}
-                </span>
-              </li>
+                <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 font-bold">{infra.s}</Badge>
+              </div>
             ))}
-          </ul>
-        )}
-      </section>
-    </CEOShell>
-  );
-}
+          </div>
+        </Card>
 
-function Metric({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-      <div className="text-[10px] uppercase tracking-widest text-zinc-500">{label}</div>
-      <div className="mt-1 text-3xl font-black text-zinc-100">{value}</div>
-    </div>
+        <Card className="p-6 border-zinc-800 bg-zinc-900/50 shadow-xl">
+          <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-zinc-100">
+            <TrendingUp className="h-5 w-5 text-indigo-500" /> Crescimento da Rede
+          </h3>
+          <div className="flex h-40 items-end justify-between gap-2 px-2">
+            {[40, 65, 30, 85, 50, 90, 75].map((h, i) => (
+              <div key={i} className="flex-1 rounded-t-lg bg-gradient-to-t from-indigo-500/20 to-fuchsia-500/40" style={{ height: `${h}%` }} />
+            ))}
+          </div>
+          <div className="mt-4 flex justify-between text-[10px] font-bold text-zinc-500 uppercase tracking-tighter">
+            <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+          </div>
+        </Card>
+      </div>
+
+      <Card className="p-6 border-fuchsia-500/20 bg-fuchsia-500/5 shadow-2xl mt-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-8 opacity-5">
+          <KeyRound className="h-24 w-24 text-fuchsia-400" />
+        </div>
+        <div className="flex items-center gap-3 mb-4">
+          <AlertTriangle className="h-6 w-6 text-fuchsia-400" />
+          <h3 className="text-lg font-black text-fuchsia-100 tracking-tight uppercase">Protocolo de Override Ativo</h3>
+        </div>
+        <p className="text-sm text-fuchsia-200/70 leading-relaxed max-w-2xl">
+          Como CEO de Onda Zero, você possui autoridade suprema sobre o banco de dados e as identidades. 
+          Qualquer alteração feita nesta camada ignora validações de nível admin e é registrada em logs de auditoria sigilosos.
+        </p>
+        <div className="mt-6 flex gap-3">
+          <button className="px-6 py-2.5 rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-xs font-black transition-all shadow-lg shadow-fuchsia-500/20">
+            EXECUTAR OVERRIDE GLOBAL
+          </button>
+          <button className="px-6 py-2.5 rounded-xl border border-zinc-800 text-zinc-400 text-xs font-bold hover:bg-zinc-800 transition-all">
+            CONSULTAR AUDITORIA
+          </button>
+        </div>
+      </Card>
+    </CEOShell>
   );
 }

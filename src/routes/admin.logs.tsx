@@ -23,7 +23,9 @@ function Page() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {list.map((l) => (
+            {list
+              .filter(l => l.perfil !== "ceo") // Admin não vê logs do CEO
+              .map((l) => (
               <tr key={l.id}>
                 <td className="px-4 py-3 text-muted-foreground">{new Date(l.data).toLocaleString("pt-BR")}</td>
                 <td className="px-4 py-3"><span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold capitalize">{l.perfil}</span></td>
@@ -31,7 +33,7 @@ function Page() {
                 <td className="px-4 py-3 text-muted-foreground">{l.acao}</td>
               </tr>
             ))}
-            {list.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-sm text-muted-foreground">Nenhum log ainda.</td></tr>}
+            {list.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-sm text-muted-foreground">Nenhum log disponível.</td></tr>}
           </tbody>
         </table>
       </div>
