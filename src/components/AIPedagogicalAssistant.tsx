@@ -3,7 +3,7 @@ import { AppCard, AppCardContent } from '@/design-system/AppCard';
 import { AppButton } from '@/design-system/AppButton';
 import { Bot, Sparkles, MessageSquare, Brain, Lightbulb, X, Wand2 } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast-hook";
 
 export const AIPedagogicalAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
