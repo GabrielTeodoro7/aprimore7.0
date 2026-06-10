@@ -113,6 +113,11 @@ export default function GuiaPOO() {
           <p className="text-muted-foreground">
             Aprenda os segredos do nosso Backend como se fosse uma história de Super-Heróis! 🦸‍♂️💻
           </p>
+          <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 mt-2">
+            <p className="text-xs text-emerald-700 font-bold">
+              ✅ SISTEMA DE IA ESTÁVEL: Backup fixo configurado (Llama 3.3 70B via Groq) para garantir funcionamento offline e no GitHub.
+            </p>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
