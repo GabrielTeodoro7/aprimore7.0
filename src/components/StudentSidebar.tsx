@@ -1,0 +1,50 @@
+import { Link, useLocation } from "@tanstack/react-router";
+import { Home, Calendar, MessageCircle, Puzzle, Star, Heart, Sparkles, MessagesSquare, LogOut } from "lucide-react";
+import logoUrl from "@/assets/aprimore-logo.png";
+
+const items = [
+  { to: "/aluno", label: "Início", icon: Home, exact: true },
+  { to: "/aluno/tutor", label: "Tutor IA", icon: MessagesSquare },
+  { to: "/aluno/ia", label: "Central de IA", icon: Sparkles },
+  { to: "/aluno/rotina", label: "Minha Rotina", icon: Calendar },
+  { to: "/aluno/comunicacao", label: "Comunicação", icon: MessageCircle },
+  { to: "/aluno/atividades", label: "Atividades", icon: Puzzle },
+  { to: "/aluno/conquistas", label: "Minhas Conquistas", icon: Star },
+  { to: "/aluno/sentimentos", label: "Como estou me sentindo?", icon: Heart },
+];
+
+export function StudentSidebar() {
+  const { pathname } = useLocation();
+  return (
+    <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-card">
+      <Link to="/aluno" className="flex flex-col items-center gap-2 px-6 py-6">
+        <img src={logoUrl} alt="Aprimore Educação" className="h-20 w-20 object-contain" />
+      </Link>
+      <nav className="flex-1 space-y-1 px-3">
+        {items.map(({ to, label, icon: Icon, exact }) => {
+          const active = exact ? pathname === to : pathname === to || pathname.startsWith(to + "/");
+          return (
+            <Link
+              key={to}
+              to={to}
+              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                active
+                  ? "bg-primary text-primary-foreground shadow"
+                  : "text-foreground hover:bg-accent"
+              }`}
+            >
+              <Icon className="h-5 w-5 shrink-0" />
+              <span className="leading-tight">{label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+      <Link
+        to="/entrar"
+        className="m-4 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-accent"
+      >
+        <LogOut className="h-5 w-5" /> Sair
+      </Link>
+    </aside>
+  );
+}
