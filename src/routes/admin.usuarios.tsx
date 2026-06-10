@@ -18,8 +18,13 @@ import { Badge } from "@/components/ui/badge";
 import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/admin/usuarios")({
-  head: () => ({ meta: [{ title: "Gestor Supremo — Aprimore" }] }),
-  component: () => (<RequireRole roles={["admin"]}><GestorSupremo /></RequireRole>),
+  head: () => ({ meta: [{ title: "Acesso Negado — Aprimore" }] }),
+  component: () => (
+    <div className="flex h-screen flex-col items-center justify-center bg-background p-4 text-center">
+      <h1 className="text-2xl font-bold">Acesso restrito ao CEO</h1>
+      <p className="mt-2 text-muted-foreground">Esta funcionalidade foi movida para o painel de Onda Zero.</p>
+    </div>
+  ),
 });
 
 function GestorSupremo() {

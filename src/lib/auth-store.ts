@@ -266,7 +266,7 @@ export function useAuth() {
     /** Tenta entrar com contas demo (se existirem no backend). */
     loginAs: async (role: Role): Promise<AuthUser> => {
       const demo: Record<Role, { email: string; senha: string }> = {
-        ceo: { email: "ceo.confidencial@aprimore.internal", senha: "" }, // sem demo público
+        ceo: { email: "aprimoreeducation@gmail.com", senha: "Onda#CEO-2826!Aprimore" },
         admin: { email: "admin@escola.com", senha: "admin123" },
         professor: { email: "ana@escola.com", senha: "ana123" },
         aluno: { email: "joao@escola.com", senha: "joao123" },
