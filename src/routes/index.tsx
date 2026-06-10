@@ -19,9 +19,12 @@ import {
   Bell,
   History,
   TrendingUp,
-  Award
+  Award,
+  FileText
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { SmartReportsModule } from "@/components/SmartReportsModule";
+
 
 
 
@@ -84,12 +87,14 @@ function Index() {
 
       <main className="container px-4 py-8 md:px-6 md:py-12">
         <Tabs defaultValue="dashboard" className="w-full space-y-8">
-          <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
+          <TabsList className="grid w-full grid-cols-3 md:w-[600px]">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="reports">Relatórios</TabsTrigger>
             <TabsTrigger value="accessibility" className="gap-2">
               <span className="text-base">♿</span> Acessibilidade
             </TabsTrigger>
           </TabsList>
+
 
           <TabsContent value="dashboard" className="space-y-12">
             {/* Seção Hero / Boas-vindas */}
@@ -221,7 +226,12 @@ function Index() {
 
           </TabsContent>
 
+          <TabsContent value="reports">
+            <SmartReportsModule />
+          </TabsContent>
+
           <TabsContent value="accessibility">
+
             <AccessibilitySettings />
           </TabsContent>
         </Tabs>
