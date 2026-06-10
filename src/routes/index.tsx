@@ -187,7 +187,7 @@ function Landing() {
       {/* PLANOS */}
       <section id="planos" className="mx-auto max-w-5xl px-4 py-20">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-extrabold md:text-4xl">Comece de graça. Cresça quando quiser.</h2>
+          <h2 className="text-3xl font-extrabold md:text-4xl">Planos para o futuro</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           {plans.map((p) => (
@@ -353,7 +353,7 @@ const testimonials = [
 ];
 
 const plans = [
-  { nome: "Família", tagline: "Para um aluno em casa", preco: "Grátis", periodo: "", itens: ["Tutor IA com 30 mensagens/mês", "Plano de estudos personalizado", "Acesso aluno + responsável"], cta: "Começar grátis", destaque: false },
-  { nome: "Escola Pro", tagline: "Para professores e turmas", preco: "R$ 39", periodo: "/aluno/mês", itens: ["Tutor IA ilimitado", "Painel professor + turma", "Quiz e plano adaptativos", "Análise + relatórios PDF"], cta: "Falar com vendas", destaque: true },
-  { nome: "Rede de ensino", tagline: "Multi-escolas, integrações", preco: "Sob consulta", periodo: "", itens: ["Tudo do Pro", "SSO e API", "Dashboard de rede", "Onboarding dedicado"], cta: "Solicitar proposta", destaque: false },
+  { nome: "Família", tagline: "Para um aluno em casa", preco: "Grátis", periodo: "(Beta)", itens: ["Tutor IA com 30 mensagens/mês", "Plano de estudos personalizado", "Acesso aluno + responsável"], cta: "Acessar Beta", destaque: false },
+  { nome: "Escola Pro", tagline: "Para professores e turmas", preco: "Futuro", periodo: "", itens: ["Tutor IA ilimitado", "Painel professor + turma", "Quiz e plano adaptativos", "Análise + relatórios PDF"], cta: "Lista de espera", destaque: true },
+  { nome: "Rede de ensino", tagline: "Multi-escolas, integrações", preco: "Futuro", periodo: "", itens: ["Tudo do Pro", "SSO e API", "Dashboard de rede", "Onboarding dedicado"], cta: "Lista de espera", destaque: false },
 ];
