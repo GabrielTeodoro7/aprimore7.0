@@ -50,6 +50,7 @@ import { Route as AlunoIaRouteImport } from './routes/aluno.ia'
 import { Route as AlunoConquistasRouteImport } from './routes/aluno.conquistas'
 import { Route as AlunoComunicacaoRouteImport } from './routes/aluno.comunicacao'
 import { Route as AlunoAtividadesRouteImport } from './routes/aluno.atividades'
+import { Route as AlunoAjudanteMaximoRouteImport } from './routes/aluno.ajudante-maximo'
 import { Route as AdminRipdRouteImport } from './routes/admin.ripd'
 import { Route as AdminProfessoresRouteImport } from './routes/admin.professores'
 import { Route as AdminLogsRouteImport } from './routes/admin.logs'
@@ -261,6 +262,11 @@ const AlunoAtividadesRoute = AlunoAtividadesRouteImport.update({
   path: '/aluno/atividades',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlunoAjudanteMaximoRoute = AlunoAjudanteMaximoRouteImport.update({
+  id: '/aluno/ajudante-maximo',
+  path: '/aluno/ajudante-maximo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRipdRoute = AdminRipdRouteImport.update({
   id: '/admin/ripd',
   path: '/admin/ripd',
@@ -311,6 +317,7 @@ export interface FileRoutesByFullPath {
   '/admin/logs': typeof AdminLogsRoute
   '/admin/professores': typeof AdminProfessoresRoute
   '/admin/ripd': typeof AdminRipdRoute
+  '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
@@ -359,6 +366,7 @@ export interface FileRoutesByTo {
   '/admin/logs': typeof AdminLogsRoute
   '/admin/professores': typeof AdminProfessoresRoute
   '/admin/ripd': typeof AdminRipdRoute
+  '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
@@ -408,6 +416,7 @@ export interface FileRoutesById {
   '/admin/logs': typeof AdminLogsRoute
   '/admin/professores': typeof AdminProfessoresRoute
   '/admin/ripd': typeof AdminRipdRoute
+  '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
@@ -458,6 +467,7 @@ export interface FileRouteTypes {
     | '/admin/logs'
     | '/admin/professores'
     | '/admin/ripd'
+    | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
@@ -506,6 +516,7 @@ export interface FileRouteTypes {
     | '/admin/logs'
     | '/admin/professores'
     | '/admin/ripd'
+    | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
@@ -554,6 +565,7 @@ export interface FileRouteTypes {
     | '/admin/logs'
     | '/admin/professores'
     | '/admin/ripd'
+    | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
@@ -603,6 +615,7 @@ export interface RootRouteChildren {
   AdminLogsRoute: typeof AdminLogsRoute
   AdminProfessoresRoute: typeof AdminProfessoresRoute
   AdminRipdRoute: typeof AdminRipdRoute
+  AlunoAjudanteMaximoRoute: typeof AlunoAjudanteMaximoRoute
   AlunoAtividadesRoute: typeof AlunoAtividadesRoute
   AlunoComunicacaoRoute: typeof AlunoComunicacaoRoute
   AlunoConquistasRoute: typeof AlunoConquistasRoute
@@ -911,6 +924,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlunoAtividadesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aluno/ajudante-maximo': {
+      id: '/aluno/ajudante-maximo'
+      path: '/aluno/ajudante-maximo'
+      fullPath: '/aluno/ajudante-maximo'
+      preLoaderRoute: typeof AlunoAjudanteMaximoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/ripd': {
       id: '/admin/ripd'
       path: '/admin/ripd'
@@ -1023,6 +1043,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLogsRoute: AdminLogsRoute,
   AdminProfessoresRoute: AdminProfessoresRoute,
   AdminRipdRoute: AdminRipdRoute,
+  AlunoAjudanteMaximoRoute: AlunoAjudanteMaximoRoute,
   AlunoAtividadesRoute: AlunoAtividadesRoute,
   AlunoComunicacaoRoute: AlunoComunicacaoRoute,
   AlunoConquistasRoute: AlunoConquistasRoute,
@@ -1044,3 +1065,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
