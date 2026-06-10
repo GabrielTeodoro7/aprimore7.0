@@ -115,8 +115,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { CommandPalette } from "@/components/CommandPalette";
+import { AIPedagogicalAssistant } from "@/components/AIPedagogicalAssistant";
+import { OfflineStatusIndicator } from "@/components/OfflineStatusIndicator";
 
 function RootComponent() {
+
 
   const { queryClient } = Route.useRouteContext();
 
