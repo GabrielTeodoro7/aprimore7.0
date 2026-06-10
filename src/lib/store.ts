@@ -11,6 +11,11 @@
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  listarContatosExternos,
+  criarContatoExterno,
+  removerContatoExterno,
+} from "@/lib/contatos.functions";
+import {
   listarAlunos,
   criarAluno,
   atualizarAluno,
@@ -110,6 +115,16 @@ export type Conversa = {
   papel: string;
   tone: Tone;
   mensagens: Mensagem[];
+  whatsapp?: string;
+};
+
+export type ContatoExterno = {
+  id: string;
+  nome: string;
+  whatsapp: string;
+  parentesco?: string;
+  alunoId?: string;
+  tone: Tone;
 };
 
 /* =========================================================
@@ -129,6 +144,7 @@ export const QK = {
       { turmaId: turmaId ?? null, comProfileId: comProfileId ?? null },
     ] as const,
   turmas: () => ["turmas"] as const,
+  contatos: () => ["contatos"] as const,
 };
 
 /* =========================================================
@@ -422,6 +438,42 @@ export function useFrequencia(date: string, turmaId?: string) {
 }
 
 /* =========================================================
+ * useContatosExternos
+ * ========================================================= */
+export function useContatosExternos() {
+  const qc = useQueryClient();
+  const { data = [] } = useQuery({
+    queryKey: QK.contatos(),
+    queryFn: () => listarContatosExternos(),
+  });
+
+  const list: ContatoExterno[] = useMemo(() => data.map(r => ({
+    id: r.id,
+    nome: r.nome,
+    whatsapp: r.whatsapp,
+    parentesco: r.parentesco ?? undefined,
+    alunoId: r.aluno_id ?? undefined,
+    tone: toneFromId(r.id),
+  })), [data]);
+
+  const addMut = useMutation({
+    mutationFn: (c: Omit<ContatoExterno, "id" | "tone">) => criarContatoExterno({ data: { ...c } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: QK.contatos() }),
+  });
+
+  const rmMut = useMutation({
+    mutationFn: (id: string) => removerContatoExterno({ data: { id } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: QK.contatos() }),
+  });
+
+  return {
+    list,
+    add: (c: Omit<ContatoExterno, "id" | "tone">) => addMut.mutateAsync(c),
+    remove: (id: string) => rmMut.mutateAsync(id),
+  };
+}
+
+/* =========================================================
  * useAvaliacoes
  * ========================================================= */
 export function useAvaliacoes(turmaId?: string) {
@@ -525,7 +577,15 @@ export function useConversas(meuProfileId?: string) {
   const sendMut = useMutation({
     mutationFn: (vars: { destinatarioId?: string; turmaId?: string; texto: string }) =>
       enviarMensagem({ data: vars }),
-    onSuccess: invalidate,
+    onSuccess: (data, vars) => {
+      invalidate();
+      // Se tiver whatsapp e for DM, tenta abrir
+      const conv = list.find(c => c.id === `dm:${[vars.destinatarioId].filter(Boolean).join("")}`);
+      if (conv?.whatsapp) {
+        const tel = conv.whatsapp.replace(/\D/g, "");
+        window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(vars.texto)}`, "_blank");
+      }
+    },
   });
   const lidaMut = useMutation({
     mutationFn: (id: string) => marcarLida({ data: { id } }),
@@ -538,6 +598,15 @@ export function useConversas(meuProfileId?: string) {
     send: async (convId: string, text: string) => {
       const conv = list.find((c) => c.id === convId);
       if (!conv) return;
+      
+      // WhatsApp direto se for contato externo
+      if (convId.startsWith("wa:")) {
+        const tel = convId.slice(3).replace(/\D/g, "");
+        window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(text)}`, "_blank");
+        // Salva localmente como "meu" registro? Para agora apenas abre o WA.
+        return;
+      }
+
       if (convId.startsWith("turma:")) {
         await sendMut.mutateAsync({
           turmaId: convId.slice(6),
