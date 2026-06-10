@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppButton } from "@/design-system/AppButton";
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle, AppCardDescription } from "@/design-system/AppCard";
 import { AppInput } from "@/design-system/AppInput";
@@ -30,8 +30,8 @@ function Index() {
             <span className="text-xl font-bold tracking-tight">Aprimore</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#" className="text-sm font-medium hover:text-primary transition-colors">Dashboard</a>
-            <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Alunos</a>
+            <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">Dashboard</Link>
+            <Link to="/alunos" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Alunos</Link>
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Turmas</a>
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Relatórios</a>
             <div className="h-4 w-px bg-border" />
@@ -39,6 +39,7 @@ function Index() {
               <span className="text-lg">♿</span> Acessibilidade
             </button>
           </nav>
+
 
           <div className="flex items-center gap-2">
             <AppButton variant="outline" size="sm" className="hidden sm:flex">Suporte</AppButton>
@@ -66,8 +67,11 @@ function Index() {
                 </div>
                 <div className="flex items-center gap-3">
                   <AppButton variant="outline" className="flex-1 sm:flex-none">Ver Agenda</AppButton>
-                  <AppButton className="flex-1 sm:flex-none">Novo Cadastro</AppButton>
+                  <Link to="/alunos">
+                    <AppButton className="flex-1 sm:flex-none">Novo Cadastro</AppButton>
+                  </Link>
                 </div>
+
               </div>
             </section>
 
