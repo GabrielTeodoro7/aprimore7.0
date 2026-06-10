@@ -29,7 +29,7 @@ function clientFingerprint() {
 }
 
 function LoginPage() {
-  const { login, loginAs, loginGoogle, signup, resetPassword } = useAuth();
+  const { login, loginGoogle, signup, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [remember, setRemember] = useState(true);
@@ -97,11 +97,18 @@ function LoginPage() {
   async function demo(role: Role) {
     setLoading(true);
     try {
-      const u = await loginAs(role);
-      toast.success(`Entrando como ${u.nome} (demonstração)`);
+      const demoAccounts: Record<Role, { email: string; senha: string }> = {
+        ceo: { email: "aprimoreeducation@gmail.com", senha: "Onda#CEO-2826!Aprimore" },
+        admin: { email: "admin@escola.com", senha: "admin123" },
+        professor: { email: "ana@escola.com", senha: "ana123" },
+        aluno: { email: "joao@escola.com", senha: "joao123" },
+      };
+      const d = demoAccounts[role];
+      const u = await login(d.email, d.senha);
+      toast.success(`Bem-vindo(a), ${u.nome}!`);
       navigate({ to: homeForRole(u.role) });
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Erro");
+      toast.error(e instanceof Error ? e.message : "Erro ao entrar");
     } finally {
       setLoading(false);
     }

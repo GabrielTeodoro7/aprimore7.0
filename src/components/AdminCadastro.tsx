@@ -60,7 +60,9 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
   });
 
   async function criarProfessor(data: z.infer<typeof profSchema>) {
-    const senha = gerarSenhaTemporaria();
+    const senha = prompt("Defina uma senha inicial (mín. 6 caracteres):");
+    if (!senha || senha.length < 6) return toast.error("Senha inválida ou muito curta");
+    
     const novo: AuthUser = {
       id: "prof-" + Date.now(),
       role: "professor",
@@ -70,14 +72,15 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
       ...data,
     };
     add(novo);
-    enviarEmail(templates.boasVindas(novo.nome, novo.email, senha, "professor"));
     const res = await criarReal({ data: { email: data.email, senha, nome: data.nome, role: "professor", escola: data.escola } });
     if (!res.ok) toast.error("Conta backend não criada", { description: res.error });
-    else toast.success("Professor criado (login real ativo)");
+    else toast.success("Professor criado com a senha definida");
     onClose();
   }
   async function criarAluno(data: z.infer<typeof alunoSchema>) {
-    const senha = gerarSenhaTemporaria();
+    const senha = prompt("Defina uma senha para o aluno (mín. 6 caracteres):");
+    if (!senha || senha.length < 6) return toast.error("Senha inválida ou muito curta");
+
     const novo: AuthUser = {
       id: "aluno-" + Date.now(),
       role: "aluno",
@@ -87,7 +90,6 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
       ...data,
     };
     add(novo);
-    enviarEmail(templates.boasVindas(novo.nome, novo.email, senha, "aluno"));
     const res = await criarReal({ data: { 
       email: data.email, 
       senha, 
@@ -97,7 +99,7 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
       diagnostico: data.diagnostico
     } });
     if (!res.ok) toast.error("Conta backend não criada", { description: res.error });
-    else toast.success("Aluno criado (login real ativo)");
+    else toast.success("Aluno criado com a senha definida");
     onClose();
   }
 
@@ -131,13 +133,13 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
             <Field label="Nome completo" id="p-nome" error={profForm.formState.errors.nome?.message}>
               <input id="p-nome" {...profForm.register("nome")} className="form-input" />
             </Field>
-            <Field label="E-mail institucional" id="p-email" error={profForm.formState.errors.email?.message}>
-              <input id="p-email" type="email" {...profForm.register("email")} className="form-input" />
+            <Field label="E-mail @gmail.com" id="p-email" error={profForm.formState.errors.email?.message}>
+              <input id="p-email" type="email" placeholder="exemplo@gmail.com" {...profForm.register("email")} className="form-input" />
             </Field>
             <Field label="Escola" id="p-escola" error={profForm.formState.errors.escola?.message}>
               <input id="p-escola" {...profForm.register("escola")} className="form-input" />
             </Field>
-            <p className="text-xs text-muted-foreground">Uma senha temporária será gerada e enviada por e-mail.</p>
+            <p className="text-xs text-muted-foreground">O admin define o e-mail @gmail.com e a senha inicial.</p>
             <button disabled={isDemo} className="w-full rounded-xl bg-primary py-2.5 text-sm font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
               <Plus className="mr-1 inline h-4 w-4" /> Criar professor
             </button>
@@ -148,8 +150,8 @@ export function NovoCadastroModal({ defaultRole = "professor", onClose }: { defa
             <Field label="Nome do aluno" id="a-nome" error={alunoForm.formState.errors.nome?.message}>
               <input id="a-nome" {...alunoForm.register("nome")} className="form-input" />
             </Field>
-            <Field label="E-mail" id="a-email" error={alunoForm.formState.errors.email?.message}>
-              <input id="a-email" type="email" {...alunoForm.register("email")} className="form-input" />
+            <Field label="E-mail @gmail.com" id="a-email" error={alunoForm.formState.errors.email?.message}>
+              <input id="a-email" type="email" placeholder="exemplo@gmail.com" {...alunoForm.register("email")} className="form-input" />
             </Field>
             <Field label="Professor responsável" id="a-prof" error={alunoForm.formState.errors.professorId?.message}>
               <select id="a-prof" {...alunoForm.register("professorId")} className="form-input">
