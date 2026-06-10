@@ -3,7 +3,7 @@ import { useState } from "react";
 import { 
   ShieldCheck, UserPlus, Key, Mail, User, 
   Search, ShieldAlert, CheckCircle2, AlertTriangle,
-  Lock, ArrowRight, Activity, Database, Globe
+  Lock, ArrowRight, Activity, Database, Globe, XCircle
 } from "lucide-react";
 import { CEOShell } from "@/components/CEOShell";
 import { RequireRole } from "@/components/RequireRole";
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/ceo/usuarios")({
 });
 
 function GestorSupremoCEO() {
-  const { list } = useUsers();
+  const { list, updateStatus, remove } = useUsers();
   const criarFn = useServerFn(criarUsuarioReal);
   
   const [q, setQ] = useState("");
@@ -129,9 +129,24 @@ function GestorSupremoCEO() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-fuchsia-400">
-                          <Key className="h-4 w-4" />
-                        </Button>
+                        <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-zinc-400 hover:text-fuchsia-400"
+                            onClick={() => updateStatus(u.id, u.status === 'ativo' ? 'inativo' : 'ativo')}
+                          >
+                            <ShieldAlert className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-zinc-400 hover:text-rose-400"
+                            onClick={() => { if(confirm("Excluir conta permanentemente?")) remove(u.id); }}
+                          >
+                            <XCircle className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
