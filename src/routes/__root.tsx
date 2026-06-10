@@ -114,16 +114,20 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
+import { CommandPalette } from "@/components/CommandPalette";
 
 function RootComponent() {
+
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
       <AccessibilityProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <CommandPalette />
         <Outlet />
       </AccessibilityProvider>
+
     </QueryClientProvider>
   );
 }
