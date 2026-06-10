@@ -171,6 +171,14 @@ export default function GuiaPOO() {
                 <div className="h-2 w-2 rounded-full bg-yellow-500" />
                 tutorial/ - Para aprender POO
               </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-teal-500" />
+                core/ - JDBC, IO, Threads
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-orange-500" />
+                exceptions/ - Gestão de erros
+              </div>
             </div>
           </CardContent>
         </Card>
