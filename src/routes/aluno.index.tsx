@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, MessageCircle, Star, Puzzle, Heart, ShoppingBag, Trophy, Sparkles, Gamepad2, BookOpen, Accessibility, Info } from "lucide-react";
 import { StudentShell } from "@/components/StudentShell";
-import { useAlunoPerfil, useRotina, useMedalhas } from "@/lib/student-store";
+import { useAlunoPerfil, useRotina, useMedalhas, useMeuAluno } from "@/lib/student-store";
 import { useActivities } from "@/lib/store";
 import { Progress } from "@/components/ui/progress";
 
