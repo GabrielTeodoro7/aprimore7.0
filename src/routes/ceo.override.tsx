@@ -39,6 +39,8 @@ function Page() {
         <ActionCard title="Trocar admin de uma escola" desc="Substitui o admin titular sem aviso prévio." onClick={() => fire("trocar admin")} />
         <ActionCard title="Kill-switch de escola" desc="Pausa imediatamente todos os acessos de uma escola." onClick={() => fire("kill-switch escola")} />
         <ActionCard title="Revogar sessão de usuário" desc="Encerra todas as sessões ativas de um usuário." onClick={() => fire("revogar sessão")} />
+        <ActionCard title="Purgar Auditoria Local" desc="Remove logs de uma unidade específica da visão do admin." onClick={() => fire("purgar logs unidade")} />
+        <ActionCard title="Injetar Créditos de IA" desc="Aumenta o limite de uso de IA para uma conta docente." onClick={() => fire("injetar créditos")} />
       </section>
 
       <p className="text-xs text-zinc-500">
