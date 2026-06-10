@@ -491,6 +491,42 @@ export type Database = {
           },
         ]
       }
+      conquistas_aluno: {
+        Row: {
+          aluno_id: string | null
+          data_conquista: string | null
+          id: string
+          selo_id: string | null
+        }
+        Insert: {
+          aluno_id?: string | null
+          data_conquista?: string | null
+          id?: string
+          selo_id?: string | null
+        }
+        Update: {
+          aluno_id?: string | null
+          data_conquista?: string | null
+          id?: string
+          selo_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conquistas_aluno_aluno_id_fkey"
+            columns: ["aluno_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conquistas_aluno_selo_id_fkey"
+            columns: ["selo_id"]
+            isOneToOne: false
+            referencedRelation: "selos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       consentimentos: {
         Row: {
           concedido: boolean
@@ -527,6 +563,42 @@ export type Database = {
           revogado_em?: string | null
           updated_at?: string
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      denuncias_mensagem: {
+        Row: {
+          data_denuncia: string | null
+          data_resolucao: string | null
+          denunciante_id: string | null
+          detalhes: string | null
+          id: string
+          mensagem_id: string
+          moderador_id: string | null
+          motivo: string
+          status: string | null
+        }
+        Insert: {
+          data_denuncia?: string | null
+          data_resolucao?: string | null
+          denunciante_id?: string | null
+          detalhes?: string | null
+          id?: string
+          mensagem_id: string
+          moderador_id?: string | null
+          motivo: string
+          status?: string | null
+        }
+        Update: {
+          data_denuncia?: string | null
+          data_resolucao?: string | null
+          denunciante_id?: string | null
+          detalhes?: string | null
+          id?: string
+          mensagem_id?: string
+          moderador_id?: string | null
+          motivo?: string
+          status?: string | null
         }
         Relationships: []
       }
@@ -584,6 +656,57 @@ export type Database = {
           dominio?: string
           id?: string
           obrigatorio?: boolean
+        }
+        Relationships: []
+      }
+      escolas: {
+        Row: {
+          ativo: boolean | null
+          cnpj: string | null
+          config_json: Json | null
+          created_at: string | null
+          id: string
+          nome: string
+          slug: string
+        }
+        Insert: {
+          ativo?: boolean | null
+          cnpj?: string | null
+          config_json?: Json | null
+          created_at?: string | null
+          id?: string
+          nome: string
+          slug: string
+        }
+        Update: {
+          ativo?: boolean | null
+          cnpj?: string | null
+          config_json?: Json | null
+          created_at?: string | null
+          id?: string
+          nome?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      feriados: {
+        Row: {
+          data: string
+          id: string
+          nome: string
+          tipo: string | null
+        }
+        Insert: {
+          data: string
+          id?: string
+          nome: string
+          tipo?: string | null
+        }
+        Update: {
+          data?: string
+          id?: string
+          nome?: string
+          tipo?: string | null
         }
         Relationships: []
       }
@@ -669,6 +792,27 @@ export type Database = {
           status?: string
           storage_path?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      limites_plano: {
+        Row: {
+          id: string
+          limite_max: number
+          recurso: string
+          uso_atual: number | null
+        }
+        Insert: {
+          id?: string
+          limite_max: number
+          recurso: string
+          uso_atual?: number | null
+        }
+        Update: {
+          id?: string
+          limite_max?: number
+          recurso?: string
+          uso_atual?: number | null
         }
         Relationships: []
       }
@@ -843,6 +987,66 @@ export type Database = {
         }
         Relationships: []
       }
+      pranchas_comunicacao: {
+        Row: {
+          created_at: string | null
+          favorita: boolean | null
+          id: string
+          layout_json: Json
+          titulo: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          favorita?: boolean | null
+          id?: string
+          layout_json?: Json
+          titulo: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          favorita?: boolean | null
+          id?: string
+          layout_json?: Json
+          titulo?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      preferencias_acessibilidade: {
+        Row: {
+          alto_contraste: boolean | null
+          atalhos_teclado: boolean | null
+          daltonismo_tipo: string | null
+          fonte_ampliada: boolean | null
+          leitura_tela: boolean | null
+          ultima_sincronizacao: string | null
+          user_id: string
+        }
+        Insert: {
+          alto_contraste?: boolean | null
+          atalhos_teclado?: boolean | null
+          daltonismo_tipo?: string | null
+          fonte_ampliada?: boolean | null
+          leitura_tela?: boolean | null
+          ultima_sincronizacao?: string | null
+          user_id: string
+        }
+        Update: {
+          alto_contraste?: boolean | null
+          atalhos_teclado?: boolean | null
+          daltonismo_tipo?: string | null
+          fonte_ampliada?: boolean | null
+          leitura_tela?: boolean | null
+          ultima_sincronizacao?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           ano: string | null
@@ -852,6 +1056,7 @@ export type Database = {
           deletado_em: string | null
           email: string
           escola: string | null
+          escola_id: string | null
           exige_troca: boolean
           id: string
           is_demo: boolean
@@ -875,6 +1080,7 @@ export type Database = {
           deletado_em?: string | null
           email: string
           escola?: string | null
+          escola_id?: string | null
           exige_troca?: boolean
           id?: string
           is_demo?: boolean
@@ -898,6 +1104,7 @@ export type Database = {
           deletado_em?: string | null
           email?: string
           escola?: string | null
+          escola_id?: string | null
           exige_troca?: boolean
           id?: string
           is_demo?: boolean
@@ -914,6 +1121,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: false
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_professor_id_fkey"
             columns: ["professor_id"]
@@ -1053,6 +1267,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      selos: {
+        Row: {
+          categoria: string | null
+          created_at: string | null
+          descricao: string | null
+          icone: string | null
+          id: string
+          nome: string
+        }
+        Insert: {
+          categoria?: string | null
+          created_at?: string | null
+          descricao?: string | null
+          icone?: string | null
+          id?: string
+          nome: string
+        }
+        Update: {
+          categoria?: string | null
+          created_at?: string | null
+          descricao?: string | null
+          icone?: string | null
+          id?: string
+          nome?: string
+        }
+        Relationships: []
       }
       senha_historico: {
         Row: {
