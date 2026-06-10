@@ -22,6 +22,7 @@ import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as ComunicacaoRouteImport } from './routes/comunicacao'
 import { Route as AvaliacoesRouteImport } from './routes/avaliacoes'
 import { Route as AtividadesRouteImport } from './routes/atividades'
+import { Route as AlunosRouteImport } from './routes/alunos'
 import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as AcessibilidadeIaRouteImport } from './routes/acessibilidade-ia'
@@ -118,6 +119,11 @@ const AvaliacoesRoute = AvaliacoesRouteImport.update({
 const AtividadesRoute = AtividadesRouteImport.update({
   id: '/atividades',
   path: '/atividades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlunosRoute = AlunosRouteImport.update({
+  id: '/alunos',
+  path: '/alunos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AjudaRoute = AjudaRouteImport.update({
@@ -286,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/acessibilidade-ia': typeof AcessibilidadeIaRoute
   '/agenda': typeof AgendaRoute
   '/ajuda': typeof AjudaRoute
+  '/alunos': typeof AlunosRoute
   '/atividades': typeof AtividadesRouteWithChildren
   '/avaliacoes': typeof AvaliacoesRouteWithChildren
   '/comunicacao': typeof ComunicacaoRoute
@@ -333,6 +340,7 @@ export interface FileRoutesByTo {
   '/acessibilidade-ia': typeof AcessibilidadeIaRoute
   '/agenda': typeof AgendaRoute
   '/ajuda': typeof AjudaRoute
+  '/alunos': typeof AlunosRoute
   '/atividades': typeof AtividadesRouteWithChildren
   '/avaliacoes': typeof AvaliacoesRouteWithChildren
   '/comunicacao': typeof ComunicacaoRoute
@@ -381,6 +389,7 @@ export interface FileRoutesById {
   '/acessibilidade-ia': typeof AcessibilidadeIaRoute
   '/agenda': typeof AgendaRoute
   '/ajuda': typeof AjudaRoute
+  '/alunos': typeof AlunosRoute
   '/atividades': typeof AtividadesRouteWithChildren
   '/avaliacoes': typeof AvaliacoesRouteWithChildren
   '/comunicacao': typeof ComunicacaoRoute
@@ -430,6 +439,7 @@ export interface FileRouteTypes {
     | '/acessibilidade-ia'
     | '/agenda'
     | '/ajuda'
+    | '/alunos'
     | '/atividades'
     | '/avaliacoes'
     | '/comunicacao'
@@ -477,6 +487,7 @@ export interface FileRouteTypes {
     | '/acessibilidade-ia'
     | '/agenda'
     | '/ajuda'
+    | '/alunos'
     | '/atividades'
     | '/avaliacoes'
     | '/comunicacao'
@@ -524,6 +535,7 @@ export interface FileRouteTypes {
     | '/acessibilidade-ia'
     | '/agenda'
     | '/ajuda'
+    | '/alunos'
     | '/atividades'
     | '/avaliacoes'
     | '/comunicacao'
@@ -572,6 +584,7 @@ export interface RootRouteChildren {
   AcessibilidadeIaRoute: typeof AcessibilidadeIaRoute
   AgendaRoute: typeof AgendaRoute
   AjudaRoute: typeof AjudaRoute
+  AlunosRoute: typeof AlunosRoute
   AtividadesRoute: typeof AtividadesRouteWithChildren
   AvaliacoesRoute: typeof AvaliacoesRouteWithChildren
   ComunicacaoRoute: typeof ComunicacaoRoute
@@ -700,6 +713,13 @@ declare module '@tanstack/react-router' {
       path: '/atividades'
       fullPath: '/atividades'
       preLoaderRoute: typeof AtividadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alunos': {
+      id: '/alunos'
+      path: '/alunos'
+      fullPath: '/alunos'
+      preLoaderRoute: typeof AlunosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ajuda': {
@@ -984,6 +1004,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcessibilidadeIaRoute: AcessibilidadeIaRoute,
   AgendaRoute: AgendaRoute,
   AjudaRoute: AjudaRoute,
+  AlunosRoute: AlunosRoute,
   AtividadesRoute: AtividadesRouteWithChildren,
   AvaliacoesRoute: AvaliacoesRouteWithChildren,
   ComunicacaoRoute: ComunicacaoRoute,
@@ -1023,3 +1044,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

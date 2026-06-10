@@ -342,34 +342,3 @@ Novas classes que reforçam os conteúdos acadêmicos:
 | 11. Exceções | `ApiKeyInvalidaException`, `LimitePlanoExcedidoException` para controle operacional |
 | 12. Thread | `JobRelatorios` processando fila em background via `ScheduledExecutorService` |
 | 14. JDBC | `RelatorioJobDAO` e `ApiKeyDAO` com transações simples e PreparedStatements |
-
----
-
-# Onda D — Lote 2 (Offline e IA)
-
-| Conteúdo | Arquivo | Descrição |
-|----------|---------|-----------|
-| Classes e Objetos | `model/SyncQueue.java` | Modelagem da fila de sincronização offline para resiliência (RN.53). |
-| Encapsulamento | `model/SyncQueue.java` | Proteção de estado do item de sincronização via getters/setters. |
-| Coleções (List) | `service/IAService.java` | Processamento de `List<Double>` para cálculo de tendências acadêmicas. |
-| Lógica de Programação | `service/IAService.java` | Algoritmo de análise preditiva baseado em médias de desempenho (RN.59). |
-
----
-
-# Onda D — Lote 3 (Secretaria e Financeiro)
-
-| Conteúdo | Arquivo | Descrição |
-|----------|---------|-----------|
-| BigDecimal | `model/Mensalidade.java` | Uso de precisão decimal para valores financeiros (RN.74). |
-| Encapsulamento | `model/Mensalidade.java` | Regras de cálculo de juros encapsuladas no modelo. |
-| Coleções (containsAll) | `service/SecretariaService.java` | Validação de conjunto de documentos obrigatórios (RN.71). |
-
----
-
-# Onda D — Lote 4 (BI e Relatórios Avançados)
-
-| Conteúdo | Arquivo | Descrição |
-|----------|---------|-----------|
-| Java Streams | `service/BiService.java` | Filtragem funcional de dados analíticos (RN.66). |
-| Coleções (List/ArrayList) | `service/BiService.java` | Gerenciamento de histórico consolidado para relatórios. |
-| POJO | `model/BiData.java` | Estrutura de dados para suporte a dashboards de BI (RN.65). |
