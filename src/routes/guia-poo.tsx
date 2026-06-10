@@ -109,7 +109,7 @@ export default function GuiaPOO() {
     <AdminShell title="Guia de Programação POO">
       <div className="space-y-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight text-primary">Guia de Programação POO (Java)</h1>
+          <h1 id="top" className="text-3xl font-bold tracking-tight text-primary">Guia de Programação POO (Java)</h1>
           <p className="text-muted-foreground">
             Aprenda os segredos do nosso Backend como se fosse uma história de Super-Heróis! 🦸‍♂️💻
           </p>
