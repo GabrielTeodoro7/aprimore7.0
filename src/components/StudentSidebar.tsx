@@ -1,5 +1,6 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Home, Calendar, MessageCircle, Puzzle, Star, Heart, Sparkles, MessagesSquare, LogOut, Accessibility, BookOpen, Gamepad2, User } from "lucide-react";
+import { useAuth } from "@/lib/auth-store";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 import { useState } from "react";
 import logoUrl from "@/assets/aprimore-logo.png";
@@ -22,6 +23,8 @@ const items = [
 
 export function StudentSidebar() {
   const { pathname } = useLocation();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [a11yOpen, setA11yOpen] = useState(false);
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-card">
@@ -54,12 +57,15 @@ export function StudentSidebar() {
         <Accessibility className="h-5 w-5" /> Acessibilidade
       </button>
       <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
-      <Link
-        to="/entrar"
+      <button
+        onClick={async () => {
+          await logout();
+          navigate({ to: "/login" });
+        }}
         className="mx-4 mb-4 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-accent"
       >
         <LogOut className="h-5 w-5" /> Sair
-      </Link>
+      </button>
     </aside>
   );
 }
