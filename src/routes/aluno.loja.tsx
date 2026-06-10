@@ -24,15 +24,18 @@ const itensLoja = [
 
 function LojaDePremios() {
   const { perfil, addEstrelas } = useAlunoPerfil();
+  const { playBuy, playError } = useAudioFeedback();
 
   const comprar = (item: typeof itensLoja[0]) => {
     if (perfil.estrelas < item.preco) {
+      playError();
       toast.error("Estrelas insuficientes!", { description: `Faltam ${item.preco - perfil.estrelas} estrelas.` });
       return;
     }
     
     // Na Onda C isso seria persistido no banco
     addEstrelas(-item.preco);
+    playBuy();
     toast.success(`Você comprou: ${item.nome}!`, {
       description: "Item adicionado à sua coleção.",
       icon: <span>{item.emoji}</span>
