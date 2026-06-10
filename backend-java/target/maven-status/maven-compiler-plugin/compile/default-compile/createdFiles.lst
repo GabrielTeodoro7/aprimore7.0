@@ -3,6 +3,7 @@ escola/service/BloqueioService.class
 escola/service/SecretariaService.class
 escola/service/LogAcessoSensivelService$Campo.class
 escola/model/Consentimento.class
+escola/core/CoreEngine.class
 escola/exceptions/DominioNaoAutorizadoException.class
 escola/model/Escola.class
 escola/util/GeradorTokenSeguro.class
@@ -19,6 +20,7 @@ escola/exceptions/ConsentimentoAusenteException.class
 escola/model/TokenRecuperacao.class
 escola/service/ComunicacaoService.class
 escola/Main.class
+escola/core/jdbc/DatabaseAdapter.class
 escola/model/SugestaoPedagogica.class
 escola/tutorial/Ability.class
 escola/dao/GenericDAO.class
@@ -44,6 +46,7 @@ escola/service/ConsentimentoService.class
 escola/model/LimitePlano.class
 escola/model/Professor.class
 escola/dao/SenhaHistoricoDAO.class
+escola/core/io/FileManager.class
 escola/model/Feriado.class
 escola/model/RiscoAcademico$Nivel.class
 escola/model/Pdi.class
@@ -57,8 +60,10 @@ escola/dao/AlunoDAO.class
 escola/dao/ApiKeyDAO.class
 escola/model/Selo.class
 escola/exceptions/AnomaliaAcessoException.class
+escola/core/CoreEngine$1.class
 escola/service/SegurancaService.class
 escola/exceptions/SenhaFracaException.class
+escola/core/exceptions/CoreException.class
 escola/dao/BloqueioContaDAO.class
 escola/service/SenhaService.class
 escola/model/RiscoAcademico.class
@@ -110,6 +115,7 @@ escola/service/MultiTenantService.class
 escola/service/SoftDeleteService.class
 escola/model/MetaPdi.class
 escola/exceptions/MatriculaInvalidaException.class
+escola/core/threads/ParallelExecutor.class
 escola/model/RelatorioJob$Status.class
 escola/exceptions/SenhaReutilizadaException.class
 escola/model/PreferenciaAcessibilidade$Daltonismo.class
@@ -123,6 +129,7 @@ escola/util/Config.class
 escola/service/LogAcessoSensivelService$RegistroAcesso.class
 escola/model/TokenSeguro.class
 escola/model/TermoAceito.class
+escola/core/collections/DataManager.class
 escola/demo/DemoJDBC.class
 escola/model/ApiKey.class
 escola/threads/ProcessadorRelatorios.class
@@ -134,3 +141,4 @@ escola/service/BiService.class
 escola/tutorial/SuperHero.class
 escola/dao/TentativaLoginDAO.class
 escola/model/PreferenciaAcessibilidade.class
+escola/core/threads/AsyncProcess.class
