@@ -17,7 +17,7 @@ const tones: Activity["tone"][] = ["blue", "green", "orange", "purple", "pink", 
 function NovaAtividadePage() {
   const { add } = useActivities();
   const { list: students } = useStudents();
-  const { primeiraId: turmaIdAtual } = useTurmas();
+  const { list: turmas, primeiraId: initialTurmaId } = useTurmas();
   const navigate = useNavigate();
   const sugerir = useServerFn(sugerirAtividade);
   const [iaLoading, setIaLoading] = useState(false);
@@ -34,6 +34,7 @@ function NovaAtividadePage() {
     passos: [""] as string[],
     alunoIds: [] as string[],
     dificuldade: undefined as Activity["dificuldade"],
+    turmaId: initialTurmaId || "",
   });
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
@@ -142,10 +143,9 @@ function NovaAtividadePage() {
         onSubmit={(e) => {
           e.preventDefault();
           if (!form.title.trim()) { toast.error("Informe o título"); return; }
-          if (!turmaIdAtual) { toast.error("Crie uma turma antes de criar atividades"); return; }
+          if (!form.turmaId) { toast.error("Selecione uma turma"); return; }
           add({
             ...form,
-            turmaId: turmaIdAtual,
             objetivos: form.objetivos.filter(Boolean),
             materiais: form.materiais.filter(Boolean),
             passos: form.passos.filter(Boolean),
@@ -155,7 +155,20 @@ function NovaAtividadePage() {
         }}
         className="grid gap-5 rounded-2xl border border-border bg-card p-6 shadow-sm md:grid-cols-2"
       >
-        <Field label="Título" hint="Nome curto e descritivo da atividade" full required>
+        <Field label="Turma" hint="Selecione a turma para esta atividade" required>
+          <select 
+            value={form.turmaId} 
+            onChange={(e) => set("turmaId", e.target.value)} 
+            className="input"
+            required
+          >
+            <option value="">Selecione uma turma</option>
+            {turmas.map((t) => (
+              <option key={t.id} value={t.id}>{t.nome}</option>
+            ))}
+          </select>
+        </Field>
+        <Field label="Título" hint="Nome curto e descritivo da atividade" required>
           <input value={form.title} onChange={(e) => set("title", e.target.value)} className="input" autoFocus />
         </Field>
         <Field label="Matéria" hint="Ex: Matemática, Português, Socioemocional">
