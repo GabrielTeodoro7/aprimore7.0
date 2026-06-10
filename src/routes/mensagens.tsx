@@ -21,8 +21,6 @@ function MensagensPage() {
   const [msg, setMsg] = useState("");
   const [showAddContact, setShowAddContact] = useState(false);
 
-  const active = get(activeId) ?? contatosExternos.find(c => `wa:${c.whatsapp}` === activeId) ?? list[0];
-  
   const waConversas = contatosExternos.map(c => ({
     id: `wa:${c.whatsapp}`,
     nome: c.nome,
@@ -33,6 +31,7 @@ function MensagensPage() {
   }));
 
   const allConversas = [...list, ...waConversas];
+  const active = allConversas.find(c => c.id === activeId) || allConversas[0];
   const filtered = allConversas.filter((c) => c.nome.toLowerCase().includes(q.toLowerCase()));
 
   return (
