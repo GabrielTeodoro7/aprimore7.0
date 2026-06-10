@@ -146,15 +146,15 @@ function GestorSupremoCEO() {
               <div className="text-2xl font-black text-zinc-100">{list.length}</div>
               <div className="text-[10px] uppercase font-bold text-fuchsia-500 tracking-widest">Contas Totais</div>
             </Card>
-            <Card className="p-4 border-zinc-800 bg-indigo-500/5 flex flex-col gap-2">
-              <Database className="h-5 w-5 text-indigo-500" />
-              <div className="text-2xl font-black text-zinc-100">100%</div>
-              <div className="text-[10px] uppercase font-bold text-indigo-500 tracking-widest">Integridade</div>
+            <Card className="p-4 border-zinc-800 bg-emerald-500/5 flex flex-col gap-2">
+              <Globe className="h-5 w-5 text-emerald-500" />
+              <div className="text-2xl font-black text-zinc-100">12</div>
+              <div className="text-[10px] uppercase font-bold text-emerald-500 tracking-widest">Unidades Ativas</div>
             </Card>
             <Card className="p-4 border-zinc-800 bg-zinc-800/20 flex flex-col gap-2">
               <ShieldAlert className="h-5 w-5 text-zinc-500" />
               <div className="text-2xl font-black text-zinc-100">0</div>
-              <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Falhas</div>
+              <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Falhas Rede</div>
             </Card>
           </div>
         </div>
