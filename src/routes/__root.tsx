@@ -124,8 +124,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AccessibilityProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <CommandPalette />
         <Outlet />
       </AccessibilityProvider>
+
     </QueryClientProvider>
   );
 }
