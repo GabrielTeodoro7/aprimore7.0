@@ -47,9 +47,11 @@ import { Route as AlunoTutorRouteImport } from './routes/aluno.tutor'
 import { Route as AlunoSentimentosRouteImport } from './routes/aluno.sentimentos'
 import { Route as AlunoRotinaRouteImport } from './routes/aluno.rotina'
 import { Route as AlunoLojaRouteImport } from './routes/aluno.loja'
+import { Route as AlunoJogosRouteImport } from './routes/aluno.jogos'
 import { Route as AlunoIaRouteImport } from './routes/aluno.ia'
 import { Route as AlunoConquistasRouteImport } from './routes/aluno.conquistas'
 import { Route as AlunoComunicacaoRouteImport } from './routes/aluno.comunicacao'
+import { Route as AlunoBibliotecaRouteImport } from './routes/aluno.biblioteca'
 import { Route as AlunoAvatarRouteImport } from './routes/aluno.avatar'
 import { Route as AlunoAtividadesRouteImport } from './routes/aluno.atividades'
 import { Route as AlunoAjudanteMaximoRouteImport } from './routes/aluno.ajudante-maximo'
@@ -250,6 +252,11 @@ const AlunoLojaRoute = AlunoLojaRouteImport.update({
   path: '/aluno/loja',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlunoJogosRoute = AlunoJogosRouteImport.update({
+  id: '/aluno/jogos',
+  path: '/aluno/jogos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AlunoIaRoute = AlunoIaRouteImport.update({
   id: '/aluno/ia',
   path: '/aluno/ia',
@@ -263,6 +270,11 @@ const AlunoConquistasRoute = AlunoConquistasRouteImport.update({
 const AlunoComunicacaoRoute = AlunoComunicacaoRouteImport.update({
   id: '/aluno/comunicacao',
   path: '/aluno/comunicacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlunoBibliotecaRoute = AlunoBibliotecaRouteImport.update({
+  id: '/aluno/biblioteca',
+  path: '/aluno/biblioteca',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlunoAvatarRoute = AlunoAvatarRouteImport.update({
@@ -339,9 +351,11 @@ export interface FileRoutesByFullPath {
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/avatar': typeof AlunoAvatarRoute
+  '/aluno/biblioteca': typeof AlunoBibliotecaRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
   '/aluno/ia': typeof AlunoIaRoute
+  '/aluno/jogos': typeof AlunoJogosRoute
   '/aluno/loja': typeof AlunoLojaRoute
   '/aluno/rotina': typeof AlunoRotinaRoute
   '/aluno/sentimentos': typeof AlunoSentimentosRoute
@@ -391,9 +405,11 @@ export interface FileRoutesByTo {
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/avatar': typeof AlunoAvatarRoute
+  '/aluno/biblioteca': typeof AlunoBibliotecaRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
   '/aluno/ia': typeof AlunoIaRoute
+  '/aluno/jogos': typeof AlunoJogosRoute
   '/aluno/loja': typeof AlunoLojaRoute
   '/aluno/rotina': typeof AlunoRotinaRoute
   '/aluno/sentimentos': typeof AlunoSentimentosRoute
@@ -444,9 +460,11 @@ export interface FileRoutesById {
   '/aluno/ajudante-maximo': typeof AlunoAjudanteMaximoRoute
   '/aluno/atividades': typeof AlunoAtividadesRoute
   '/aluno/avatar': typeof AlunoAvatarRoute
+  '/aluno/biblioteca': typeof AlunoBibliotecaRoute
   '/aluno/comunicacao': typeof AlunoComunicacaoRoute
   '/aluno/conquistas': typeof AlunoConquistasRoute
   '/aluno/ia': typeof AlunoIaRoute
+  '/aluno/jogos': typeof AlunoJogosRoute
   '/aluno/loja': typeof AlunoLojaRoute
   '/aluno/rotina': typeof AlunoRotinaRoute
   '/aluno/sentimentos': typeof AlunoSentimentosRoute
@@ -498,9 +516,11 @@ export interface FileRouteTypes {
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/avatar'
+    | '/aluno/biblioteca'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
     | '/aluno/ia'
+    | '/aluno/jogos'
     | '/aluno/loja'
     | '/aluno/rotina'
     | '/aluno/sentimentos'
@@ -550,9 +570,11 @@ export interface FileRouteTypes {
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/avatar'
+    | '/aluno/biblioteca'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
     | '/aluno/ia'
+    | '/aluno/jogos'
     | '/aluno/loja'
     | '/aluno/rotina'
     | '/aluno/sentimentos'
@@ -602,9 +624,11 @@ export interface FileRouteTypes {
     | '/aluno/ajudante-maximo'
     | '/aluno/atividades'
     | '/aluno/avatar'
+    | '/aluno/biblioteca'
     | '/aluno/comunicacao'
     | '/aluno/conquistas'
     | '/aluno/ia'
+    | '/aluno/jogos'
     | '/aluno/loja'
     | '/aluno/rotina'
     | '/aluno/sentimentos'
@@ -655,9 +679,11 @@ export interface RootRouteChildren {
   AlunoAjudanteMaximoRoute: typeof AlunoAjudanteMaximoRoute
   AlunoAtividadesRoute: typeof AlunoAtividadesRoute
   AlunoAvatarRoute: typeof AlunoAvatarRoute
+  AlunoBibliotecaRoute: typeof AlunoBibliotecaRoute
   AlunoComunicacaoRoute: typeof AlunoComunicacaoRoute
   AlunoConquistasRoute: typeof AlunoConquistasRoute
   AlunoIaRoute: typeof AlunoIaRoute
+  AlunoJogosRoute: typeof AlunoJogosRoute
   AlunoLojaRoute: typeof AlunoLojaRoute
   AlunoRotinaRoute: typeof AlunoRotinaRoute
   AlunoSentimentosRoute: typeof AlunoSentimentosRoute
@@ -942,6 +968,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlunoLojaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aluno/jogos': {
+      id: '/aluno/jogos'
+      path: '/aluno/jogos'
+      fullPath: '/aluno/jogos'
+      preLoaderRoute: typeof AlunoJogosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/aluno/ia': {
       id: '/aluno/ia'
       path: '/aluno/ia'
@@ -961,6 +994,13 @@ declare module '@tanstack/react-router' {
       path: '/aluno/comunicacao'
       fullPath: '/aluno/comunicacao'
       preLoaderRoute: typeof AlunoComunicacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aluno/biblioteca': {
+      id: '/aluno/biblioteca'
+      path: '/aluno/biblioteca'
+      fullPath: '/aluno/biblioteca'
+      preLoaderRoute: typeof AlunoBibliotecaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aluno/avatar': {
@@ -1107,9 +1147,11 @@ const rootRouteChildren: RootRouteChildren = {
   AlunoAjudanteMaximoRoute: AlunoAjudanteMaximoRoute,
   AlunoAtividadesRoute: AlunoAtividadesRoute,
   AlunoAvatarRoute: AlunoAvatarRoute,
+  AlunoBibliotecaRoute: AlunoBibliotecaRoute,
   AlunoComunicacaoRoute: AlunoComunicacaoRoute,
   AlunoConquistasRoute: AlunoConquistasRoute,
   AlunoIaRoute: AlunoIaRoute,
+  AlunoJogosRoute: AlunoJogosRoute,
   AlunoLojaRoute: AlunoLojaRoute,
   AlunoRotinaRoute: AlunoRotinaRoute,
   AlunoSentimentosRoute: AlunoSentimentosRoute,
@@ -1128,13 +1170,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
