@@ -117,6 +117,7 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { CommandPalette } from "@/components/CommandPalette";
 import { AIPedagogicalAssistant } from "@/components/AIPedagogicalAssistant";
 import { OfflineStatusIndicator } from "@/components/OfflineStatusIndicator";
+import { Toaster } from "@/components/ui/sonner";
 
 function RootComponent() {
 
@@ -131,6 +132,7 @@ function RootComponent() {
         <AIPedagogicalAssistant />
         <OfflineStatusIndicator />
         <Outlet />
+        <Toaster />
       </AccessibilityProvider>
 
 
