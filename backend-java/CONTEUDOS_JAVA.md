@@ -363,3 +363,13 @@ Novas classes que reforçam os conteúdos acadêmicos:
 | BigDecimal | `model/Mensalidade.java` | Uso de precisão decimal para valores financeiros (RN.74). |
 | Encapsulamento | `model/Mensalidade.java` | Regras de cálculo de juros encapsuladas no modelo. |
 | Coleções (containsAll) | `service/SecretariaService.java` | Validação de conjunto de documentos obrigatórios (RN.71). |
+
+---
+
+# Onda D — Lote 4 (BI e Relatórios Avançados)
+
+| Conteúdo | Arquivo | Descrição |
+|----------|---------|-----------|
+| Java Streams | `service/BiService.java` | Filtragem funcional de dados analíticos (RN.66). |
+| Coleções (List/ArrayList) | `service/BiService.java` | Gerenciamento de histórico consolidado para relatórios. |
+| POJO | `model/BiData.java` | Estrutura de dados para suporte a dashboards de BI (RN.65). |

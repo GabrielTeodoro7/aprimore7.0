@@ -62,11 +62,34 @@ Status: Lote 2 concluído.
 **Frontend:**
 - \`src/lib/secretaria-financeiro.functions.ts\`
 
+## Lote 4: BI e Relatórios Avançados (Concluído)
+
+### RNs entregues
+
+| RN | Título | Camada |
+|----|--------|--------|
+| RN.65 | Consolidado Turma | Banco + Java |
+| RN.67 | Resumo Mensal | Banco + Frontend |
+| RN.68 | Logs Auditoria BI | Banco + Frontend |
+| RN.70 | View BI Escolas | Banco + Frontend |
+
+### Arquivos criados/alterados
+
+**Migrations:**
+- \`20260610090000_onda_d_lote4_bi_relatorios.sql\`
+
+**Java:**
+- \`model/BiData.java\`
+- \`service/BiService.java\`
+
+**Frontend:**
+- \`src/lib/bi-relatorios.functions.ts\`
+
 ---
 
-## Próximos passos (Lote 4)
+## Status Final da Onda D
+- Lotes 1 a 4 aplicados e documentados.
+- Schema restaurado e expandido com sucesso.
 
-- RN.65-70: Relatórios Avançados e BI Acadêmico.
-- RN.78-80: Integrações Externas e Webhooks.
 
 
