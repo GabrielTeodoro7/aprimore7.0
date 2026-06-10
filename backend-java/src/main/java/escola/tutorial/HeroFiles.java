@@ -4,20 +4,30 @@ import java.io.*;
 import java.nio.file.*;
 
 /**
- * [O QUE] Java IO
- * [POR QUE] Escrever o diário do herói em um arquivo de texto.
- * [CONTEÚDO] Java IO (NIO)
+ * [TÓPICO 9: JAVA IO (Input/Output)]
+ * É a forma que o Java tem de "Falar" e "Ouvir" o disco rígido.
+ * Aqui nós escrevemos um arquivo físico no computador.
  */
 public class HeroFiles {
     
+    /**
+     * [ESCREVENDO ARQUIVOS]
+     * Usamos a classe 'Files' do Java NIO, que é a versão moderna do IO.
+     */
     public static void saveJournal(String heroName, String story) {
+        // Define o nome do arquivo (Ex: diario_Batman.txt)
         Path path = Paths.get("diario_" + heroName + ".txt");
+        
         try {
-            // Escrevendo no arquivo
-            Files.writeString(path, "Diário Secreto de " + heroName + ":\n" + story);
-            System.out.println("Arquivo de diário criado: " + path.toAbsolutePath());
+            // Escreve o texto no arquivo. Se o arquivo não existir, o Java cria!
+            String content = "--- DIÁRIO DE MISSÃO ---\nHerói: " + heroName + "\nRelato: " + story;
+            Files.writeString(path, content);
+            
+            System.out.println("[JAVA-IO] Diário salvo em: " + path.toAbsolutePath());
         } catch (IOException e) {
-            System.err.println("Erro de IO: " + e.getMessage());
+            // Caso o disco esteja cheio ou não tenhamos permissão
+            System.err.println("[JAVA-IO-ERRO] Falha ao escrever arquivo: " + e.getMessage());
         }
     }
 }
+
