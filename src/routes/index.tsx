@@ -249,7 +249,12 @@ function Index() {
             <GamificationCenter />
           </TabsContent>
 
+          <TabsContent value="games">
+            <StudentGamesCenter />
+          </TabsContent>
+
           <TabsContent value="reports">
+
 
             <SmartReportsModule />
           </TabsContent>
