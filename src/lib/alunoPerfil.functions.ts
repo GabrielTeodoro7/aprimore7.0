@@ -16,7 +16,7 @@ export const getMeuAlunoPerfil = createServerFn({ method: "GET" })
     if (!prof) return null;
     const { data: aluno, error } = await sb
       .from("alunos")
-      .select("id, nome, turma_id, estrelas")
+      .select("id, nome, turma_id, estrelas, streak, last_streak_at")
       .eq("profile_id", prof.id)
       .maybeSingle();
     if (error) throw new Error(error.message);
@@ -27,6 +27,8 @@ export const getMeuAlunoPerfil = createServerFn({ method: "GET" })
       turmaId: aluno.turma_id as string,
       profileId: prof.id as string,
       estrelas: (aluno.estrelas ?? 0) as number,
+      streak: (aluno.streak ?? 0) as number,
+      lastStreakAt: aluno.last_streak_at as string,
       diagnostico: (prof.diagnostico ?? {}) as Record<string, any>,
       config_a11y: (prof.config_a11y ?? {}) as Record<string, any>,
     };
