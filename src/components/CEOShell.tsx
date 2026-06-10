@@ -5,6 +5,7 @@
  */
 import type { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import {
   ShieldAlert,
@@ -14,6 +15,8 @@ import {
   Eye,
   LogOut,
   KeyRound,
+  Mail,
+  Loader2,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-store";
 
@@ -37,6 +40,7 @@ export function CEOShell({
 }) {
   const { user, logout } = useAuth();
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const [loggingOut, setLoggingOut] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-[#070710] text-zinc-100">
@@ -77,11 +81,26 @@ export function CEOShell({
           })}
         </nav>
 
-        <button
-          onClick={() => logout()}
-          className="mt-4 flex items-center gap-2 rounded-md border border-zinc-800 px-3 py-2 text-xs text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100"
+        <a
+          href="mailto:aprimoreeducation@gmail.com"
+          className="mt-4 flex items-center gap-2 rounded-md border border-fuchsia-500/30 px-3 py-2 text-xs text-fuchsia-300 hover:bg-fuchsia-500/10"
         >
-          <LogOut className="h-4 w-4" /> Encerrar sessão
+          <Mail className="h-4 w-4" /> Suporte Técnico
+        </a>
+        <button
+          disabled={loggingOut}
+          onClick={async () => {
+            setLoggingOut(true);
+            try {
+              await logout();
+              window.location.href = "/login";
+            } finally {
+              setLoggingOut(false);
+            }
+          }}
+          className="mt-2 flex items-center gap-2 rounded-md border border-zinc-800 px-3 py-2 text-xs text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100 disabled:opacity-50"
+        >
+          {loggingOut ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />} Encerrar sessão
         </button>
       </aside>
 
