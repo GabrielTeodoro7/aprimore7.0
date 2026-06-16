@@ -49,7 +49,7 @@ export function DashboardSidebar() {
   const { pathname } = useLocation();
   const [a11yOpen, setA11yOpen] = useState(false);
   return (
-    <aside className="flex w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
+    <aside className="flex w-full md:w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
       <Link to="/" className="flex flex-col items-center gap-3 px-6 py-6">
         <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white p-2 shadow-lg">
           <img src={logoUrl} alt="Aprimore Educação" className="h-full w-full object-contain" />
