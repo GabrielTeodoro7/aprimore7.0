@@ -191,18 +191,28 @@ function NovaAtividadePage() {
       </div>
 
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
+          if (submitting) return;
           if (!form.title.trim()) { toast.error("Informe o título"); return; }
           if (!form.turmaId) { toast.error("Selecione uma turma"); return; }
-          add({
-            ...form,
-            objetivos: form.objetivos.filter(Boolean),
-            materiais: form.materiais.filter(Boolean),
-            passos: form.passos.filter(Boolean),
-          });
-          toast.success("Atividade criada!");
-          navigate({ to: "/atividades" });
+          setSubmitting(true);
+          try {
+            await add({
+              ...form,
+              objetivos: form.objetivos.filter(Boolean),
+              materiais: form.materiais.filter(Boolean),
+              passos: form.passos.filter(Boolean),
+            });
+            toast.success("Atividade criada!");
+            navigate({ to: "/atividades" });
+          } catch (err) {
+            toast.error("Não foi possível postar a atividade", {
+              description: err instanceof Error ? err.message : "Tente novamente",
+            });
+          } finally {
+            setSubmitting(false);
+          }
         }}
         className="grid gap-5 rounded-2xl border border-border bg-card p-6 shadow-sm md:grid-cols-2"
       >
