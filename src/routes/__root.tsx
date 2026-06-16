@@ -122,7 +122,10 @@ function AuthSync() {
   const router = useRouter();
   const qc = useQueryClient();
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange(() => {
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      // Apenas transições reais de identidade — ignora TOKEN_REFRESHED e INITIAL_SESSION
+      // que disparam constantemente e causariam refetches em loop.
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       qc.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
       router.invalidate();
     });
