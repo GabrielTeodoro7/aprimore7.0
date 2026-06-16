@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Gamepad2, Trophy, Star, Target, Sparkles } from "lucide-react";
+import { ArrowLeft, Gamepad2, Trophy, Star, Target } from "lucide-react";
+import { toast } from "sonner";
 import { StudentShell } from "@/components/StudentShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAlunoPerfil } from "@/lib/student-store";
+import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 
 export const Route = createFileRoute("/aluno/jogos")({
   head: () => ({ meta: [{ title: "Central de Jogos — Aprimore" }] }),
@@ -18,6 +21,14 @@ const jogos = [
 ];
 
 function CentralJogos() {
+  const { addEstrelas } = useAlunoPerfil();
+  const { playStar } = useAudioFeedback();
+  const jogar = (jogo: { title: string; stars: number }) => {
+    addEstrelas(jogo.stars);
+    playStar();
+    toast.success(`Você jogou "${jogo.title}"! +${jogo.stars} ⭐`, { description: "Novos níveis em breve." });
+  };
+  const verRanking = () => toast.info("Ranking do torneio", { description: "Em breve você verá sua posição aqui!" });
   return (
     <StudentShell
       title={
@@ -48,7 +59,7 @@ function CentralJogos() {
               <div className="flex gap-2 mb-6">
                 {jogo.tags.map(t => <Badge key={t} variant="secondary" className="text-[10px]">{t}</Badge>)}
               </div>
-              <Button className="w-full rounded-2xl font-bold mt-auto group-hover:bg-primary transition-colors">
+              <Button onClick={() => jogar(jogo)} className="w-full rounded-2xl font-bold mt-auto group-hover:bg-primary transition-colors">
                 <Gamepad2 className="mr-2 h-4 w-4" /> Jogar Agora
               </Button>
             </div>
@@ -59,7 +70,7 @@ function CentralJogos() {
           <Trophy className="h-16 w-16 mb-4 animate-bounce" />
           <h3 className="text-2xl font-black">Torneio da Semana</h3>
           <p className="opacity-90 mb-6">Participe e concorra a 500 estrelas extras!</p>
-          <Button variant="secondary" className="w-full rounded-2xl font-bold text-orange-600">
+          <Button onClick={verRanking} variant="secondary" className="w-full rounded-2xl font-bold text-orange-600">
             <Target className="mr-2 h-4 w-4" /> Ver Ranking
           </Button>
         </Card>
