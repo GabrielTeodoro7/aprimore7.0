@@ -209,9 +209,9 @@ body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 @utility text-gradient-premium {
   background-image: linear-gradient(110deg,
-    oklch(0.30 0.08 270) 0%,
-    oklch(0.50 0.20 280) 45%,
-    oklch(0.55 0.18 220) 100%);
+    oklch(0.30 0.12 250) 0%,
+    oklch(0.45 0.18 240) 50%,
+    oklch(0.65 0.16 230) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
