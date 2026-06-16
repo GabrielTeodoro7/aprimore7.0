@@ -126,18 +126,18 @@ function Landing() {
       </section>
 
       {/* FEATURES — Bento */}
-      <section id="features" className="mx-auto max-w-6xl px-6 py-24">
-        <div className="mb-14 max-w-2xl">
+      <section id="features" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Recursos</p>
-          <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+          <h2 className="mt-3 text-balance text-2xl font-medium tracking-[-0.02em] sm:text-3xl md:text-5xl">
             Uma IA para cada momento <span className="text-muted-foreground">da jornada.</span>
           </h2>
         </div>
-        <div className="grid auto-rows-[minmax(180px,auto)] gap-3 md:grid-cols-3">
+        <div className="grid auto-rows-[minmax(180px,auto)] gap-3 sm:grid-cols-2 md:grid-cols-3">
           {features.map((f, i) => (
             <div
               key={f.title}
-              className={`group reveal relative overflow-hidden rounded-3xl border border-foreground/5 bg-white p-7 shadow-elegant transition-all duration-500 hover:-translate-y-1 ${
+              className={`group reveal relative overflow-hidden rounded-3xl border border-foreground/5 bg-white p-6 shadow-elegant transition-all duration-500 hover:-translate-y-1 sm:p-7 ${
                 i === 0 ? "md:col-span-2" : i === 3 ? "md:col-span-2" : ""
               }`}
               style={{ animationDelay: `${i * 80}ms` }}
@@ -154,12 +154,12 @@ function Landing() {
       </section>
 
       {/* DEMO AO VIVO */}
-      <section id="demo" className="relative overflow-hidden border-y border-foreground/5 bg-[oklch(0.97_0.01_250)] py-24">
+      <section id="demo" className="relative overflow-hidden border-y border-foreground/5 bg-[oklch(0.97_0.01_250)] py-16 sm:py-20 md:py-24">
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
-        <div className="mx-auto max-w-5xl px-6">
-          <div className="mb-12 max-w-2xl">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Demonstração ao vivo</p>
-            <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+            <h2 className="mt-3 text-balance text-2xl font-medium tracking-[-0.02em] sm:text-3xl md:text-5xl">
               Descreva um aluno. <span className="text-muted-foreground">A IA cria um plano em 5 segundos.</span>
             </h2>
           </div>
@@ -168,14 +168,15 @@ function Landing() {
       </section>
 
       {/* DEPOIMENTOS */}
-      <section id="depoimentos" className="mx-auto max-w-6xl px-6 py-24">
-        <div className="mb-12 max-w-2xl">
+      <section id="depoimentos" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Depoimentos</p>
-          <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+          <h2 className="mt-3 text-balance text-2xl font-medium tracking-[-0.02em] sm:text-3xl md:text-5xl">
             Educadores que confiam <span className="text-muted-foreground">no Aprimore.</span>
           </h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+
           {testimonials.map((t, i) => (
             <figure
               key={t.nome}
