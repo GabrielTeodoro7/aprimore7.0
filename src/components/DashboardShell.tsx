@@ -9,6 +9,7 @@ import { useNotifs, usePerfil } from "@/lib/store";
 import { useAuth } from "@/lib/auth-store";
 import { RequireRole } from "@/components/RequireRole";
 import { ImpersonationBanner } from "@/components/ImpersonationBanner";
+import { MobileTopBar } from "@/components/MobileTopBar";
 
 interface Props {
   title: string;
