@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, CalendarCheck, Sparkles, Trash2, Printer, FileText, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, CalendarCheck, Sparkles, Trash2, Printer, FileText, ExternalLink, Youtube } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardShell } from "@/components/DashboardShell";
 import { useActivities } from "@/lib/store";
@@ -75,35 +75,65 @@ function AtividadeDetailPage() {
         <Section title="Passo a passo" items={a.passos} tone="green" numbered />
       </div>
 
-      {a.arquivos && a.arquivos.length > 0 && (
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <FileText className="h-4 w-4" /> Arquivos e Anexos
-          </h3>
-          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-            {a.arquivos.map((url, i) => (
-              <a 
-                key={i} 
-                href={url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center justify-between rounded-xl border border-border bg-background p-4 transition hover:bg-accent group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <FileText className="h-5 w-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-bold">Arquivo {i + 1}</div>
-                    <div className="text-[10px] text-muted-foreground uppercase">Anexo da Atividade</div>
-                  </div>
+      {a.arquivos && a.arquivos.length > 0 && (() => {
+        const videos = a.arquivos.filter((u) => u.startsWith("youtube:")).map((u) => u.slice(8));
+        const files = a.arquivos.filter((u) => !u.startsWith("youtube:"));
+        return (
+          <>
+            {videos.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                  <Youtube className="h-4 w-4 text-red-600" /> Vídeo-aulas
+                </h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {videos.map((id) => (
+                    <div key={id} className="overflow-hidden rounded-xl border border-border bg-black">
+                      <div className="relative" style={{ aspectRatio: "16 / 9" }}>
+                        <iframe
+                          src={`https://www.youtube.com/embed/${id}`}
+                          title={`Vídeo ${id}`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 h-full w-full"
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <ExternalLink className="h-4 w-4 text-muted-foreground transition group-hover:text-primary" />
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
+              </div>
+            )}
+            {files.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                  <FileText className="h-4 w-4" /> Arquivos e Anexos
+                </h3>
+                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                  {files.map((url, i) => (
+                    <a
+                      key={i}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between rounded-xl border border-border bg-background p-4 transition hover:bg-accent"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                          <FileText className="h-5 w-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-bold">Arquivo {i + 1}</div>
+                          <div className="text-[10px] uppercase text-muted-foreground">Anexo da atividade</div>
+                        </div>
+                      </div>
+                      <ExternalLink className="h-4 w-4 text-muted-foreground transition group-hover:text-primary" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        );
+      })()}
     </DashboardShell>
   );
 }
