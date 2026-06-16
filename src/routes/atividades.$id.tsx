@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, CalendarCheck, Sparkles, Trash2, Printer, FileText, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, CalendarCheck, Sparkles, Trash2, Printer, FileText, ExternalLink, Youtube } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardShell } from "@/components/DashboardShell";
 import { useActivities } from "@/lib/store";
