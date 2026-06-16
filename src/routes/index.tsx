@@ -27,31 +27,31 @@ function Landing() {
   useEffect(() => { const t = setTimeout(() => setHydrated(true), 50); return () => clearTimeout(t); }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[oklch(0.97_0.03_240)] via-white to-[oklch(0.96_0.04_220)] text-foreground">
+    <div className="min-h-screen bg-[oklch(0.985_0.005_250)] text-foreground antialiased selection:bg-primary/20">
       {/* NAV */}
-      <header className="sticky top-0 z-30 border-b border-white/40 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <header className="sticky top-0 z-30 border-b border-white/40 bg-white/60 backdrop-blur-xl backdrop-saturate-150">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
           <Link to="/" className="flex items-center" aria-label="Aprimore Educação — início">
-            <span className="bg-gradient-to-r from-[oklch(0.55_0.2_290)] via-[oklch(0.6_0.2_240)] to-[oklch(0.6_0.18_180)] bg-clip-text text-lg font-extrabold tracking-tight text-transparent md:text-xl">
-              Aprimore Educação
+            <span className="text-[15px] font-semibold tracking-tight text-foreground md:text-base">
+              Aprimore<span className="text-primary"> Educação</span>
             </span>
           </Link>
-          <nav className="hidden gap-6 text-sm font-semibold md:flex">
-            <a href="#features" className="hover:text-primary">Recursos</a>
-            <a href="#demo" className="hover:text-primary">Demonstração IA</a>
-            <a href="#depoimentos" className="hover:text-primary">Depoimentos</a>
-            <a href="#planos" className="hover:text-primary">Planos</a>
+          <nav className="hidden gap-8 text-[13px] font-medium text-muted-foreground md:flex">
+            <a href="#features" className="transition-colors hover:text-foreground">Recursos</a>
+            <a href="#demo" className="transition-colors hover:text-foreground">Demonstração</a>
+            <a href="#depoimentos" className="transition-colors hover:text-foreground">Depoimentos</a>
+            <a href="#planos" className="transition-colors hover:text-foreground">Planos</a>
           </nav>
           {hydrated && user ? (
             <button
               onClick={() => navigate({ to: homeForRole(user.role) })}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow hover:brightness-110"
+              className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[13px] font-semibold text-background transition hover:opacity-90"
             >
-              Entrar no painel <ArrowRight className="h-4 w-4" />
+              Painel <ArrowRight className="h-3.5 w-3.5" />
             </button>
           ) : (
-            <Link to="/login" className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow hover:brightness-110">
-              Entrar <ArrowRight className="h-4 w-4" />
+            <Link to="/login" className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[13px] font-semibold text-background transition hover:opacity-90">
+              Entrar <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           )}
         </div>
@@ -59,155 +59,192 @@ function Landing() {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-[oklch(0.85_0.15_300)] opacity-30 blur-3xl" />
-          <div className="absolute right-0 top-40 h-96 w-96 rounded-full bg-[oklch(0.85_0.15_200)] opacity-30 blur-3xl" />
-        </div>
-        {/* Animated blobs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -left-32 -top-20 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.7_0.22_300)] opacity-40 blur-3xl motion-safe:animate-pulse" />
-          <div className="absolute -right-32 top-32 h-[32rem] w-[32rem] rounded-full bg-[oklch(0.7_0.22_200)] opacity-40 blur-3xl motion-safe:animate-pulse [animation-delay:1s]" />
-          <div className="absolute left-1/3 bottom-0 h-80 w-80 rounded-full bg-[oklch(0.78_0.2_145)] opacity-30 blur-3xl motion-safe:animate-pulse [animation-delay:2s]" />
-          {/* Grid overlay */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-1/3 h-[42rem] w-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,oklch(0.85_0.12_270/0.55),transparent_70%)]" />
+          <div className="absolute right-[-10%] top-[-10%] h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,oklch(0.85_0.10_210/0.40),transparent_70%)]" />
           <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.08]"
+            className="absolute inset-0 opacity-[0.04]"
             style={{
               backgroundImage:
-                "linear-gradient(oklch(0.4_0.2_280) 1px, transparent 1px), linear-gradient(90deg, oklch(0.4_0.2_280) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
-              maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                "linear-gradient(oklch(0.2_0.05_260) 1px, transparent 1px), linear-gradient(90deg, oklch(0.2_0.05_260) 1px, transparent 1px)",
+              backgroundSize: "64px 64px",
+              maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
             }}
           />
         </div>
-        <div className="relative mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl flex-col items-center justify-center px-4 py-24 md:py-32">
-          <div className="mx-auto max-w-4xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-white/80 px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-primary shadow-sm backdrop-blur motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-2 motion-safe:duration-700">
-              <Sparkles className="h-3.5 w-3.5" /> IA pedagógica brasileira
-            </span>
-            <h1 className="mt-8 text-5xl font-black leading-[1.05] tracking-tight md:text-7xl lg:text-8xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-1000">
-              Toda criança
-              <br />
-              <span className="relative inline-block">
-                <span className="relative bg-gradient-to-r from-[oklch(0.55_0.25_300)] via-[oklch(0.6_0.24_240)] to-[oklch(0.65_0.22_180)] bg-clip-text text-transparent">
-                  aprende do seu jeito.
-                </span>
-                <span
-                  aria-hidden
-                  className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-[oklch(0.55_0.25_300)] via-[oklch(0.6_0.24_240)] to-[oklch(0.65_0.22_180)] opacity-20 blur-md"
-                />
-              </span>
-            </h1>
-            <p className="mx-auto mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl motion-safe:animate-in motion-safe:fade-in motion-safe:duration-1000 motion-safe:delay-200">
-              A IA do Aprimore descobre como cada aluno aprende melhor — pensada para
-              <strong className="text-foreground"> TEA, TDAH, dislexia, discalculia, ansiedade</strong> e todo jeito de aprender.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-1000 motion-safe:delay-300">
-              <Link
-                to="/login"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[oklch(0.6_0.22_290)] to-[oklch(0.6_0.2_220)] px-8 py-4 text-base font-bold text-white shadow-2xl shadow-[oklch(0.5_0.2_280/0.4)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_oklch(0.5_0.2_280/0.6)]"
-              >
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                Testar gratuitamente <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <a
-                href="#demo"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-foreground/10 bg-white/80 px-8 py-4 text-base font-bold text-foreground shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-primary/40 hover:bg-white"
-              >
-                Ver IA funcionando <Wand2 className="h-5 w-5 text-primary" />
-              </a>
-            </div>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold text-muted-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:duration-1000 motion-safe:delay-500">
-              <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" /> LGPD em conformidade</span>
-              <span className="inline-flex items-center gap-1.5"><Heart className="h-4 w-4 text-rose-500" /> Acessibilidade A11Y</span>
-              <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-primary" /> Sem cartão de crédito</span>
-            </div>
+
+        <div className="relative mx-auto flex min-h-[88vh] max-w-5xl flex-col items-center justify-center px-6 py-24 text-center md:py-32">
+          <span className="reveal inline-flex items-center gap-2 rounded-full border border-foreground/8 bg-white/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-foreground/70 shadow-elegant backdrop-blur">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> IA pedagógica brasileira
+          </span>
+
+          <h1
+            className="reveal mt-10 text-balance text-[clamp(2.5rem,1.5rem+4.5vw,5.5rem)] font-medium leading-[1.02] tracking-[-0.035em] text-foreground"
+            style={{ animationDelay: "100ms" }}
+          >
+            Toda criança
+            <br />
+            <span className="text-gradient-premium font-semibold italic">aprende do seu jeito.</span>
+          </h1>
+
+          <p
+            className="reveal mx-auto mt-8 max-w-xl text-pretty text-[17px] leading-relaxed text-muted-foreground md:text-lg"
+            style={{ animationDelay: "220ms" }}
+          >
+            A IA do Aprimore descobre como cada aluno aprende melhor — pensada para
+            <span className="text-foreground"> TEA, TDAH, dislexia, discalculia, ansiedade</span> e todo jeito de aprender.
+          </p>
+
+          <div
+            className="reveal mt-12 flex flex-wrap items-center justify-center gap-3"
+            style={{ animationDelay: "340ms" }}
+          >
+            <Link
+              to="/login"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-foreground px-7 py-3.5 text-[14px] font-semibold text-background shadow-premium-lg transition-all duration-500 hover:-translate-y-0.5"
+            >
+              <span aria-hidden className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              Testar gratuitamente <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+            </Link>
+            <a
+              href="#demo"
+              className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white/70 px-7 py-3.5 text-[14px] font-semibold text-foreground backdrop-blur transition-all duration-500 hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-white"
+            >
+              Ver IA funcionando <Wand2 className="h-4 w-4 text-primary" />
+            </a>
+          </div>
+
+          <div
+            className="reveal mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-[12px] font-medium text-muted-foreground"
+            style={{ animationDelay: "480ms" }}
+          >
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> LGPD em conformidade</span>
+            <span className="inline-flex items-center gap-1.5"><Heart className="h-3.5 w-3.5 text-rose-500" /> Acessibilidade A11Y</span>
+            <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-primary" /> Sem cartão de crédito</span>
           </div>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section id="features" className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-extrabold md:text-4xl">Uma IA para cada momento da jornada</h2>
-          <p className="mt-3 text-muted-foreground">5 super-poderes que substituem 5 ferramentas que você usaria separadas.</p>
+      {/* FEATURES — Bento */}
+      <section id="features" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mb-14 max-w-2xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Recursos</p>
+          <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+            Uma IA para cada momento <span className="text-muted-foreground">da jornada.</span>
+          </h2>
         </div>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <div key={f.title} className="group rounded-3xl border border-border bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-              <div className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${f.bg}`}>
-                <f.icon className={`h-6 w-6 ${f.color}`} />
+        <div className="grid auto-rows-[minmax(180px,auto)] gap-3 md:grid-cols-3">
+          {features.map((f, i) => (
+            <div
+              key={f.title}
+              className={`group reveal relative overflow-hidden rounded-3xl border border-foreground/5 bg-white p-7 shadow-elegant transition-all duration-500 hover:-translate-y-1 ${
+                i === 0 ? "md:col-span-2" : i === 3 ? "md:col-span-2" : ""
+              }`}
+              style={{ animationDelay: `${i * 80}ms` }}
+            >
+              <div className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${f.bg} ring-1 ring-foreground/5`}>
+                <f.icon className={`h-5 w-5 ${f.color}`} />
               </div>
-              <h3 className="mt-4 text-lg font-bold">{f.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
+              <h3 className="mt-5 text-[17px] font-semibold tracking-[-0.01em]">{f.title}</h3>
+              <p className="mt-1.5 max-w-md text-[14px] leading-relaxed text-muted-foreground">{f.desc}</p>
+              <div className="pointer-events-none absolute -right-12 -bottom-12 h-40 w-40 rounded-full bg-gradient-to-tr from-primary/10 to-transparent opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
             </div>
           ))}
         </div>
       </section>
 
       {/* DEMO AO VIVO */}
-      <section id="demo" className="relative overflow-hidden bg-gradient-to-br from-[oklch(0.95_0.05_280)] to-[oklch(0.95_0.06_210)] py-20">
-        <div className="mx-auto max-w-5xl px-4">
-          <div className="mb-10 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-primary shadow-sm">
-              <Wand2 className="h-3.5 w-3.5" /> Demonstração ao vivo
-            </span>
-            <h2 className="mt-4 text-3xl font-extrabold md:text-4xl">Descreva um aluno. Veja a IA criar um plano em 5 segundos.</h2>
-            <p className="mt-3 text-muted-foreground">Sem cadastro, sem cartão. É a IA de verdade rodando agora.</p>
+      <section id="demo" className="relative overflow-hidden border-y border-foreground/5 bg-[oklch(0.97_0.01_250)] py-24">
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="mb-12 max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Demonstração ao vivo</p>
+            <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+              Descreva um aluno. <span className="text-muted-foreground">A IA cria um plano em 5 segundos.</span>
+            </h2>
           </div>
           <LiveDemo />
         </div>
       </section>
 
       {/* DEPOIMENTOS */}
-      <section id="depoimentos" className="mx-auto max-w-6xl px-4 py-20">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-extrabold md:text-4xl">Educadores que confiam no Aprimore</h2>
+      <section id="depoimentos" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mb-12 max-w-2xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Depoimentos</p>
+          <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+            Educadores que confiam <span className="text-muted-foreground">no Aprimore.</span>
+          </h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <div key={t.nome} className="rounded-3xl border border-border bg-white p-6 shadow-sm">
-              <Quote className="h-6 w-6 text-primary/40" />
-              <p className="mt-3 text-sm leading-relaxed text-foreground">"{t.texto}"</p>
-              <div className="mt-5 flex items-center gap-3">
-                <div className={`grid h-11 w-11 place-items-center rounded-full ${t.bg} text-sm font-bold text-white`}>{t.iniciais}</div>
-                <div>
-                  <p className="text-sm font-bold">{t.nome}</p>
-                  <p className="text-xs text-muted-foreground">{t.papel}</p>
+        <div className="grid gap-4 md:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <figure
+              key={t.nome}
+              className="reveal flex flex-col rounded-3xl border border-foreground/5 bg-white p-7 shadow-elegant"
+              style={{ animationDelay: `${i * 100}ms` }}
+            >
+              <Quote className="h-5 w-5 text-primary/40" />
+              <blockquote className="mt-4 grow text-[15px] leading-relaxed text-foreground">"{t.texto}"</blockquote>
+              <figcaption className="mt-6 flex items-center gap-3 border-t border-foreground/5 pt-4">
+                <div className={`grid h-10 w-10 place-items-center rounded-full ${t.bg} text-xs font-semibold text-white`}>{t.iniciais}</div>
+                <div className="min-w-0">
+                  <p className="truncate text-[13px] font-semibold">{t.nome}</p>
+                  <p className="truncate text-[12px] text-muted-foreground">{t.papel}</p>
                 </div>
-              </div>
-              <div className="mt-3 flex gap-0.5 text-amber-500">
-                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}
-              </div>
-            </div>
+                <div className="ml-auto flex gap-0.5 text-amber-500">
+                  {Array.from({ length: 5 }).map((_, idx) => <Star key={idx} className="h-3 w-3 fill-current" />)}
+                </div>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
 
       {/* PLANOS */}
-      <section id="planos" className="mx-auto max-w-5xl px-4 py-20">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-extrabold md:text-4xl">Planos para o futuro</h2>
+      <section id="planos" className="mx-auto max-w-5xl px-6 py-24">
+        <div className="mb-12 max-w-2xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Planos</p>
+          <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+            Planos para <span className="text-muted-foreground">o futuro.</span>
+          </h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {plans.map((p) => (
-            <div key={p.nome} className={`flex flex-col rounded-3xl border p-7 ${p.destaque ? "border-primary bg-gradient-to-br from-primary/5 to-white shadow-xl ring-2 ring-primary/20" : "border-border bg-white shadow-sm"}`}>
-              {p.destaque && <span className="mb-3 inline-block w-fit rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">Mais escolhido</span>}
-              <h3 className="text-xl font-extrabold">{p.nome}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{p.tagline}</p>
-              <div className="mt-5 flex items-baseline gap-1">
-                <span className="text-4xl font-black">{p.preco}</span>
-                <span className="text-sm text-muted-foreground">{p.periodo}</span>
+        <div className="grid gap-4 md:grid-cols-3">
+          {plans.map((p, i) => (
+            <div
+              key={p.nome}
+              className={`reveal relative flex flex-col rounded-3xl p-7 transition-all duration-500 ${
+                p.destaque
+                  ? "border border-foreground/10 bg-foreground text-background shadow-premium-lg"
+                  : "border border-foreground/5 bg-white shadow-elegant hover:-translate-y-1"
+              }`}
+              style={{ animationDelay: `${i * 100}ms` }}
+            >
+              {p.destaque && (
+                <span className="absolute -top-2.5 left-7 inline-block rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow">
+                  Mais escolhido
+                </span>
+              )}
+              <h3 className="text-[15px] font-semibold tracking-tight">{p.nome}</h3>
+              <p className={`mt-1 text-[13px] ${p.destaque ? "text-background/60" : "text-muted-foreground"}`}>{p.tagline}</p>
+              <div className="mt-6 flex items-baseline gap-1.5">
+                <span className="text-4xl font-medium tracking-tight">{p.preco}</span>
+                <span className={`text-[13px] ${p.destaque ? "text-background/60" : "text-muted-foreground"}`}>{p.periodo}</span>
               </div>
-              <ul className="mt-6 space-y-2.5">
-                {p.itens.map((i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" /> {i}
+              <ul className={`mt-7 space-y-3 border-t pt-6 text-[14px] ${p.destaque ? "border-background/10" : "border-foreground/5"}`}>
+                {p.itens.map((it) => (
+                  <li key={it} className="flex items-start gap-2.5">
+                    <Check className={`mt-0.5 h-4 w-4 shrink-0 ${p.destaque ? "text-emerald-400" : "text-emerald-600"}`} /> <span>{it}</span>
                   </li>
                 ))}
               </ul>
-              <Link to="/login" className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition ${p.destaque ? "bg-primary text-primary-foreground shadow hover:brightness-110" : "border border-foreground/15 bg-white text-foreground hover:border-foreground/30"}`}>
-                {p.cta}
+              <Link
+                to="/login"
+                className={`mt-8 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[13px] font-semibold transition ${
+                  p.destaque
+                    ? "bg-background text-foreground hover:opacity-90"
+                    : "border border-foreground/15 bg-white text-foreground hover:border-foreground/30"
+                }`}
+              >
+                {p.cta} <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           ))}
@@ -215,22 +252,31 @@ function Landing() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="mx-auto max-w-4xl px-4 pb-24">
-        <div className="rounded-3xl bg-gradient-to-br from-[oklch(0.5_0.2_280)] to-[oklch(0.5_0.2_220)] p-10 text-center text-white shadow-2xl">
-          <h2 className="text-3xl font-extrabold md:text-4xl">Pronto para personalizar o ensino?</h2>
-          <p className="mx-auto mt-3 max-w-xl text-white/80">Junte-se a centenas de educadores que já transformaram a sala de aula com a IA do Aprimore.</p>
-          <Link to="/login" className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-foreground shadow-xl hover:scale-105 transition">
+      <section className="mx-auto max-w-5xl px-6 pb-28">
+        <div className="grain-overlay relative overflow-hidden rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,oklch(0.45_0.22_290),oklch(0.25_0.10_260)_60%,oklch(0.18_0.06_260))] p-14 text-center text-white shadow-premium-lg">
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(closest-side,white/10,transparent_70%)]" />
+          <h2 className="relative text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+            Pronto para personalizar o ensino?
+          </h2>
+          <p className="relative mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-white/70">
+            Junte-se a centenas de educadores que já transformaram a sala de aula com a IA do Aprimore.
+          </p>
+          <Link
+            to="/login"
+            className="relative mt-9 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[13px] font-semibold text-foreground shadow-xl transition hover:-translate-y-0.5"
+          >
             Começar agora <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
 
-      <footer className="border-t border-border bg-white/60 py-8 text-center text-xs text-muted-foreground">
+      <footer className="border-t border-foreground/5 bg-white/60 py-8 text-center text-[12px] text-muted-foreground">
         © {new Date().getFullYear()} Aprimore Educação — Feito com 💜 para cada jeito de aprender.
       </footer>
     </div>
   );
 }
+
 
 function LiveDemo() {
   const fn = useServerFn(demoPlanoLanding);
