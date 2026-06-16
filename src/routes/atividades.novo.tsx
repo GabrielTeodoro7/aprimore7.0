@@ -387,8 +387,9 @@ function NovaAtividadePage() {
 
         <div className="md:col-span-2 flex justify-end gap-3">
           <Link to="/atividades" className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold hover:bg-accent">Cancelar</Link>
-          <button type="submit" className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90">
-            Criar atividade
+          <button type="submit" disabled={submitting} className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 inline-flex items-center gap-2">
+            {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+            {submitting ? "Postando…" : "Criar atividade"}
           </button>
         </div>
       </form>
