@@ -55,6 +55,7 @@ function NovaAtividadePage() {
     arquivos: [] as string[],
   });
   const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
   const setList = (k: "objetivos" | "materiais" | "passos", i: number, v: string) => {
