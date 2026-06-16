@@ -202,7 +202,7 @@ async function fetchCurrentProfile(): Promise<AuthUser | null> {
 
 export function useAuth() {
   const qc = useQueryClient();
-  const { data: user } = useQuery({
+  const { data: user, isLoading, isFetching, isPending } = useQuery({
     queryKey: AUTH_QUERY_KEY,
     queryFn: fetchCurrentProfile,
     staleTime: 30_000,
@@ -216,6 +216,7 @@ export function useAuth() {
   return {
     user: user ?? null,
     realUser: user ?? null,
+    loading: isPending || isLoading || isFetching,
     isImpersonating: false,
 
     /** Login com e-mail + senha (Supabase). */
