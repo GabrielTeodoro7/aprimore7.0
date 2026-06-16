@@ -1,24 +1,17 @@
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth, type Role } from "@/lib/auth-store";
 
 export function RequireRole({ roles, children }: { roles: Role[]; children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    // aguarda hydration do localStorage do useAuth
-    const t = setTimeout(() => setReady(true), 60);
-    return () => clearTimeout(t);
-  }, []);
 
   // CEO é super-admin: tem acesso a tudo
   const allowed = !!user && (user.role === "ceo" || roles.includes(user.role));
 
   useEffect(() => {
-    if (!ready) return;
+    if (loading) return;
     if (!user) {
       navigate({ to: "/login" });
     } else if (!allowed) {
@@ -33,9 +26,9 @@ export function RequireRole({ roles, children }: { roles: Role[]; children: Reac
                 : "/",
       });
     }
-  }, [ready, user, allowed, navigate]);
+  }, [loading, user, allowed, navigate]);
 
-  if (!ready || !user || !allowed) {
+  if (loading || !user || !allowed) {
     return (
       <div className="grid min-h-screen place-items-center bg-background text-sm text-muted-foreground">
         Carregando…
