@@ -68,6 +68,14 @@ function Atividades() {
           Exibindo {filteredList.length} atividade{filteredList.length !== 1 ? "s" : ""}
         </div>
       </div>
+      {filteredList.length === 0 && (
+        <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center">
+          <BookOpen className="mx-auto h-10 w-10 text-muted-foreground" />
+          <div className="mt-3 text-base font-bold">Nenhuma atividade ainda</div>
+          <div className="text-sm text-muted-foreground">Quando seu professor postar uma atividade, ela aparece aqui.</div>
+        </div>
+      )}
+
 
       <div className="grid gap-4 md:grid-cols-2">
         {filteredList.map((a) => {
