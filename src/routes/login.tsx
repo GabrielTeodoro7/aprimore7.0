@@ -318,7 +318,7 @@ function LoginPage() {
 
           {/* Demo */}
           <div className="grid grid-cols-2 gap-2">
-            {(["ceo", "admin", "professor", "aluno"] as const).map((r) => (
+            {(["admin", "professor", "aluno"] as const).map((r) => (
               <button
                 key={r}
                 type="button"
@@ -326,7 +326,7 @@ function LoginPage() {
                 className="flex flex-col items-center gap-1 rounded-xl border border-border bg-white px-2 py-2.5 text-[11px] font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-primary hover:shadow-sm"
               >
                 <Sparkles className="h-4 w-4 text-primary" aria-hidden />
-                <span className="capitalize">{r === "ceo" ? "CEO" : r}</span>
+                <span className="capitalize">{r}</span>
               </button>
             ))}
           </div>
