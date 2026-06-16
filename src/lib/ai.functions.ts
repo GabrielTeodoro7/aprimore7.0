@@ -4,30 +4,28 @@ import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { safeGenerateObject } from "@/lib/ai-safe";
 
 function getModel() {
-  // Ordem de fallback (Lovable Gateway primeiro = mais estável neste stack):
-  // 1) LOVABLE_API_KEY → Lovable AI Gateway
-  // 2) GEMINI_API_KEY  → Google Gemini direto
-  // 3) GROQ_API_KEY    → Llama via Groq
-  const lovableKey = process.env.LOVABLE_API_KEY;
+  // Ordem: GEMINI_API_KEY direto (funciona fora do Lovable, ex.: VS Code) → Lovable Gateway → Groq.
   const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  const lovableKey = process.env.LOVABLE_API_KEY;
   const groqKey = process.env.GROQ_API_KEY;
 
-  if (lovableKey) {
-    const provider = createLovableAiGatewayProvider(lovableKey);
-    return provider("google/gemini-3-flash-preview");
-  }
   if (geminiKey) {
     const provider = createLovableAiGatewayProvider(geminiKey, "https://generativelanguage.googleapis.com/v1beta/openai");
     // @ts-ignore
     return provider("gemini-2.0-flash");
+  }
+  if (lovableKey) {
+    const provider = createLovableAiGatewayProvider(lovableKey);
+    return provider("google/gemini-3-flash-preview");
   }
   if (groqKey) {
     const provider = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
     // @ts-ignore
     return provider("llama-3.3-70b-versatile");
   }
-  throw new Error("Nenhuma chave de IA configurada (LOVABLE_API_KEY, GEMINI_API_KEY ou GROQ_API_KEY).");
+  throw new Error("Nenhuma chave de IA configurada (GEMINI_API_KEY, LOVABLE_API_KEY ou GROQ_API_KEY).");
 }
+
 
 // Tom usado em vários prompts: lúdico, simples, fundamental/médio
 const TOM_DIDATICO =
@@ -198,10 +196,11 @@ const DesempenhoInput = z.object({
   necessidade: z.string().optional().default(""),
   notas: z.array(z.object({
     materia: z.string(),
-    nota: z.number().min(0).max(10),
+    nota: z.coerce.number().min(0).max(10),
   })).min(1).max(20),
-  frequencia: z.number().min(0).max(100).default(90),
+  frequencia: z.coerce.number().min(0).max(100).default(90),
   observacoes: z.string().optional().default(""),
+
 });
 
 const DesempenhoSchema = z.object({
@@ -434,11 +433,12 @@ const ResumoTurmaInput = z.object({
   turmaNome: z.string().optional().default("Turma"),
   alunos: z.array(z.object({
     nome: z.string(),
-    media: z.number().min(0).max(10),
-    frequencia: z.number().min(0).max(100),
+    media: z.coerce.number().min(0).max(10),
+    frequencia: z.coerce.number().min(0).max(100),
     tag: z.string().optional().default(""),
     necessidade: z.string().optional().default(""),
   })).min(1).max(60),
+
   periodo: z.string().optional().default("últimas duas semanas"),
 });
 const ResumoTurmaSchema = z.object({
@@ -621,11 +621,12 @@ const PerguntaInput = z.object({
   pergunta: z.string().min(3).max(500),
   alunos: z.array(z.object({
     nome: z.string(),
-    media: z.number().optional(),
-    frequencia: z.number().optional(),
+    media: z.coerce.number().optional(),
+    frequencia: z.coerce.number().optional(),
     tag: z.string().optional(),
     necessidade: z.string().optional(),
   })).max(120),
+
 });
 const PerguntaSchema = z.object({
   resposta: z.string(),
