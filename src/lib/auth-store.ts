@@ -202,7 +202,7 @@ async function fetchCurrentProfile(): Promise<AuthUser | null> {
 
 export function useAuth() {
   const qc = useQueryClient();
-  const { data: user, isLoading, isFetching, isPending } = useQuery({
+  const { data: user, isPending, fetchStatus } = useQuery({
     queryKey: AUTH_QUERY_KEY,
     queryFn: fetchCurrentProfile,
     staleTime: 30_000,
@@ -213,10 +213,14 @@ export function useAuth() {
     [qc],
   );
 
+  // Só consideramos "carregando" quando ainda não há resposta da primeira fetch.
+  // Refetches em background não devem bloquear a UI quando já temos `data`.
+  const loading = isPending && fetchStatus !== "idle";
+
   return {
     user: user ?? null,
     realUser: user ?? null,
-    loading: isPending || isLoading || isFetching,
+    loading,
     isImpersonating: false,
 
     /** Login com e-mail + senha (Supabase). */
