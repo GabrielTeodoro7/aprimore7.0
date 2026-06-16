@@ -4,26 +4,26 @@ import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { safeGenerateObject } from "@/lib/ai-safe";
 
 function getModel() {
-  // Cadeia de fallback (todas opções com camada gratuita):
-  // 1) LOVABLE_API_KEY → Lovable AI Gateway (Gemini)
-  // 2) GEMINI_API_KEY → Google Gemini direto (free tier grande)
-  // 3) GROQ_API_KEY (ou fallback fixo) → Llama via Groq (super rápido)
+  // Cadeia de fallback (Lovable está sem saldo → Gemini direto vira prioridade):
+  // 1) GEMINI_API_KEY → Google Gemini direto (free tier grande)
+  // 2) GROQ_API_KEY → Llama via Groq (super rápido)
+  // 3) LOVABLE_API_KEY → Lovable AI Gateway (apenas se houver saldo)
   const lovableKey = process.env.LOVABLE_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   const groqKey = process.env.GROQ_API_KEY;
 
-  if (lovableKey) {
-    const provider = createLovableAiGatewayProvider(lovableKey);
-    return provider("google/gemini-3-flash-preview");
-  }
   if (geminiKey) {
     const provider = createLovableAiGatewayProvider(geminiKey, "https://generativelanguage.googleapis.com/v1beta/openai");
     // @ts-ignore
     return provider("gemini-2.0-flash");
   }
-  const provider = createLovableAiGatewayProvider(groqKey || "", "https://api.groq.com/openai/v1");
-  // @ts-ignore
-  return provider("llama-3.3-70b-versatile");
+  if (groqKey) {
+    const provider = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
+    // @ts-ignore
+    return provider("llama-3.3-70b-versatile");
+  }
+  const provider = createLovableAiGatewayProvider(lovableKey || "");
+  return provider("google/gemini-3-flash-preview");
 }
 
 // Tom usado em vários prompts: lúdico, simples, fundamental/médio
