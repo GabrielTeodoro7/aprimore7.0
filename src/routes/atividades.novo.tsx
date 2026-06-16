@@ -272,32 +272,79 @@ function NovaAtividadePage() {
           </Field>
         );})}
 
-        <Field label="Arquivos e Materiais" hint="Faça upload de PDFs, imagens ou documentos" full>
+        <Field label="Conteúdo da atividade" hint="Envie PDFs, imagens ou cole o link de um vídeo do YouTube — estilo Estácio" full>
           <div className="flex flex-col gap-3">
-            <div className="flex flex-wrap gap-2">
-              {form.arquivos.map((url, i) => (
-                <div key={i} className="flex items-center gap-2 rounded-xl border border-border bg-background p-2 pr-1">
-                  <FileText className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-medium truncate max-w-[150px]">Arquivo {i + 1}</span>
-                  <button type="button" onClick={() => set("arquivos", form.arquivos.filter((_, x) => x !== i))}
-                    className="rounded-lg p-1 hover:bg-accent text-muted-foreground">
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border p-6 transition hover:border-primary hover:bg-accent/50">
-              <input type="file" multiple className="hidden" onChange={handleFileUpload} disabled={uploading} />
-              {uploading ? (
-                <Loader2 className="h-5 w-5 animate-spin text-primary" />
-              ) : (
-                <Upload className="h-5 w-5 text-muted-foreground" />
-              )}
+            {/* Lista do que já foi anexado */}
+            {form.arquivos.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {form.arquivos.map((url, i) => {
+                  const ytId = url.startsWith("youtube:") ? url.slice(8) : null;
+                  return (
+                    <div key={i} className="flex items-center gap-2 rounded-xl border border-border bg-background p-2 pr-1">
+                      {ytId ? <Youtube className="h-4 w-4 text-red-600" /> : <FileText className="h-4 w-4 text-primary" />}
+                      <span className="text-xs font-medium truncate max-w-[180px]">
+                        {ytId ? `YouTube · ${ytId}` : `Arquivo ${i + 1}`}
+                      </span>
+                      <button type="button" onClick={() => set("arquivos", form.arquivos.filter((_, x) => x !== i))}
+                        className="rounded-lg p-1 hover:bg-accent text-muted-foreground" aria-label="Remover">
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Upload de arquivo */}
+            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border p-5 transition hover:border-primary hover:bg-accent/50">
+              <input type="file" multiple className="hidden" onChange={handleFileUpload} disabled={uploading} accept=".pdf,image/*,.doc,.docx" />
+              {uploading ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : <Upload className="h-5 w-5 text-muted-foreground" />}
               <div className="text-center">
-                <div className="text-sm font-semibold">{uploading ? "Enviando..." : "Clique para enviar arquivos"}</div>
-                <div className="text-[11px] text-muted-foreground">PDF, Imagens ou Documentos</div>
+                <div className="text-sm font-semibold">{uploading ? "Enviando..." : "Enviar PDF ou imagem"}</div>
+                <div className="text-[11px] text-muted-foreground">Até vários arquivos por vez</div>
               </div>
             </label>
+
+            {/* Vídeo do YouTube */}
+            <div className="rounded-xl border border-border bg-background p-3">
+              <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-foreground">
+                <Youtube className="h-4 w-4 text-red-600" /> Adicionar vídeo do YouTube
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  className="input flex-1"
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    const target = e.currentTarget;
+                    const id = parseYouTubeId(target.value);
+                    if (!id) { toast.error("Link do YouTube inválido"); return; }
+                    if (form.arquivos.includes(`youtube:${id}`)) { toast.info("Vídeo já adicionado"); return; }
+                    set("arquivos", [...form.arquivos, `youtube:${id}`]);
+                    target.value = "";
+                    toast.success("Vídeo adicionado!");
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    const input = (e.currentTarget.previousSibling as HTMLInputElement);
+                    const id = parseYouTubeId(input.value);
+                    if (!id) { toast.error("Link do YouTube inválido"); return; }
+                    if (form.arquivos.includes(`youtube:${id}`)) { toast.info("Vídeo já adicionado"); return; }
+                    set("arquivos", [...form.arquivos, `youtube:${id}`]);
+                    input.value = "";
+                    toast.success("Vídeo adicionado!");
+                  }}
+                  className="rounded-xl bg-foreground px-4 py-2.5 text-sm font-semibold text-background hover:opacity-90"
+                >
+                  Adicionar
+                </button>
+              </div>
+              <p className="mt-1.5 text-[11px] text-muted-foreground">Cole o link completo, /shorts ou youtu.be — pressione Enter ou clique em Adicionar.</p>
+            </div>
           </div>
         </Field>
 
