@@ -70,7 +70,7 @@ function CentralJogos() {
           <Trophy className="h-16 w-16 mb-4 animate-bounce" />
           <h3 className="text-2xl font-black">Torneio da Semana</h3>
           <p className="opacity-90 mb-6">Participe e concorra a 500 estrelas extras!</p>
-          <Button variant="secondary" className="w-full rounded-2xl font-bold text-orange-600">
+          <Button onClick={verRanking} variant="secondary" className="w-full rounded-2xl font-bold text-orange-600">
             <Target className="mr-2 h-4 w-4" /> Ver Ranking
           </Button>
         </Card>
