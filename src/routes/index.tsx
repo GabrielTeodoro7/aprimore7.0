@@ -73,7 +73,7 @@ function Landing() {
           />
         </div>
 
-        <div className="relative mx-auto flex min-h-[88vh] max-w-5xl flex-col items-center justify-center px-6 py-24 text-center md:py-32">
+        <div className="relative mx-auto flex min-h-[80vh] max-w-5xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 md:min-h-[88vh] md:py-32">
           <span className="reveal inline-flex items-center gap-2 rounded-full border border-foreground/8 bg-white/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-foreground/70 shadow-elegant backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> IA pedagógica brasileira
           </span>
