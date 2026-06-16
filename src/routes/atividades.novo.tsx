@@ -55,6 +55,7 @@ function NovaAtividadePage() {
     arquivos: [] as string[],
   });
   const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
   const setList = (k: "objetivos" | "materiais" | "passos", i: number, v: string) => {
@@ -191,18 +192,28 @@ function NovaAtividadePage() {
       </div>
 
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
+          if (submitting) return;
           if (!form.title.trim()) { toast.error("Informe o título"); return; }
           if (!form.turmaId) { toast.error("Selecione uma turma"); return; }
-          add({
-            ...form,
-            objetivos: form.objetivos.filter(Boolean),
-            materiais: form.materiais.filter(Boolean),
-            passos: form.passos.filter(Boolean),
-          });
-          toast.success("Atividade criada!");
-          navigate({ to: "/atividades" });
+          setSubmitting(true);
+          try {
+            await add({
+              ...form,
+              objetivos: form.objetivos.filter(Boolean),
+              materiais: form.materiais.filter(Boolean),
+              passos: form.passos.filter(Boolean),
+            });
+            toast.success("Atividade criada!");
+            navigate({ to: "/atividades" });
+          } catch (err) {
+            toast.error("Não foi possível postar a atividade", {
+              description: err instanceof Error ? err.message : "Tente novamente",
+            });
+          } finally {
+            setSubmitting(false);
+          }
         }}
         className="grid gap-5 rounded-2xl border border-border bg-card p-6 shadow-sm md:grid-cols-2"
       >
@@ -376,8 +387,9 @@ function NovaAtividadePage() {
 
         <div className="md:col-span-2 flex justify-end gap-3">
           <Link to="/atividades" className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold hover:bg-accent">Cancelar</Link>
-          <button type="submit" className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90">
-            Criar atividade
+          <button type="submit" disabled={submitting} className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 inline-flex items-center gap-2">
+            {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+            {submitting ? "Postando…" : "Criar atividade"}
           </button>
         </div>
       </form>
