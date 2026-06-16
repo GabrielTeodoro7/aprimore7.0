@@ -81,10 +81,8 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        // Cadeia de fallback (Lovable sem saldo → Gemini direto vira prioridade):
-        // 1) GEMINI_API_KEY (Google Gemini direto - free tier generoso)
-        // 2) GROQ_API_KEY (Llama via Groq, super rápido)
-        // 3) LOVABLE_API_KEY (Lovable AI Gateway, último recurso)
+        // Cadeia de prioridade: Groq → Lovable AI → Gemini direto.
+        // Gemini direto fica por último porque os logs mostram quota 0 no projeto.
         const lovableKey = process.env.LOVABLE_API_KEY;
         const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
         const groqKey = process.env.GROQ_API_KEY;
@@ -92,18 +90,20 @@ export const Route = createFileRoute("/api/chat")({
         let gateway;
         let model;
 
-        if (geminiKey) {
-          gateway = createLovableAiGatewayProvider(geminiKey, "https://generativelanguage.googleapis.com/v1beta/openai");
-          // @ts-ignore
-          model = gateway("gemini-2.0-flash");
-        } else if (groqKey) {
+        if (groqKey) {
           gateway = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
           // @ts-ignore
           model = gateway("llama-3.3-70b-versatile");
-        } else {
-          gateway = createLovableAiGatewayProvider(lovableKey || "");
+        } else if (lovableKey) {
+          gateway = createLovableAiGatewayProvider(lovableKey);
           // @ts-ignore
           model = gateway("google/gemini-3-flash-preview");
+        } else if (geminiKey) {
+          gateway = createLovableAiGatewayProvider(geminiKey, "https://generativelanguage.googleapis.com/v1beta/openai");
+          // @ts-ignore
+          model = gateway("gemini-2.0-flash");
+        } else {
+          return new Response("Nenhuma chave de IA configurada.", { status: 500 });
         }
 
         try {
