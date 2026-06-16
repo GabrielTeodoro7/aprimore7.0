@@ -148,33 +148,50 @@ function LoginPage() {
       : null;
 
   return (
-    <div className="relative grid min-h-screen place-items-center overflow-hidden bg-gradient-to-b from-[oklch(0.96_0.04_240)] via-[oklch(0.94_0.05_230)] to-[oklch(0.92_0.06_225)] p-4">
+    <div className="relative grid min-h-dvh place-items-center overflow-hidden bg-[oklch(0.98_0.01_240)] p-4 sm:p-6">
       <Toaster position="top-right" richColors />
 
-      {/* Doodles decorativos */}
+      {/* Mesh gradient premium */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-[oklch(0.78_0.14_240)] opacity-40 blur-3xl" />
+        <div className="absolute top-1/3 -right-40 h-[520px] w-[520px] rounded-full bg-[oklch(0.82_0.12_200)] opacity-35 blur-3xl" />
+        <div className="absolute -bottom-40 left-1/3 h-[460px] w-[460px] rounded-full bg-[oklch(0.86_0.10_160)] opacity-30 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "linear-gradient(oklch(0.2_0.05_240) 1px, transparent 1px), linear-gradient(90deg, oklch(0.2_0.05_240) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+      </div>
+
       <Doodles />
 
-      <div className="relative z-10 w-full max-w-md motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-500">
-        <div className="rounded-3xl bg-white p-8 shadow-[0_30px_80px_-30px_oklch(0.5_0.15_240/0.45)] ring-1 ring-white/60">
+      <div className="relative z-10 w-full max-w-md motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:duration-700">
+        <div className="relative rounded-[28px] border border-white/60 bg-white/75 p-8 shadow-[0_40px_100px_-30px_oklch(0.35_0.12_240/0.35),0_8px_24px_-8px_oklch(0.35_0.12_240/0.18)] backdrop-blur-2xl sm:p-10">
           {/* Logo */}
-          <div className="mb-6 flex flex-col items-center">
-            <div className="rounded-2xl bg-white p-3 motion-safe:animate-[float_4s_ease-in-out_infinite]">
-              <img src={logoUrl} alt="Aprimore Educação" className="h-20 w-20 object-contain" />
+          <div className="mb-7 flex flex-col items-center">
+            <div className="relative">
+              <div className="absolute inset-0 -z-10 rounded-3xl bg-[oklch(0.78_0.14_240)] opacity-30 blur-2xl" />
+              <div className="rounded-2xl bg-white/90 p-2.5 shadow-sm ring-1 ring-black/[0.04] motion-safe:animate-[float_5s_ease-in-out_infinite]">
+                <img src={logoUrl} alt="Aprimore Educação" className="h-16 w-16 object-contain" />
+              </div>
             </div>
-            <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-foreground">
+            <h1 className="mt-5 text-center text-[28px] font-bold leading-tight tracking-[-0.02em] text-[oklch(0.2_0.05_240)]">
               {mode === "signup" ? "Criar nova conta" : "Bem-vindo(a) de volta"}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-[13px] tracking-tight text-muted-foreground">
               {mode === "signup" ? "Cadastre-se para começar." : "Acesse sua conta para continuar."}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5" noValidate>
             {mode === "signup" && (
               <div className="space-y-1.5">
                 <label htmlFor="nome" className="sr-only">Nome completo</label>
-                <div className="flex items-center gap-3 rounded-2xl border border-input bg-[oklch(0.98_0.005_240)] px-4 py-3 transition focus-within:border-primary focus-within:bg-white">
-                  <Sparkles className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+                <div className="group flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-white/70 px-4 py-3.5 shadow-[0_1px_2px_oklch(0.2_0.05_240/0.04)] transition-all duration-200 focus-within:border-primary/40 focus-within:bg-white focus-within:shadow-[0_0_0_4px_oklch(0.6_0.18_240/0.12)]">
+                  <Sparkles className="h-[18px] w-[18px] shrink-0 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden />
                   <input
                     id="nome"
                     type="text"
@@ -182,24 +199,25 @@ function LoginPage() {
                     placeholder="Seu nome completo"
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
-                    className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                    className="w-full bg-transparent text-[14px] outline-none placeholder:text-muted-foreground/70"
                     required
                   />
                 </div>
               </div>
             )}
+
             {/* E-mail */}
             <div className="space-y-1.5">
               <label htmlFor="email" className="sr-only">E-mail institucional</label>
-              <div className={`flex items-center gap-3 rounded-2xl border bg-[oklch(0.98_0.005_240)] px-4 py-3 transition focus-within:border-primary focus-within:bg-white ${errors.email ? "border-destructive" : "border-input"}`}>
-                <Mail className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+              <div className={`group flex items-center gap-3 rounded-2xl border bg-white/70 px-4 py-3.5 shadow-[0_1px_2px_oklch(0.2_0.05_240/0.04)] transition-all duration-200 focus-within:bg-white focus-within:shadow-[0_0_0_4px_oklch(0.6_0.18_240/0.12)] ${errors.email ? "border-destructive/60" : "border-black/[0.06] focus-within:border-primary/40"}`}>
+                <Mail className="h-[18px] w-[18px] shrink-0 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden />
                 <input
                   id="email"
                   type="email"
                   autoComplete="email"
                   placeholder="E-mail institucional"
                   {...register("email")}
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  className="w-full bg-transparent text-[14px] outline-none placeholder:text-muted-foreground/70"
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "email-err" : suggestion ? "email-hint" : undefined}
                 />
@@ -220,15 +238,15 @@ function LoginPage() {
             {/* Senha */}
             <div className="space-y-1.5">
               <label htmlFor="senha" className="sr-only">Senha</label>
-              <div className={`flex items-center gap-3 rounded-2xl border bg-[oklch(0.98_0.005_240)] px-4 py-3 transition focus-within:border-primary focus-within:bg-white ${errors.senha ? "border-destructive" : "border-input"}`}>
-                <Lock className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+              <div className={`group flex items-center gap-3 rounded-2xl border bg-white/70 px-4 py-3.5 shadow-[0_1px_2px_oklch(0.2_0.05_240/0.04)] transition-all duration-200 focus-within:bg-white focus-within:shadow-[0_0_0_4px_oklch(0.6_0.18_240/0.12)] ${errors.senha ? "border-destructive/60" : "border-black/[0.06] focus-within:border-primary/40"}`}>
+                <Lock className="h-[18px] w-[18px] shrink-0 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden />
                 <input
                   id="senha"
                   type={showPass ? "text" : "password"}
                   autoComplete="current-password"
                   placeholder="Senha"
                   {...register("senha")}
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  className="w-full bg-transparent text-[14px] outline-none placeholder:text-muted-foreground/70"
                   aria-invalid={!!errors.senha}
                   aria-describedby={errors.senha ? "senha-err" : undefined}
                 />
@@ -236,7 +254,7 @@ function LoginPage() {
                   type="button"
                   onClick={() => setShowPass((s) => !s)}
                   aria-label={showPass ? "Ocultar senha" : "Mostrar senha"}
-                  className="rounded-lg p-1 text-muted-foreground hover:text-foreground"
+                  className="rounded-lg p-1 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -250,7 +268,7 @@ function LoginPage() {
             </div>
 
             {/* Lembrar-me */}
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-foreground">
+            <label className="flex cursor-pointer items-center gap-2 pt-1 text-[13px] text-foreground/80">
               <input
                 type="checkbox"
                 checked={remember}
@@ -261,7 +279,7 @@ function LoginPage() {
             </label>
 
             {erro && (
-              <div role="alert" aria-live="assertive" className="rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <div role="alert" aria-live="assertive" className="rounded-xl border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {erro}
               </div>
             )}
@@ -270,23 +288,24 @@ function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[oklch(0.65_0.18_145)] py-3.5 text-sm font-bold text-white shadow-md transition hover:brightness-110 active:translate-y-px disabled:opacity-60"
+              className="group relative mt-2 flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-br from-[oklch(0.7_0.18_150)] to-[oklch(0.58_0.19_155)] py-3.5 text-[14px] font-semibold tracking-tight text-white shadow-[0_10px_30px_-8px_oklch(0.55_0.18_155/0.55),inset_0_1px_0_oklch(1_0_0/0.25)] transition-all duration-200 hover:shadow-[0_14px_36px_-8px_oklch(0.55_0.18_155/0.65),inset_0_1px_0_oklch(1_0_0/0.3)] active:translate-y-px disabled:opacity-60"
             >
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               <LogIn className="h-4 w-4" /> {mode === "signup" ? "Criar conta" : "Entrar"}
             </button>
 
-            <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center justify-between pt-1 text-[12px]">
               <button
                 type="button"
                 onClick={() => { setMode((m) => (m === "login" ? "signup" : "login")); setErro(null); }}
-                className="font-semibold text-primary hover:underline"
+                className="font-semibold text-primary transition-colors hover:text-primary/80 hover:underline"
               >
                 {mode === "signup" ? "Já tenho conta — entrar" : "Criar nova conta"}
               </button>
               <button
                 type="button"
                 onClick={esqueciSenha}
-                className="font-semibold text-primary hover:underline"
+                className="font-semibold text-primary transition-colors hover:text-primary/80 hover:underline"
               >
                 Esqueci minha senha
               </button>
@@ -298,7 +317,7 @@ function LoginPage() {
             type="button"
             onClick={entrarGoogle}
             disabled={loading}
-            className="mt-4 flex w-full items-center justify-center gap-3 rounded-2xl border border-input bg-white py-3 text-sm font-semibold text-foreground transition hover:bg-muted disabled:opacity-60"
+            className="mt-4 flex w-full items-center justify-center gap-3 rounded-2xl border border-black/[0.08] bg-white py-3 text-[13.5px] font-semibold text-foreground shadow-[0_1px_2px_oklch(0.2_0.05_240/0.04)] transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_20px_-8px_oklch(0.2_0.05_240/0.15)] disabled:opacity-60"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
               <path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2c-.3 1.5-1.1 2.7-2.4 3.5v2.9h3.9c2.3-2.1 3.6-5.2 3.6-8.6z"/>
@@ -310,28 +329,28 @@ function LoginPage() {
           </button>
 
           {/* Separador */}
-          <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" />
-            ou experimente (demo)
-            <span className="h-px flex-1 bg-border" />
+          <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-[0.12em] text-muted-foreground/70">
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-border" />
+            ou experimente
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-border" />
           </div>
 
           {/* Demo */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {(["admin", "professor", "aluno"] as const).map((r) => (
               <button
                 key={r}
                 type="button"
                 onClick={() => demo(r)}
-                className="flex flex-col items-center gap-1 rounded-xl border border-border bg-white px-2 py-2.5 text-[11px] font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-primary hover:shadow-sm"
+                className="group flex flex-col items-center gap-1 rounded-xl border border-black/[0.06] bg-white/80 px-2 py-2.5 text-[11px] font-semibold text-foreground/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-white hover:text-foreground hover:shadow-[0_8px_20px_-8px_oklch(0.6_0.18_240/0.25)]"
               >
-                <Sparkles className="h-4 w-4 text-primary" aria-hidden />
+                <Sparkles className="h-3.5 w-3.5 text-primary transition-transform group-hover:scale-110" aria-hidden />
                 <span className="capitalize">{r}</span>
               </button>
             ))}
           </div>
 
-          <p className="mt-5 text-center text-[11px] text-muted-foreground">
+          <p className="mt-6 text-center text-[11px] leading-relaxed text-muted-foreground/80">
             Acesso institucional — contas são criadas pelo administrador da escola.
           </p>
         </div>
