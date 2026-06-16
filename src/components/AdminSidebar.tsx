@@ -17,7 +17,7 @@ export function AdminSidebar() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   return (
-    <aside className="flex w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
+    <aside className="flex w-full md:w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
       <Link to="/admin" className="flex flex-col items-center gap-3 px-6 py-6">
         <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-2 shadow-lg">
           <img src={logoUrl} alt="Aprimore" className="h-full w-full object-contain" />
