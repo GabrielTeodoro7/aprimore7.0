@@ -184,12 +184,10 @@ body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (hover: none) and (pointer: coarse) {
   button, a[role="button"], [data-touch] { min-height: 44px; min-width: 44px; }
 }
-/* Fluid base font + headings */
+/* Fluid base font apenas — títulos voltam a respeitar as classes Tailwind das telas */
 :root {
   font-size: clamp(15px, 0.9rem + 0.2vw, 17px);
 }
-h1 { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem); }
-h2 { font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
