@@ -201,20 +201,20 @@ function Landing() {
       </section>
 
       {/* PLANOS */}
-      <section id="planos" className="mx-auto max-w-5xl px-6 py-24">
-        <div className="mb-12 max-w-2xl">
+      <section id="planos" className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Planos</p>
-          <h2 className="mt-3 text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+          <h2 className="mt-3 text-balance text-2xl font-medium tracking-[-0.02em] sm:text-3xl md:text-5xl">
             Planos para <span className="text-muted-foreground">o futuro.</span>
           </h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {plans.map((p, i) => (
             <div
               key={p.nome}
-              className={`reveal relative flex flex-col rounded-3xl p-7 transition-all duration-500 ${
+              className={`reveal relative flex flex-col rounded-3xl p-6 transition-all duration-500 sm:p-7 ${
                 p.destaque
-                  ? "border border-foreground/10 bg-foreground text-background shadow-premium-lg"
+                  ? "border border-foreground/10 bg-foreground text-background shadow-premium-lg sm:col-span-2 md:col-span-1"
                   : "border border-foreground/5 bg-white shadow-elegant hover:-translate-y-1"
               }`}
               style={{ animationDelay: `${i * 100}ms` }}
@@ -253,12 +253,13 @@ function Landing() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="mx-auto max-w-5xl px-6 pb-28">
-        <div className="grain-overlay relative overflow-hidden rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,oklch(0.45_0.22_290),oklch(0.25_0.10_260)_60%,oklch(0.18_0.06_260))] p-14 text-center text-white shadow-premium-lg">
+      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 sm:pb-28">
+        <div className="grain-overlay relative overflow-hidden rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,oklch(0.55_0.18_240),oklch(0.30_0.12_250)_60%,oklch(0.20_0.08_250))] p-8 text-center text-white shadow-premium-lg sm:p-14">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(closest-side,white/10,transparent_70%)]" />
-          <h2 className="relative text-balance text-3xl font-medium tracking-[-0.02em] md:text-5xl">
+          <h2 className="relative text-balance text-2xl font-medium tracking-[-0.02em] sm:text-3xl md:text-5xl">
             Pronto para personalizar o ensino?
           </h2>
+
           <p className="relative mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-white/70">
             Junte-se a centenas de educadores que já transformaram a sala de aula com a IA do Aprimore.
           </p>
