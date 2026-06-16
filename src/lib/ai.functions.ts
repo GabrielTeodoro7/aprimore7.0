@@ -433,11 +433,12 @@ const ResumoTurmaInput = z.object({
   turmaNome: z.string().optional().default("Turma"),
   alunos: z.array(z.object({
     nome: z.string(),
-    media: z.number().min(0).max(10),
-    frequencia: z.number().min(0).max(100),
+    media: z.coerce.number().min(0).max(10),
+    frequencia: z.coerce.number().min(0).max(100),
     tag: z.string().optional().default(""),
     necessidade: z.string().optional().default(""),
   })).min(1).max(60),
+
   periodo: z.string().optional().default("últimas duas semanas"),
 });
 const ResumoTurmaSchema = z.object({
