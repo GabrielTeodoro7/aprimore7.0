@@ -43,90 +43,85 @@ export function CEOShell({
   const path = useRouterState({ select: (s) => s.location.pathname });
   const [loggingOut, setLoggingOut] = useState(false);
 
-  return (
-    <div className="flex min-h-screen bg-[#070710] text-zinc-100">
-      <Toaster position="top-right" richColors theme="dark" />
-      <aside className="flex w-64 flex-col border-r border-zinc-800/80 bg-[#0a0a16] px-4 py-6">
-        <div className="mb-6 flex items-center gap-2 px-2">
-          <div className="grid h-9 w-9 place-items-center rounded-md bg-gradient-to-br from-fuchsia-500 to-indigo-500 text-sm font-black text-white">
-            Ø
-          </div>
-          <div className="leading-tight">
-            <div className="text-sm font-bold tracking-wide text-zinc-100">
-              ONDA ZERO
-            </div>
-            <div className="text-[10px] uppercase tracking-[0.18em] text-fuchsia-400">
-              Acesso restrito
-            </div>
-          </div>
+  const sidebarNode = (
+    <aside className="flex w-full md:w-64 flex-col border-r border-zinc-800/80 bg-[#0a0a16] px-4 py-6">
+      <div className="mb-6 flex items-center gap-2 px-2">
+        <div className="grid h-9 w-9 place-items-center rounded-md bg-gradient-to-br from-fuchsia-500 to-indigo-500 text-sm font-black text-white">
+          Ø
         </div>
+        <div className="leading-tight">
+          <div className="text-sm font-bold tracking-wide text-zinc-100">ONDA ZERO</div>
+          <div className="text-[10px] uppercase tracking-[0.18em] text-fuchsia-400">Acesso restrito</div>
+        </div>
+      </div>
 
-        <nav className="flex-1 space-y-1">
-          {nav.map((n) => {
-            const Icon = n.icon;
-            const active = n.exact ? path === n.to : path.startsWith(n.to);
-            return (
-              <Link
-                key={n.to}
-                to={n.to}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition ${
-                  active
-                    ? "bg-fuchsia-500/15 text-fuchsia-200"
-                    : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {n.label}
-              </Link>
-            );
-          })}
-        </nav>
+      <nav className="flex-1 space-y-1">
+        {nav.map((n) => {
+          const Icon = n.icon;
+          const active = n.exact ? path === n.to : path.startsWith(n.to);
+          return (
+            <Link
+              key={n.to}
+              to={n.to}
+              className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition ${
+                active ? "bg-fuchsia-500/15 text-fuchsia-200" : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100"
+              }`}
+            >
+              <Icon className="h-4 w-4" />
+              {n.label}
+            </Link>
+          );
+        })}
+      </nav>
 
-        <a
-          href="mailto:aprimoreeducation@gmail.com"
-          className="mt-4 flex items-center gap-2 rounded-md border border-fuchsia-500/30 px-3 py-2 text-xs text-fuchsia-300 hover:bg-fuchsia-500/10"
-        >
-          <Mail className="h-4 w-4" /> Suporte Técnico
-        </a>
-        <button
-          disabled={loggingOut}
-          onClick={async () => {
-            setLoggingOut(true);
-            try {
-              await logout();
-              window.location.href = "/login";
-            } finally {
-              setLoggingOut(false);
-            }
-          }}
-          className="mt-2 flex items-center gap-2 rounded-md border border-zinc-800 px-3 py-2 text-xs text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100 disabled:opacity-50"
-        >
-          {loggingOut ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />} Encerrar sessão
-        </button>
-      </aside>
+      <a
+        href="mailto:aprimoreeducation@gmail.com"
+        className="mt-4 flex items-center gap-2 rounded-md border border-fuchsia-500/30 px-3 py-2 text-xs text-fuchsia-300 hover:bg-fuchsia-500/10"
+      >
+        <Mail className="h-4 w-4" /> Suporte Técnico
+      </a>
+      <button
+        disabled={loggingOut}
+        onClick={async () => {
+          setLoggingOut(true);
+          try {
+            await logout();
+            window.location.href = "/login";
+          } finally {
+            setLoggingOut(false);
+          }
+        }}
+        className="mt-2 flex items-center gap-2 rounded-md border border-zinc-800 px-3 py-2 text-xs text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100 disabled:opacity-50"
+      >
+        {loggingOut ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />} Encerrar sessão
+      </button>
+    </aside>
+  );
 
-      <main className="flex-1 overflow-x-hidden">
-        <header className="flex items-center justify-between border-b border-zinc-800/80 px-8 py-5">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-            {subtitle && (
-              <p className="text-sm text-zinc-400">{subtitle}</p>
-            )}
+  return (
+    <div className="flex min-h-dvh bg-[#070710] text-zinc-100">
+      <Toaster position="top-right" richColors theme="dark" />
+      <div className="hidden md:flex">{sidebarNode}</div>
+      <main className="min-w-0 flex-1 overflow-x-hidden">
+        <MobileTopBar sidebar={sidebarNode} title={title} variant="dark" />
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-zinc-800/80 px-4 py-4 sm:px-6 lg:px-8 lg:py-5">
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-bold tracking-tight sm:text-2xl">{title}</h1>
+            {subtitle && <p className="truncate text-xs text-zinc-400 sm:text-sm">{subtitle}</p>}
           </div>
-          <div className="flex items-center gap-3 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/5 py-1.5 pl-1.5 pr-4">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-fuchsia-500 to-indigo-500 text-xs font-black">
+          <div className="flex items-center gap-2 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/5 py-1.5 pl-1.5 pr-3 sm:gap-3 sm:pr-4">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-fuchsia-500 to-indigo-500 text-xs font-black">
               {user?.nome?.[0] ?? "C"}
             </div>
-            <div className="text-left leading-tight">
-              <div className="text-sm font-semibold">{user?.nome ?? "CEO"}</div>
-              <div className="text-[10px] uppercase tracking-widest text-fuchsia-300">
-                clearance · ceo
-              </div>
+            <div className="hidden min-w-0 text-left leading-tight sm:block">
+              <div className="truncate text-sm font-semibold">{user?.nome ?? "CEO"}</div>
+              <div className="text-[10px] uppercase tracking-widest text-fuchsia-300">clearance · ceo</div>
             </div>
           </div>
         </header>
-        <div className="space-y-6 px-8 py-8">{children}</div>
+        <div className="space-y-6 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</div>
       </main>
     </div>
   );
 }
+
