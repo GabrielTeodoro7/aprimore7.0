@@ -30,7 +30,7 @@ function Landing() {
     <div className="min-h-screen bg-[oklch(0.985_0.005_250)] text-foreground antialiased selection:bg-primary/20">
       {/* NAV */}
       <header className="sticky top-0 z-30 border-b border-white/40 bg-white/60 backdrop-blur-xl backdrop-saturate-150">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
           <Link to="/" className="flex items-center" aria-label="Aprimore Educação — início">
             <span className="text-[15px] font-semibold tracking-tight text-foreground md:text-base">
               Aprimore<span className="text-primary"> Educação</span>
