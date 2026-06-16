@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Gamepad2, Trophy, Star, Target, Sparkles } from "lucide-react";
+import { ArrowLeft, Gamepad2, Trophy, Star, Target } from "lucide-react";
+import { toast } from "sonner";
 import { StudentShell } from "@/components/StudentShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAlunoPerfil } from "@/lib/student-store";
+import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 
 export const Route = createFileRoute("/aluno/jogos")({
   head: () => ({ meta: [{ title: "Central de Jogos — Aprimore" }] }),
