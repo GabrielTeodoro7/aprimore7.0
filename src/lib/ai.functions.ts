@@ -4,11 +4,16 @@ import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { safeGenerateObject } from "@/lib/ai-safe";
 
 function getModel() {
-  // Ordem: GEMINI_API_KEY direto (funciona fora do Lovable, ex.: VS Code) → Lovable Gateway → Groq.
+  // Ordem: Groq (rápido, fora do Lovable) → Gemini direto → Lovable Gateway.
+  const groqKey = process.env.GROQ_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   const lovableKey = process.env.LOVABLE_API_KEY;
-  const groqKey = process.env.GROQ_API_KEY;
 
+  if (groqKey) {
+    const provider = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
+    // @ts-ignore
+    return provider("llama-3.3-70b-versatile");
+  }
   if (geminiKey) {
     const provider = createLovableAiGatewayProvider(geminiKey, "https://generativelanguage.googleapis.com/v1beta/openai");
     // @ts-ignore
@@ -18,12 +23,7 @@ function getModel() {
     const provider = createLovableAiGatewayProvider(lovableKey);
     return provider("google/gemini-3-flash-preview");
   }
-  if (groqKey) {
-    const provider = createLovableAiGatewayProvider(groqKey, "https://api.groq.com/openai/v1");
-    // @ts-ignore
-    return provider("llama-3.3-70b-versatile");
-  }
-  throw new Error("Nenhuma chave de IA configurada (GEMINI_API_KEY, LOVABLE_API_KEY ou GROQ_API_KEY).");
+  throw new Error("Nenhuma chave de IA configurada (GROQ_API_KEY, GEMINI_API_KEY ou LOVABLE_API_KEY).");
 }
 
 
