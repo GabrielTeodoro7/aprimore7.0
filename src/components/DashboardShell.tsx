@@ -9,6 +9,7 @@ import { useNotifs, usePerfil } from "@/lib/store";
 import { useAuth } from "@/lib/auth-store";
 import { RequireRole } from "@/components/RequireRole";
 import { ImpersonationBanner } from "@/components/ImpersonationBanner";
+import { MobileTopBar } from "@/components/MobileTopBar";
 
 interface Props {
   title: string;
@@ -39,17 +40,19 @@ function DashboardShellInner({ title, subtitle, children }: Props) {
   }, [perfil.theme]);
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-dvh bg-background">
       <Toaster position="top-right" richColors />
-      <DashboardSidebar />
-      <main className="flex-1 overflow-x-hidden" aria-label={title}>
+      <div className="hidden md:flex"><DashboardSidebar /></div>
+      <main className="min-w-0 flex-1 overflow-x-hidden" aria-label={title}>
+        <MobileTopBar sidebar={<DashboardSidebar />} title={title} />
         <ImpersonationBanner />
-        <header className="flex items-center justify-between gap-4 px-8 py-6">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-bold text-foreground sm:text-2xl">{title}</h1>
+            {subtitle && <p className="truncate text-xs text-muted-foreground sm:text-sm">{subtitle}</p>}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+
             <div className="relative">
               <button
                 onClick={() => setOpen((o) => !o)}
@@ -97,21 +100,21 @@ function DashboardShellInner({ title, subtitle, children }: Props) {
             </div>
             <Link
               to="/configuracoes"
-              className="flex items-center gap-3 rounded-full bg-card py-1.5 pl-1.5 pr-4 shadow-sm transition hover:shadow-md"
+              className="flex items-center gap-2 rounded-full bg-card py-1.5 pl-1.5 pr-3 shadow-sm transition hover:shadow-md sm:gap-3 sm:pr-4"
               aria-label="Abrir perfil e configurações"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[var(--stat-purple)] to-[var(--stat-blue)] text-sm font-bold text-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--stat-purple)] to-[var(--stat-blue)] text-sm font-bold text-white sm:h-10 sm:w-10">
                 {nome.split(" ").map((n) => n[0]).slice(0, 2).join("")}
               </div>
-              <div className="text-left leading-tight">
-                <div className="text-sm font-semibold text-foreground">{nome}</div>
-                <div className="text-xs text-muted-foreground">{cargo}</div>
+              <div className="hidden min-w-0 text-left leading-tight sm:block">
+                <div className="truncate text-sm font-semibold text-foreground">{nome}</div>
+                <div className="truncate text-xs text-muted-foreground">{cargo}</div>
               </div>
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              <ChevronDown className="hidden h-4 w-4 text-muted-foreground sm:block" />
             </Link>
           </div>
         </header>
-        <div className="space-y-6 px-8 pb-10">{children}</div>
+        <div className="space-y-6 px-4 pb-10 sm:px-6 lg:px-8">{children}</div>
       </main>
     </div>
   );

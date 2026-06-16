@@ -28,7 +28,7 @@ export function StudentSidebar() {
   const [a11yOpen, setA11yOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-card">
+    <aside className="flex w-full md:w-64 shrink-0 flex-col border-r border-border bg-card">
       <Link to="/aluno" className="flex flex-col items-center gap-2 px-6 py-6" id="student-top">
         <img src={logoUrl} alt="Aprimore Educação" className="h-20 w-20 object-contain" />
       </Link>
