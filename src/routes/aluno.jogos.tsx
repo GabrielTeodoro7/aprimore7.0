@@ -21,6 +21,14 @@ const jogos = [
 ];
 
 function CentralJogos() {
+  const { addEstrelas } = useAlunoPerfil();
+  const { playStar } = useAudioFeedback();
+  const jogar = (jogo: { title: string; stars: number }) => {
+    addEstrelas(jogo.stars);
+    playStar();
+    toast.success(`Você jogou "${jogo.title}"! +${jogo.stars} ⭐`, { description: "Novos níveis em breve." });
+  };
+  const verRanking = () => toast.info("Ranking do torneio", { description: "Em breve você verá sua posição aqui!" });
   return (
     <StudentShell
       title={
