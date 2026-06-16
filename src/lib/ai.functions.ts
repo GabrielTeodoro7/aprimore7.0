@@ -196,10 +196,11 @@ const DesempenhoInput = z.object({
   necessidade: z.string().optional().default(""),
   notas: z.array(z.object({
     materia: z.string(),
-    nota: z.number().min(0).max(10),
+    nota: z.coerce.number().min(0).max(10),
   })).min(1).max(20),
-  frequencia: z.number().min(0).max(100).default(90),
+  frequencia: z.coerce.number().min(0).max(100).default(90),
   observacoes: z.string().optional().default(""),
+
 });
 
 const DesempenhoSchema = z.object({
