@@ -318,7 +318,7 @@ function LoginPage() {
 
           {/* Demo */}
           <div className="grid grid-cols-2 gap-2">
-            {(["ceo", "admin", "professor", "aluno"] as const).map((r) => (
+            {(["admin", "professor", "aluno"] as const).map((r) => (
               <button
                 key={r}
                 type="button"
