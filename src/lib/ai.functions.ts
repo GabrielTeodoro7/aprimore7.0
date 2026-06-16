@@ -621,11 +621,12 @@ const PerguntaInput = z.object({
   pergunta: z.string().min(3).max(500),
   alunos: z.array(z.object({
     nome: z.string(),
-    media: z.number().optional(),
-    frequencia: z.number().optional(),
+    media: z.coerce.number().optional(),
+    frequencia: z.coerce.number().optional(),
     tag: z.string().optional(),
     necessidade: z.string().optional(),
   })).max(120),
+
 });
 const PerguntaSchema = z.object({
   resposta: z.string(),
