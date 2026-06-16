@@ -59,7 +59,7 @@ function CentralJogos() {
               <div className="flex gap-2 mb-6">
                 {jogo.tags.map(t => <Badge key={t} variant="secondary" className="text-[10px]">{t}</Badge>)}
               </div>
-              <Button className="w-full rounded-2xl font-bold mt-auto group-hover:bg-primary transition-colors">
+              <Button onClick={() => jogar(jogo)} className="w-full rounded-2xl font-bold mt-auto group-hover:bg-primary transition-colors">
                 <Gamepad2 className="mr-2 h-4 w-4" /> Jogar Agora
               </Button>
             </div>
