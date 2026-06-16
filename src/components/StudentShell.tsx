@@ -5,8 +5,10 @@ import { StudentSidebar } from "@/components/StudentSidebar";
 import { useAlunoPerfil } from "@/lib/student-store";
 import { RequireRole } from "@/components/RequireRole";
 import { ImpersonationBanner } from "@/components/ImpersonationBanner";
+import { MobileTopBar } from "@/components/MobileTopBar";
 import { useState } from "react";
 import { AccessibilityPanel } from "@/components/AccessibilityPanel";
+
 
 interface Props {
   title?: ReactNode;
