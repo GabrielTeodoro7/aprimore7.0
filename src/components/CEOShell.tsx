@@ -19,6 +19,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-store";
+import { MobileTopBar } from "@/components/MobileTopBar";
 
 const nav: ReadonlyArray<{ to: string; label: string; icon: typeof ShieldAlert; exact?: boolean }> = [
   { to: "/ceo", label: "Onda Zero", icon: ShieldAlert, exact: true },
