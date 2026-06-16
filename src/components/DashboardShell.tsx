@@ -39,17 +39,19 @@ function DashboardShellInner({ title, subtitle, children }: Props) {
   }, [perfil.theme]);
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-dvh bg-background">
       <Toaster position="top-right" richColors />
-      <DashboardSidebar />
-      <main className="flex-1 overflow-x-hidden" aria-label={title}>
+      <div className="hidden md:flex"><DashboardSidebar /></div>
+      <main className="min-w-0 flex-1 overflow-x-hidden" aria-label={title}>
+        <MobileTopBar sidebar={<DashboardSidebar />} title={title} />
         <ImpersonationBanner />
-        <header className="flex items-center justify-between gap-4 px-8 py-6">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-bold text-foreground sm:text-2xl">{title}</h1>
+            {subtitle && <p className="truncate text-xs text-muted-foreground sm:text-sm">{subtitle}</p>}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+
             <div className="relative">
               <button
                 onClick={() => setOpen((o) => !o)}
