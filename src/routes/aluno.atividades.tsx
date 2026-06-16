@@ -18,7 +18,7 @@ function Atividades() {
   const { addEstrelas } = useAlunoPerfil();
   const { playStar } = useAudioFeedback();
   const [feitas, setFeitas] = useState<Record<string, boolean>>({});
-  const [filterMode, setFilterMode] = useState<"all" | "mine">("mine");
+  const [filterMode, setFilterMode] = useState<"all" | "mine">("all");
 
   const filteredList = useMemo(() => {
     if (filterMode === "mine") {
