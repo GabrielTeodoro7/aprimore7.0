@@ -1,7 +1,23 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Plus, X, Info, Sparkles, Loader2, Users, Upload, FileText } from "lucide-react";
+import { ArrowLeft, Plus, X, Info, Sparkles, Loader2, Users, Upload, FileText, Youtube } from "lucide-react";
+
+function parseYouTubeId(url: string): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url.trim());
+    if (u.hostname.includes("youtu.be")) return u.pathname.slice(1) || null;
+    if (u.hostname.includes("youtube.com")) {
+      if (u.pathname === "/watch") return u.searchParams.get("v");
+      const m = u.pathname.match(/\/(embed|shorts|v)\/([\w-]{6,})/);
+      if (m) return m[2];
+    }
+  } catch {
+    if (/^[\w-]{11}$/.test(url.trim())) return url.trim();
+  }
+  return null;
+}
 import { toast } from "sonner";
 import { DashboardShell } from "@/components/DashboardShell";
 import { useActivities, useStudents, useTurmas, type Activity } from "@/lib/store";
