@@ -27,6 +27,53 @@
       <p id="account-status" class="form-message" role="status" aria-live="polite">Consultando o servidor...</p>
       <dl id="account-details"></dl>
     </section>
+    <section class="feature-section" id="workspace">
+      <div class="section-heading"><p class="eyebrow">Área de aprendizagem</p><h2>Continue sua jornada.</h2><p>Atividades e ferramentas disponíveis para o seu perfil.</p></div>
+      <section id="staff-tools" hidden>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Criar turma</h3>
+            <form id="create-class-form">
+              <div class="field"><label for="class-name">Nome da turma</label><input id="class-name" name="nome" maxlength="120" required></div>
+              <div class="field"><label for="class-year">Ano letivo</label><input id="class-year" name="anoLetivo" type="number" min="2000" max="2100" required></div>
+              <div class="field" id="teacher-id-field" hidden><label for="teacher-id">ID do professor responsável</label><input id="teacher-id" name="professorId" inputmode="numeric"></div>
+              <p class="form-message" id="class-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Salvar turma</button>
+            </form>
+          </article>
+          <article class="feature-card">
+            <h3>Publicar atividade</h3>
+            <form id="create-activity-form">
+              <div class="field"><label for="activity-class">Turma</label><select id="activity-class" name="turmaId" required><option value="">Carregando turmas...</option></select></div>
+              <div class="field"><label for="activity-title">Título</label><input id="activity-title" name="titulo" maxlength="180" required></div>
+              <div class="field"><label for="activity-subject">Matéria</label><input id="activity-subject" name="materia" maxlength="100" required></div>
+              <div class="field"><label for="activity-date">Data de entrega</label><input id="activity-date" name="dataEntrega" type="date"></div>
+              <div class="field"><label for="activity-description">Descrição</label><input id="activity-description" name="descricao" maxlength="10000"></div>
+              <div class="field"><label for="activity-level">Dificuldade</label><select id="activity-level" name="dificuldade"><option value="FACIL">Fácil</option><option value="MEDIA" selected>Média</option><option value="DESAFIO">Desafio</option></select></div>
+              <label class="access-benefit"><input type="checkbox" name="adaptada" value="true"> Atividade adaptada</label>
+              <p class="form-message" id="activity-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Publicar atividade</button>
+            </form>
+          </article>
+          <article class="feature-card">
+            <h3>Cadastrar aluno</h3>
+            <form id="create-student-form">
+              <div class="field"><label for="student-class">Turma</label><select id="student-class" name="turmaId" required><option value="">Carregando turmas...</option></select></div>
+              <div class="field"><label for="student-name">Nome do aluno</label><input id="student-name" name="nome" maxlength="120" required></div>
+              <div class="field"><label for="student-guardian">Responsável</label><input id="student-guardian" name="responsavel" maxlength="120"></div>
+              <div class="field"><label for="student-email">E-mail do responsável</label><input id="student-email" name="emailResponsavel" type="email" maxlength="254"></div>
+              <div class="field"><label for="student-needs">Necessidade educacional (opcional)</label><input id="student-needs" name="necessidadeEducacional" maxlength="500"></div>
+              <p class="form-message" id="student-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Cadastrar aluno</button>
+            </form>
+          </article>
+        </div>
+      </section>
+      <div class="section-heading" id="activities-heading"><h2>Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
+      <div class="feature-grid" id="activities-list"></div>
+      <div class="section-heading" id="students-heading" hidden><h2>Alunos</h2><p id="students-status" role="status" aria-live="polite">Carregando alunos...</p></div>
+      <div class="feature-grid" id="students-list"></div>
+    </section>
   </main>
   <footer class="footer"><a class="brand" href="./index.html"><span class="brand-mark">A</span> Aprimore <span>Educação</span></a><p>Aprender é um processo. Cada passo conta.</p><span>© <span id="year"></span> Aprimore Educação</span></footer>
 </body>
