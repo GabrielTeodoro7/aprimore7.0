@@ -7,6 +7,7 @@ const teacherIdField = document.querySelector("#teacher-id-field");
 const studentsHeading = document.querySelector("#students-heading");
 const activitiesStatus = document.querySelector("#activities-status");
 const activitiesList = document.querySelector("#activities-list");
+const activitySearch = document.querySelector("#activity-search");
 const studentsStatus = document.querySelector("#students-status");
 const studentsList = document.querySelector("#students-list");
 const classMessage = document.querySelector("#class-message");
@@ -27,6 +28,30 @@ document.querySelector("#class-year").value = new Date().getFullYear();
 const today = new Date();
 today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
 document.querySelector("#attendance-date").value = today.toISOString().slice(0, 10);
+
+function filtrarAtividades() {
+  const cards = Array.from(activitiesList.children);
+  if (!cards.length) return;
+
+  const termo = (activitySearch?.value || "").trim().toLocaleLowerCase("pt-BR");
+  let visiveis = 0;
+
+  cards.forEach((card) => {
+    const corresponde = (card.dataset.searchText || "").includes(termo);
+    card.hidden = !corresponde;
+    if (corresponde) visiveis++;
+  });
+
+  if (!termo) {
+    activitiesStatus.textContent = cards.length + " atividade(s) disponível(is).";
+  } else {
+    activitiesStatus.textContent = visiveis
+      ? visiveis + " atividade(s) correspondem à busca."
+      : "Nenhuma atividade corresponde à busca.";
+  }
+}
+
+activitySearch?.addEventListener("input", filtrarAtividades);
 
 function addDetail(label, value) {
   const term = document.createElement("dt");
@@ -100,6 +125,13 @@ async function loadActivities(user) {
       const lines = [item.materia, item.turmaNome, dueDate, "Dificuldade: " + item.dificuldade, item.adaptada ? "Atividade adaptada" : "Atividade padrão"];
       if (item.descricao) lines.push(item.descricao);
       const card = createCard(item.titulo, lines);
+      card.dataset.searchText = [
+        item.titulo,
+        item.materia,
+        item.turmaNome,
+        item.descricao || "",
+        item.dificuldade
+      ].join(" ").toLocaleLowerCase("pt-BR");
       if (user.perfil === "ALUNO") {
         const form = document.createElement("form");
         form.className = "submission-form";
@@ -149,6 +181,7 @@ async function loadActivities(user) {
       }
       activitiesList.append(card);
     });
+    filtrarAtividades();
   } catch (error) {
     activitiesStatus.textContent = error.message;
   }
