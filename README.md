@@ -60,7 +60,7 @@ Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes
 - Resumo de indicadores para administradores e CEO.
 - Registro pessoal de bem-estar do estudante.
 - Tutor pedagógico opcional por API, configurado no servidor.
-- Central com quatro jogos educativos funcionais: quiz, memória, matemática e palavras embaralhadas, com pontuação e recordes locais.
+- Central com 18 jogos educativos internos, incluindo matemática, gramática, ciências, lógica, geografia, artes, história, inglês, música, memória, corrida de letras e desafios de vocabulário. As partidas têm regras, respostas e pontuação; os recordes ficam salvos no dispositivo.
 - Calendário mensal de prazos, notificações derivadas de atividades e mensagens, e preferências de acessibilidade para tamanho de texto, alto contraste e movimento reduzido.
 - Relatórios administrativos com indicadores gerais e visão por turma: alunos, atividades, entregas, média de notas e frequência.
 - Histórico de auditoria de operações autenticadas bem-sucedidas, disponível somente para ADMIN e CEO; não registra conteúdo de mensagens nem senhas.
