@@ -59,7 +59,7 @@ O cadastro público cria apenas usuários com perfil `ALUNO`. Para promover uma 
 UPDATE usuarios SET perfil = 'ADMIN' WHERE email = 'seu-email@exemplo.com';
 ```
 
-Não use contas administrativas públicas nem deixe credenciais reais no repositório.
+Para habilitar um professor, use o mesmo procedimento com `perfil = 'PROFESSOR'` e o e-mail da conta correspondente. Faça essas alterações somente com acesso administrativo confiável ao banco. Não use contas administrativas públicas nem deixe credenciais reais no repositório.
 
 ## Executar
 
