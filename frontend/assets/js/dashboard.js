@@ -33,7 +33,8 @@ function addDetail(label, value) {
 async function requestJson(url, options = {}) {
   const headers = new Headers(options.headers || {});
   if (options.method && options.method.toUpperCase() === "POST" && csrfToken) headers.set("X-CSRF-Token", csrfToken);
-  const response = await fetch(url, { credentials: "same-origin", cache: "no-store", ...options, headers });
+  const targetUrl = url.startsWith("/") ? `${contextPath}${url}` : url;
+  const response = await fetch(targetUrl, { credentials: "same-origin", cache: "no-store", ...options, headers });
   const payload = await response.json().catch(() => ({}));
   if (response.status === 401) {
     window.location.replace("./index.html#acesso");
@@ -81,7 +82,7 @@ async function loadActivities() {
   activitiesList.replaceChildren();
   activitiesStatus.textContent = "Carregando atividades...";
   try {
-    const activities = await requestJson(`${contextPath}/api/atividades");
+    const activities = await requestJson("/api/atividades");
     activitiesStatus.textContent = activities.length ? activities.length + " atividade(s) disponível(is)." : "Ainda não há atividades para este perfil.";
     activities.forEach((item) => {
       const dueDate = item.dataEntrega ? "Entrega: " + new Date(item.dataEntrega + "T12:00:00").toLocaleDateString("pt-BR") : "Sem data de entrega";
@@ -106,7 +107,7 @@ async function loadStaffWorkspace(user) {
   teacherIdInput.required = !teacher;
 
   try {
-    const classes = await requestJson(`${contextPath}/api/turmas");
+    const classes = await requestJson("/api/turmas");
     fillClassSelect(document.querySelector("#activity-class"), classes);
     fillClassSelect(document.querySelector("#student-class"), classes);
   } catch (error) {
@@ -118,7 +119,7 @@ async function loadStaffWorkspace(user) {
   studentsList.replaceChildren();
   studentsStatus.textContent = "Carregando alunos...";
   try {
-    const students = await requestJson(`${contextPath}/api/alunos");
+    const students = await requestJson("/api/alunos");
     studentsStatus.textContent = students.length ? students.length + " aluno(s) cadastrado(s)." : "Ainda não há alunos cadastrados.";
     students.forEach((student) => {
       studentsList.append(createCard(student.nome, [
@@ -139,7 +140,7 @@ async function loadWorkspace(user) {
 
 async function loadAccount() {
   try {
-    const user = await requestJson(`${contextPath}/api/auth/me");
+    const user = await requestJson("/api/auth/me");
     csrfToken = user.csrfToken || "";
     title.textContent = "Olá, " + user.nome + ".";
     copy.textContent = "Sua sessão está ativa. Os recursos disponíveis dependem do seu perfil de acesso.";
@@ -181,20 +182,20 @@ async function submitForm(form, endpoint, messageElement, successMessage, afterS
 
 document.querySelector("#create-class-form").addEventListener("submit", (event) => {
   event.preventDefault();
-  submitForm(event.currentTarget, `${contextPath}/api/turmas", classMessage, "Turma criada com sucesso.", loadAccount);
+  submitForm(event.currentTarget, "/api/turmas", classMessage, "Turma criada com sucesso.", loadAccount);
 });
 document.querySelector("#create-activity-form").addEventListener("submit", (event) => {
   event.preventDefault();
-  submitForm(event.currentTarget, `${contextPath}/api/atividades", activityMessage, "Atividade publicada com sucesso.", loadAccount);
+  submitForm(event.currentTarget, "/api/atividades", activityMessage, "Atividade publicada com sucesso.", loadAccount);
 });
 document.querySelector("#create-student-form").addEventListener("submit", (event) => {
   event.preventDefault();
-  submitForm(event.currentTarget, `${contextPath}/api/alunos", studentMessage, "Aluno cadastrado com sucesso.", loadAccount);
+  submitForm(event.currentTarget, "/api/alunos", studentMessage, "Aluno cadastrado com sucesso.", loadAccount);
 });
 
 document.querySelector("#logout-button").addEventListener("click", async () => {
   try {
-    await fetch(`${contextPath}/api/auth/logout", { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": csrfToken } });
+    await fetch(`${contextPath}/api/auth/logout`, { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": csrfToken } });
   } finally {
     window.location.replace("./index.html");
   }
