@@ -47,7 +47,7 @@ form.addEventListener("submit", async (event) => {
     if (!response.ok) throw new Error(payload.erro || "Não foi possível concluir o acesso.");
     message.textContent = mode === "register" ? "Conta criada. O cadastro foi concluído." : `Bem-vindo(a), ${payload.nome}!`;
     message.className = "form-message success";
-    if (mode === "register") form.reset();
+    window.location.href = "./dashboard.html";
   } catch (error) {
     message.textContent = error instanceof TypeError
       ? "Não foi possível conectar ao servidor. Confira se a aplicação está em execução."
