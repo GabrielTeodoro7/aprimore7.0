@@ -49,7 +49,7 @@
               <div class="field"><label for="activity-title">Título</label><input id="activity-title" name="titulo" maxlength="180" required></div>
               <div class="field"><label for="activity-subject">Matéria</label><input id="activity-subject" name="materia" maxlength="100" required></div>
               <div class="field"><label for="activity-date">Data de entrega</label><input id="activity-date" name="dataEntrega" type="date"></div>
-              <div class="field"><label for="activity-description">Descrição</label><input id="activity-description" name="descricao" maxlength="10000"></div>
+              <div class="field"><label for="activity-description">Descrição</label><textarea id="activity-description" name="descricao" rows="4" maxlength="10000"></textarea></div>
               <div class="field"><label for="activity-level">Dificuldade</label><select id="activity-level" name="dificuldade"><option value="FACIL">Fácil</option><option value="MEDIA" selected>Média</option><option value="DESAFIO">Desafio</option></select></div>
               <label class="access-benefit"><input type="checkbox" name="adaptada" value="true"> Atividade adaptada</label>
               <p class="form-message" id="activity-message" role="status" aria-live="polite"></p>
@@ -96,6 +96,7 @@
         <div class="feature-grid" id="corrections-list"></div>
       </section>
       <div class="section-heading" id="activities-heading"><h2>Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
+      <div class="field activity-search"><label for="activity-search">Buscar atividade</label><input id="activity-search" type="search" maxlength="120" placeholder="Digite título, matéria ou turma" autocomplete="off"><small>Filtra as atividades que já estão carregadas no painel.</small></div>
       <div class="feature-grid" id="activities-list"></div>
       <section class="feature-section" id="messages-section" aria-labelledby="messages-heading">
         <div class="section-heading"><p class="eyebrow">Comunicação</p><h2 id="messages-heading">Mensagens</h2><p>Envie uma mensagem à equipe escolar ou acompanhe suas conversas.</p></div>
