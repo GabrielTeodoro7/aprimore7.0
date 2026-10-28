@@ -1,7 +1,9 @@
 package br.com.aprimore.servlet;
 
+import br.com.aprimore.config.Database;
 import br.com.aprimore.dao.UsuarioDAO;
 import br.com.aprimore.model.Usuario;
+import br.com.aprimore.service.EmailService;
 import br.com.aprimore.service.ValidacaoUsuario;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,9 +13,16 @@ import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.HexFormat;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -61,6 +70,10 @@ public class AuthServlet extends HttpServlet {
                 login(request, response);
             } else if ("/logout".equals(rota)) {
                 logout(request, response);
+            } else if ("/recuperacao".equals(rota)) {
+                recuperarSenha(request, response);
+            } else if ("/redefinir-senha".equals(rota)) {
+                redefinirSenha(request, response);
             } else {
                 responder(response, 404, "{\"erro\":\"Rota não encontrada.\"}");
             }
@@ -107,6 +120,119 @@ public class AuthServlet extends HttpServlet {
         HttpSession sessao = request.getSession(false);
         if (sessao != null) sessao.invalidate();
         responder(response, 200, "{\"mensagem\":\"Sessão encerrada.\"}");
+    }
+
+    private void recuperarSenha(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String email = parametro(request, "email").trim().toLowerCase(Locale.ROOT);
+        String mensagem = "{\"mensagem\":\"Se a conta estiver cadastrada e o e-mail configurado, você receberá instruções de recuperação.\"}";
+        if (!ValidacaoUsuario.emailValido(email)) {
+            responder(response, 200, mensagem);
+            return;
+        }
+
+        Optional<UsuarioDAO.CredencialUsuario> credencial = usuarios.buscarCredencialPorEmail(email);
+        if (credencial.isEmpty() || !credencial.get().ativo()) {
+            responder(response, 200, mensagem);
+            return;
+        }
+
+        byte[] tokenBytes = new byte[32];
+        RANDOM.nextBytes(tokenBytes);
+        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
+        String tokenHash = hashToken(token);
+        long usuarioId = credencial.get().usuario().id();
+        try (Connection connection = Database.getConnection();
+             PreparedStatement cleanup = connection.prepareStatement(
+                 "DELETE FROM password_reset_tokens WHERE expires_at < CURRENT_TIMESTAMP OR used_at IS NOT NULL")) {
+            cleanup.executeUpdate();
+            try (PreparedStatement insert = connection.prepareStatement(
+                    "INSERT INTO password_reset_tokens (usuario_id, token_hash, expires_at) "
+                        + "VALUES (?, ?, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 15 MINUTE))")) {
+                insert.setLong(1, usuarioId);
+                insert.setString(2, tokenHash);
+                insert.executeUpdate();
+            }
+        }
+
+        try {
+            EmailService.enviarTokenRecuperacao(email, token);
+        } catch (jakarta.mail.MessagingException | IllegalStateException exception) {
+            getServletContext().log("Não foi possível enviar o e-mail de recuperação.", exception);
+            try (Connection connection = Database.getConnection();
+                 PreparedStatement delete = connection.prepareStatement(
+                     "DELETE FROM password_reset_tokens WHERE token_hash = ?")) {
+                delete.setString(1, tokenHash);
+                delete.executeUpdate();
+            }
+        }
+        responder(response, 200, mensagem);
+    }
+
+    private void redefinirSenha(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String token = parametro(request, "token").trim();
+        String senha = request.getParameter("senha") == null ? "" : request.getParameter("senha");
+        if (token.length() < 30 || token.length() > 100 || !ValidacaoUsuario.senhaValida(senha)) {
+            responder(response, 400, "{\"erro\":\"Código inválido ou senha fora dos critérios de segurança.\"}");
+            return;
+        }
+
+        String tokenHash = hashToken(token);
+        try (Connection connection = Database.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                long usuarioId;
+                try (PreparedStatement select = connection.prepareStatement(
+                        "SELECT usuario_id FROM password_reset_tokens WHERE token_hash = ? "
+                            + "AND used_at IS NULL AND expires_at > CURRENT_TIMESTAMP FOR UPDATE")) {
+                    select.setString(1, tokenHash);
+                    try (ResultSet result = select.executeQuery()) {
+                        if (!result.next()) {
+                            connection.rollback();
+                            responder(response, 400, "{\"erro\":\"Código inválido ou expirado. Solicite uma nova recuperação.\"}");
+                            return;
+                        }
+                        usuarioId = result.getLong("usuario_id");
+                    }
+                }
+
+                try (PreparedStatement update = connection.prepareStatement(
+                        "UPDATE usuarios SET senha_hash = ? WHERE id = ? AND status = 'ATIVO'")) {
+                    update.setString(1, BCrypt.hashpw(senha, BCrypt.gensalt(12)));
+                    update.setLong(2, usuarioId);
+                    if (update.executeUpdate() != 1) {
+                        connection.rollback();
+                        responder(response, 400, "{\"erro\":\"Não foi possível redefinir esta conta.\"}");
+                        return;
+                    }
+                }
+
+                try (PreparedStatement consume = connection.prepareStatement(
+                        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP "
+                            + "WHERE usuario_id = ? AND used_at IS NULL")) {
+                    consume.setLong(1, usuarioId);
+                    consume.executeUpdate();
+                }
+                connection.commit();
+                responder(response, 200, "{\"mensagem\":\"Senha redefinida. Entre usando sua nova senha.\"}");
+            } catch (SQLException | RuntimeException exception) {
+                connection.rollback();
+                throw exception;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (IllegalStateException exception) {
+            getServletContext().log("Falha ao redefinir a senha.", exception);
+            responder(response, 503, "{\"erro\":\"Serviço temporariamente indisponível.\"}");
+        }
+    }
+
+    private String hashToken(String token) {
+        try {
+            return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
+                .digest(token.getBytes(StandardCharsets.UTF_8)));
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-256 não está disponível.", exception);
+        }
     }
 
     private void criarSessao(HttpServletRequest request, Usuario usuario) {
