@@ -493,7 +493,7 @@ a:focus-visible,button:focus-visible,input:focus-visible {
   color: var(--text);
   font-size: 13px
 }
-.field input:: placeholder {
+.field input::placeholder {
   color: #68748b
 }
 .field small {
