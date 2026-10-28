@@ -554,20 +554,20 @@ a:focus-visible,button:focus-visible,input:focus-visible {
     grid-template-columns: 1fr;
     padding-top: 68px
   }
-.hero-art {
+  .hero-art {
     min-height: 380px;
     margin-top: 5px
   }
-.floating-top {
+  .floating-top {
     right: 4%
   }
-.floating-bottom {
+  .floating-bottom {
     left: 4%
   }
-.method-section {
+  .method-section {
     gap: 30px
   }
-.access-section {
+  .access-section {
     gap: 30px
   }
 }
@@ -576,76 +576,76 @@ a:focus-visible,button:focus-visible,input:focus-visible {
     height: 65px;
     padding: 0 18px
   }
-.topbar nav {
+  .topbar nav {
     display: none
   }
-.topbar>.button {
+  .topbar>.button {
     margin-left: auto
   }
-.hero {
+  .hero {
     padding: 57px 22px 44px;
     gap: 12px
   }
-.hero h1 {
+  .hero h1 {
     font-size: clamp(41px,12vw,58px)
   }
-.hero-description {
+  .hero-description {
     font-size: 14px
   }
-.hero-note {
+  .hero-note {
     margin-top: 30px
   }
-.hero-art {
+  .hero-art {
     min-height: 340px
   }
-.progress-card {
+  .progress-card {
     width: min(88%,335px);
     padding: 19px
   }
-.orbit-one {
+  .orbit-one {
     width: 300px;
     height: 240px
   }
-.orbit-two {
+  .orbit-two {
     width: 250px;
     height: 320px
   }
-.floating-card {
+  .floating-card {
     padding: 10px
   }
-.floating-top {
+  .floating-top {
     top: 18px;
     right: 0
   }
-.floating-bottom {
+  .floating-bottom {
     bottom: 15px;
     left: 0
   }
-.feature-section,.method-section,.access-section {
+  .feature-section,.method-section,.access-section {
     padding: 54px 22px
   }
-.feature-grid,.method-section,.access-section {
+  .feature-grid,.method-section,.access-section {
     grid-template-columns: 1fr
   }
-.feature-grid {
+  .feature-grid {
     gap: 12px
   }
-.feature-card {
+  .feature-card {
     padding: 21px
   }
-.method-section {
+  .method-section {
     gap: 20px
   }
-.auth-card {
+  .auth-card {
     padding: 19px
   }
-.footer {
+  .footer {
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
     padding: 23px 16px
   }
-.footer p {
+  .footer p {
     width: 100%;
     order: 3
   }
