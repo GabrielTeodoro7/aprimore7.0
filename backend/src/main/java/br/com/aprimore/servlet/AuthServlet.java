@@ -12,11 +12,14 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.Optional;
 
 @WebServlet("/api/auth/*")
 public class AuthServlet extends HttpServlet {
+    private static final SecureRandom RANDOM = new SecureRandom();
     private final UsuarioDAO usuarios = new UsuarioDAO();
 
     @Override
@@ -37,8 +40,10 @@ public class AuthServlet extends HttpServlet {
         String nome = (String) sessao.getAttribute("usuarioNome");
         String email = (String) sessao.getAttribute("usuarioEmail");
         String perfil = (String) sessao.getAttribute("usuarioPerfil");
+        String csrfToken = (String) sessao.getAttribute("csrfToken");
         responder(response, 200, "{\"id\":" + id + ",\"nome\":\"" + escapar(nome)
-                + "\",\"email\":\"" + escapar(email) + "\",\"perfil\":\"" + escapar(perfil) + "\"}");
+                + "\",\"email\":\"" + escapar(email) + "\",\"perfil\":\"" + escapar(perfil)
+                + "\",\"csrfToken\":\"" + escapar(csrfToken) + "\"}");
     }
 
     @Override
@@ -110,6 +115,9 @@ public class AuthServlet extends HttpServlet {
         sessao.setAttribute("usuarioNome", usuario.nome());
         sessao.setAttribute("usuarioEmail", usuario.email());
         sessao.setAttribute("usuarioPerfil", usuario.perfil());
+        byte[] token = new byte[32];
+        RANDOM.nextBytes(token);
+        sessao.setAttribute("csrfToken", Base64.getUrlEncoder().withoutPadding().encodeToString(token));
         sessao.setMaxInactiveInterval(1800);
     }
 
