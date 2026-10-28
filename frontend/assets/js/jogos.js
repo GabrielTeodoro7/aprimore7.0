@@ -264,7 +264,7 @@
         } else {
           s.locked=true;
           const stat=stage.querySelector(".game-stat-row"); if(stat)stat.textContent="Pares: "+s.matches+"/8 · Tentativas: "+s.moves;
-          setTimeout(()=>{first.revealed=false;item.revealed=false;s.first=null;s.locked=false;renderMemory();},800);
+          setTimeout(()=>{if(state!==s)return;first.revealed=false;item.revealed=false;s.first=null;s.locked=false;renderMemory();},800);
         }
       },"memory-tile");
       tile.setAttribute("aria-label",item.matched||item.revealed?item.symbol:"Carta fechada");
@@ -349,7 +349,9 @@
     if(x===2&&y===2)s.key=true;
     if(x===4&&y===4){
       if(s.key){s.done=true;renderMaze();return finish(Math.max(10,100-s.steps*3),"Você encontrou a chave e escapou em "+s.steps+" passos.");}
-      const status=stage.querySelector(".game-stat-row");if(status)status.textContent="Você precisa encontrar a chave antes da saída.";return;
+      s.x-=dx;s.y-=dy;s.steps--;
+      const status=stage.querySelector(".game-stat-row");if(status)status.textContent="Você precisa encontrar a chave antes da saída.";
+      return;
     }
     renderMaze();
   }
@@ -362,7 +364,7 @@
     const palette=el("div",null,"paint-palette");
     colors.forEach((color)=>{const item=btn("",()=>{selectedColor=color;palette.querySelectorAll("button").forEach((node)=>node.setAttribute("aria-pressed",String(node.dataset.color===color)));},"paint-color");item.style.backgroundColor=color;item.dataset.color=color;item.setAttribute("aria-label","Selecionar cor");item.setAttribute("aria-pressed",String(selectedColor===color));palette.append(item);});
     const board=el("div",null,"paint-board");
-    s.cells.forEach((color,index)=>{const cell=btn("",()=>{if(s.cells[index]===selectedColor)return;s.cells[index]=selectedColor;s.painted=s.cells.filter((value,i)=>value!== "#f5f5f5"||i===index).length;cell.style.backgroundColor=selectedColor;const stat=stage.querySelector(".game-stat-row");if(stat)stat.textContent="Quadrados pintados: "+s.painted+"/25";},"paint-cell");cell.style.backgroundColor=color;cell.setAttribute("aria-label","Quadrado "+(index+1));board.append(cell);});
+    s.cells.forEach((color,index)=>{const cell=btn("",()=>{if(s.cells[index]===selectedColor)return;s.cells[index]=selectedColor;s.painted=s.cells.filter((value)=>value!=="#f5f5f5").length;cell.style.backgroundColor=selectedColor;const stat=stage.querySelector(".game-stat-row");if(stat)stat.textContent="Quadrados pintados: "+s.painted+"/25";},"paint-cell");cell.style.backgroundColor=color;cell.setAttribute("aria-label","Quadrado "+(index+1));board.append(cell);});
     stage.append(palette,board,btn("Finalizar desenho",()=>finish(s.painted*4,"Sua arte foi finalizada. Você pode voltar e criar outro mosaico.")),btn("Limpar tela",startPaint));
   }
   function startRhythm() {state={sequence:[],round:0,points:0,showing:false};nextRhythmRound();}
@@ -376,7 +378,7 @@
     pads.forEach((pad,index)=>controls.append(btn(pad,()=>{if(s.showing)return;s.input.push(pad);
       const correct=s.input.every((value,i)=>value===s.sequence[i]);
       if(!correct){s.showing=true;const message=el("p","Sequência incorreta. Vamos tentar outra vez!","game-feedback");message.style.color="var(--orange)";stage.append(message,btn("Tentar novamente",()=>{s.sequence=[];s.round=0;s.points=0;nextRhythmRound();}));return;}
-      if(s.input.length===s.sequence.length){s.points+=10;s.round++;const message=el("p","Perfeito! Sequência concluída.","game-feedback");stage.append(message,btn(s.round===6?"Ver resultado":"Próxima sequência",nextRhythmRound));}
+      if(s.input.length===s.sequence.length){s.points+=10;s.round++;s.showing=true;const message=el("p","Perfeito! Sequência concluída.","game-feedback");stage.append(message,btn(s.round===6?"Ver resultado":"Próxima sequência",nextRhythmRound));}
       else sequence.textContent="Sua sequência: "+s.input.join(" ");
     },"rhythm-pad")));
     stage.append(controls,btn("Começar a repetir",()=>{s.showing=false;sequence.textContent="Sua vez! Repita a sequência."; }));
