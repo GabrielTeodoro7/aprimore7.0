@@ -352,7 +352,8 @@ async function loadStudentSubmissions() {
 }
 
 async function loadWorkspace(user) {
-  await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);\n  if (user.perfil === "ALUNO") await loadStudentSubmissions();
+  await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);
+  if (user.perfil === "ALUNO") await loadStudentSubmissions();
   reportsSection.hidden = !["ADMIN", "CEO"].includes(user.perfil);
   if (["ADMIN", "CEO"].includes(user.perfil)) await loadReports();
 }
