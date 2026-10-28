@@ -86,6 +86,16 @@ public class AlunoServlet extends HttpServlet {
         String responsavel = valor(request, "responsavel");
         String emailResponsavel = valor(request, "emailResponsavel");
         String necessidade = valor(request, "necessidadeEducacional");
+        String usuarioTexto = valor(request, "usuarioId");
+        Long contaAlunoId = null;
+        if (!usuarioTexto.isBlank()) {
+            try {
+                contaAlunoId = Long.parseLong(usuarioTexto);
+            } catch (NumberFormatException exception) {
+                ApiUtil.responder(response, 400, "{\"erro\":\"Informe um ID de conta válido.\"}");
+                return;
+            }
+        }
         if (nome.length() < 2 || nome.length() > 120
                 || responsavel.length() > 120 || emailResponsavel.length() > 254 || necessidade.length() > 500) {
             ApiUtil.responder(response, 400, "{\"erro\":\"Confira o nome e os limites dos campos informados.\"}");
@@ -96,19 +106,25 @@ public class AlunoServlet extends HttpServlet {
             return;
         }
 
-        String sql = "INSERT INTO alunos (turma_id, nome, responsavel, email_responsavel, necessidade_educacional) "
-            + "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO alunos (turma_id, usuario_id, nome, responsavel, email_responsavel, necessidade_educacional) "
+            + "VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = Database.getConnection()) {
+            if (contaAlunoId != null && !contaAlunoAtiva(connection, contaAlunoId)) {
+                ApiUtil.responder(response, 400, "{\"erro\":\"A conta informada não existe, está inativa ou não pertence a um aluno.\"}");
+                return;
+            }
             if (!turmaPermitida(connection, turmaId, usuarioId, perfil)) {
                 ApiUtil.responder(response, 403, "{\"erro\":\"A turma não existe ou você não tem permissão para gerenciá-la.\"}");
                 return;
             }
             try (PreparedStatement statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
                 statement.setLong(1, turmaId);
-                statement.setString(2, nome);
-                statement.setString(3, responsavel.isBlank() ? null : responsavel);
-                statement.setString(4, emailResponsavel.isBlank() ? null : emailResponsavel);
-                statement.setString(5, necessidade.isBlank() ? null : necessidade);
+                if (contaAlunoId == null) statement.setNull(2, java.sql.Types.BIGINT);
+                else statement.setLong(2, contaAlunoId);
+                statement.setString(3, nome);
+                statement.setString(4, responsavel.isBlank() ? null : responsavel);
+                statement.setString(5, emailResponsavel.isBlank() ? null : emailResponsavel);
+                statement.setString(6, necessidade.isBlank() ? null : necessidade);
                 statement.executeUpdate();
                 try (ResultSet keys = statement.getGeneratedKeys()) {
                     if (!keys.next()) throw new SQLException("Identificador do aluno não retornado.");
@@ -119,6 +135,16 @@ public class AlunoServlet extends HttpServlet {
         } catch (SQLException | IllegalStateException exception) {
             getServletContext().log("Falha ao cadastrar aluno.", exception);
             ApiUtil.responder(response, 503, "{\"erro\":\"Não foi possível cadastrar o aluno. Tente novamente.\"}");
+        }
+    }
+
+    private boolean contaAlunoAtiva(Connection connection, long id) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT 1 FROM usuarios WHERE id = ? AND perfil = 'ALUNO' AND status = 'ATIVO'")) {
+            statement.setLong(1, id);
+            try (ResultSet result = statement.executeQuery()) {
+                return result.next();
+            }
         }
     }
 
