@@ -37,7 +37,7 @@ public class LimiteTentativasFilter implements Filter {
         long agora = System.currentTimeMillis();
 
         if (!permitir(chave, limite, agora, JANELA_MS)) {
-            resposta.setHeader("Retry-After", String.valueOf(JANELA_MS / 1000));
+            resposta.setHeader("Retry-After", String.valueOf(segundosRestantes(chave, agora, JANELA_MS)));
             ApiUtil.responder(resposta, 429,
                 "{\"erro\":\"Muitas tentativas em pouco tempo. Aguarde 15 minutos e tente novamente.\"}");
             return;
@@ -46,7 +46,7 @@ public class LimiteTentativasFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    static boolean permitir(String chave, int limite, long agora, long janelaMs) {
+    static synchronized boolean permitir(String chave, int limite, long agora, long janelaMs) {
         if (limite < 1 || janelaMs < 1) {
             throw new IllegalArgumentException("O limite e a duração da janela devem ser positivos.");
         }
@@ -67,6 +67,13 @@ public class LimiteTentativasFilter implements Filter {
         });
 
         return janela.tentativas <= limite;
+    }
+
+    private static long segundosRestantes(String chave, long agora, long janelaMs) {
+        Janela janela = JANELAS.get(chave);
+        if (janela == null) return Math.max(1, janelaMs / 1000);
+        long restante = janela.inicio + janelaMs - agora;
+        return Math.max(1, (restante + 999) / 1000);
     }
 
     private record Janela(long inicio, int tentativas) {
