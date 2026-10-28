@@ -67,7 +67,8 @@ Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes
 - Testes de ponta a ponta com MySQL real e aplicação implantada em um servidor compatível com Servlet 6.1.
 - Teste real do envio e do consumo de token de recuperação de senha por SMTP.
 - Testes de autorização para todos os perfis e operações, inclusive casos de acesso indevido.
-- Limitação de tentativas de login e recuperação de senha, além de monitoramento e políticas de retenção.
+- Evoluir o limite de tentativas para armazenamento compartilhado entre instâncias e configurar corretamente IPs de proxy reverso, quando houver.
+- Monitoramento, políticas de retenção e testes de acessibilidade.
 - Relatórios administrativos detalhados e outras rotinas escolares ainda não implementadas.
 - Testes de acessibilidade e navegação em diferentes dispositivos e navegadores.
 
@@ -118,7 +119,11 @@ Depois, implante o WAR em um servidor compatível com Servlet 6.1 e configure as
 
 Configure as variáveis SMTP descritas em `.env.example`: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` e `SMTP_FROM`. O fluxo usa token temporário de uso único com expiração de 15 minutos. O envio real precisa ser testado com uma conta SMTP válida.
 
-### Tutor pedagógico opcional
+### Limite de tentativas de autenticação
+
+O servidor limita tentativas a 10 solicitações de login e 5 solicitações de recuperação de senha por endereço IP, em janelas de 15 minutos. Esse controle é mantido na memória do processo: reiniciar a aplicação limpa os contadores e múltiplas instâncias não compartilham os limites. Em produção com várias instâncias, use um mecanismo compartilhado e revise a configuração de proxy para não agrupar todos os usuários no mesmo endereço.
+
+## Tutor pedagógico opcional
 
 Configure no servidor:
 
