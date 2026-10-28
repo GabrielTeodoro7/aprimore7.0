@@ -8,7 +8,7 @@ class ApiUtilTest {
     @Test
     void escapaCaracteresQueQuebrariamJson() {
         assertEquals("linha\\n\\\"dois\\\"\\\\fim", ApiUtil.escapar("linha\n\"dois\"\\fim"));
-        assertEquals("\\\\u0001", ApiUtil.escapar("\u0001"));
+        assertEquals("\\\\u0001", ApiUtil.escapar(Character.toString((char) 1)));
     }
 
     @Test
