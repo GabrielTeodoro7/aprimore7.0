@@ -202,3 +202,35 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
 });
 
 loadAccount();
+
+const tutorForm = document.querySelector("#tutor-form");
+const tutorMessage = document.querySelector("#tutor-message");
+const tutorSubmit = document.querySelector("#tutor-submit");
+const tutorAnswer = document.querySelector("#tutor-answer");
+
+tutorForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  tutorMessage.textContent = "";
+  tutorMessage.className = "form-message";
+  tutorAnswer.hidden = true;
+  tutorSubmit.disabled = true;
+  try {
+    const payload = await requestJson("/api/ia/tutor", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams(new FormData(tutorForm))
+    });
+    tutorAnswer.replaceChildren();
+    const heading = document.createElement("h3");
+    heading.textContent = "Resposta do tutor";
+    const paragraph = document.createElement("p");
+    paragraph.textContent = payload.resposta;
+    tutorAnswer.append(heading, paragraph);
+    tutorAnswer.hidden = false;
+    showMessage(tutorMessage, "Resposta recebida.", true);
+  } catch (error) {
+    showMessage(tutorMessage, error.message);
+  } finally {
+    tutorSubmit.disabled = false;
+  }
+});
