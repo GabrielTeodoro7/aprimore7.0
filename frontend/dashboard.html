@@ -69,7 +69,23 @@
               <button class="button submit-button" type="submit">Cadastrar aluno</button>
             </form>
           </article>
+          <article class="feature-card">
+            <h3>Registrar frequência</h3>
+            <form id="attendance-form">
+              <div class="field"><label for="attendance-class">Turma</label><select id="attendance-class" name="turmaId" required><option value="">Carregando turmas...</option></select></div>
+              <div class="field"><label for="attendance-student">Aluno</label><select id="attendance-student" name="alunoId" required><option value="">Carregando alunos...</option></select></div>
+              <div class="field"><label for="attendance-date">Data da aula</label><input id="attendance-date" name="dataAula" type="date" required></div>
+              <div class="field"><label for="attendance-presence">Situação</label><select id="attendance-presence" name="presente" required><option value="true">Presente</option><option value="false">Ausente</option></select></div>
+              <div class="field"><label for="attendance-note">Justificativa (opcional)</label><input id="attendance-note" name="justificativa" maxlength="500"></div>
+              <p class="form-message" id="attendance-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Salvar frequência</button>
+            </form>
+          </article>
         </div>
+      </section>
+      <section id="attendance-history-section" hidden aria-labelledby="attendance-history-heading">
+        <div class="section-heading"><h2 id="attendance-history-heading">Frequência recente</h2><p id="attendance-history-status" role="status" aria-live="polite">Carregando registros...</p></div>
+        <div class="feature-grid" id="attendance-history-list"></div>
       </section>
       <section id="corrections-section" hidden aria-labelledby="corrections-heading">
         <div class="section-heading"><p class="eyebrow">Acompanhamento pedagógico</p><h2 id="corrections-heading">Entregas para corrigir</h2><p id="corrections-status" role="status" aria-live="polite">Carregando entregas...</p></div>
