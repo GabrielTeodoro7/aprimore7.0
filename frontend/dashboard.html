@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./assets/css/style.css">
   <script src="./assets/js/dashboard.js" defer></script>
   <script src="./assets/js/recursos.js" defer></script>
+  <script src="./assets/js/jogos.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -106,12 +107,8 @@
       <section class="feature-section" id="jogos-section" aria-labelledby="jogos-heading">
         <div class="section-heading"><p class="eyebrow">Aprender brincando</p><h2 id="jogos-heading">Central de jogos educativos</h2><p>Quatro jogos completos para praticar memória, matemática, vocabulário e conhecimentos gerais. Sua pontuação fica salva neste dispositivo.</p></div>
         <div class="game-toolbar"><p id="games-summary" role="status" aria-live="polite">Escolha um jogo para começar.</p><button class="button button-small" id="reset-games" type="button">Limpar pontuações</button></div>
-        <div class="game-picker" role="group" aria-label="Escolha um jogo">
-          <button class="game-choice active" type="button" data-game="quiz">🧠 Quiz relâmpago</button>
-          <button class="game-choice" type="button" data-game="memory">🃏 Jogo da memória</button>
-          <button class="game-choice" type="button" data-game="math">➗ Desafio de matemática</button>
-          <button class="game-choice" type="button" data-game="words">🔤 Palavra embaralhada</button>
-        </div>
+        <div class="game-filter"><label for="game-category-filter">Filtrar por matéria</label><select id="game-category-filter"><option value="Todos">Todas as matérias</option></select></div>
+        <div class="game-picker" id="game-catalog" role="group" aria-label="Catálogo de jogos educativos"></div>
         <div class="game-stage" id="game-stage" aria-live="polite"></div>
         <div class="feature-grid game-scores" id="game-scores" aria-label="Melhores pontuações"></div>
       </section>
