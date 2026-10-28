@@ -35,24 +35,25 @@ public class MensagemServlet extends HttpServlet {
                 markRead.executeUpdate();
             }
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, usuarioId);
-            statement.setLong(2, usuarioId);
-            try (ResultSet rows = statement.executeQuery()) {
-                StringBuilder json = new StringBuilder("[");
-                while (rows.next()) {
-                    if (json.length() > 1) json.append(',');
-                    json.append("{\"id\":").append(rows.getLong("id"))
-                        .append(",\"remetenteId\":").append(rows.getLong("remetente_id"))
-                        .append(",\"remetenteNome\":\"").append(ApiUtil.escapar(rows.getString("remetente_nome")))
-                        .append("\",\"destinatarioId\":").append(rows.getLong("destinatario_id"))
-                        .append(",\"destinatarioNome\":\"").append(ApiUtil.escapar(rows.getString("destinatario_nome")))
-                        .append("\",\"assunto\":\"").append(ApiUtil.escapar(rows.getString("assunto")))
-                        .append("\",\"conteudo\":\"").append(ApiUtil.escapar(rows.getString("conteudo")))
-                        .append("\",\"recebida\":").append(rows.getLong("destinatario_id") == usuarioId)
-                        .append(",\"lida\":").append(rows.getTimestamp("lida_em") != null)
-                        .append(",\"criadoEm\":\"").append(ApiUtil.escapar(rows.getString("criado_em"))).append("\"}");
+                statement.setLong(1, usuarioId);
+                statement.setLong(2, usuarioId);
+                try (ResultSet rows = statement.executeQuery()) {
+                    StringBuilder json = new StringBuilder("[");
+                    while (rows.next()) {
+                        if (json.length() > 1) json.append(',');
+                        json.append("{\"id\":").append(rows.getLong("id"))
+                            .append(",\"remetenteId\":").append(rows.getLong("remetente_id"))
+                            .append(",\"remetenteNome\":\"").append(ApiUtil.escapar(rows.getString("remetente_nome")))
+                            .append("\",\"destinatarioId\":").append(rows.getLong("destinatario_id"))
+                            .append(",\"destinatarioNome\":\"").append(ApiUtil.escapar(rows.getString("destinatario_nome")))
+                            .append("\",\"assunto\":\"").append(ApiUtil.escapar(rows.getString("assunto")))
+                            .append("\",\"conteudo\":\"").append(ApiUtil.escapar(rows.getString("conteudo")))
+                            .append("\",\"recebida\":").append(rows.getLong("destinatario_id") == usuarioId)
+                            .append(",\"lida\":").append(rows.getTimestamp("lida_em") != null)
+                            .append(",\"criadoEm\":\"").append(ApiUtil.escapar(rows.getString("criado_em"))).append("\"}");
+                    }
+                    ApiUtil.responder(response, 200, json.append(']').toString());
                 }
-                ApiUtil.responder(response, 200, json.append(']').toString());
             }
         } catch (SQLException | IllegalStateException exception) {
             getServletContext().log("Falha ao consultar mensagens.", exception);
