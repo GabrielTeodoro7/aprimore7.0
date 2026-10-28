@@ -46,6 +46,15 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
+        <configuration>
+          <webResources>
+            <resource>
+              <directory>../frontend</directory>
+              <targetPath>/</targetPath>
+              <filtering>false</filtering>
+            </resource>
+          </webResources>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
