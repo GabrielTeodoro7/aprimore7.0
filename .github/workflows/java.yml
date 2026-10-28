@@ -9,9 +9,13 @@ on:
     branches:
       - main
 
+concurrency:
+  group: aprimore-java-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    name: Compilar e testar backend
+    name: Compilar, testar e validar JavaScript
     runs-on: ubuntu-latest
     steps:
       - name: Obter código
@@ -22,6 +26,10 @@ jobs:
           distribution: temurin
           java-version: '25'
           cache: maven
-      - name: Validar aplicação
+      - name: Validar backend
         working-directory: backend
         run: mvn --batch-mode --no-transfer-progress clean verify
+      - name: Validar sintaxe JavaScript
+        run: |
+          node --check frontend/assets/js/app.js
+          node --check frontend/assets/js/dashboard.js
