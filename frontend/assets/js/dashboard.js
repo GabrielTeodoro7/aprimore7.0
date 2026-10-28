@@ -320,8 +320,39 @@ async function loadAttendanceHistory() {
   }
 }
 
+async function loadStudentSubmissions() {
+  const section = document.querySelector("#student-submissions-section");
+  const status = document.querySelector("#student-submissions-status");
+  const list = document.querySelector("#student-submissions-list");
+  section.hidden = false;
+  list.replaceChildren();
+  status.textContent = "Carregando suas entregas...";
+  try {
+    const submissions = await requestJson("/api/submissoes");
+    if (!submissions.length) {
+      status.textContent = "Você ainda não enviou respostas. Suas entregas aparecerão aqui.";
+      return;
+    }
+    status.textContent = submissions.length + " entrega(s) registrada(s).";
+    submissions.forEach((item) => {
+      const nota = item.nota === null ? "Aguardando correção" : "Nota: " + Number(item.nota).toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + " / 10";
+      const data = item.entregueEm ? new Date(item.entregueEm.replace(" ", "T")).toLocaleString("pt-BR") : "Data não disponível";
+      const detalhes = [
+        "Status: " + (item.status === "CORRIGIDA" ? "Corrigida" : "Entregue"),
+        nota,
+        "Enviada em: " + data,
+        "Sua resposta: " + (item.resposta || "Sem resposta registrada")
+      ];
+      if (item.feedback) detalhes.push("Feedback do professor: " + item.feedback);
+      list.append(createCard(item.titulo, detalhes));
+    });
+  } catch (error) {
+    status.textContent = error.message;
+  }
+}
+
 async function loadWorkspace(user) {
-  await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);
+  await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);\n  if (user.perfil === "ALUNO") await loadStudentSubmissions();
   reportsSection.hidden = !["ADMIN", "CEO"].includes(user.perfil);
   if (["ADMIN", "CEO"].includes(user.perfil)) await loadReports();
 }
