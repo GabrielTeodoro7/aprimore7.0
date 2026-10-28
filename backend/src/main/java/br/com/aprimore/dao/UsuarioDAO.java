@@ -16,7 +16,7 @@ public class UsuarioDAO {
     }
 
     public Optional<CredencialUsuario> buscarCredencialPorEmail(String email) throws SQLException {
-        String sql = "SELECT id, nome, email, senha_hash, perfil FROM usuarios WHERE email = ?";
+        String sql = "SELECT id, nome, email, senha_hash, perfil, status FROM usuarios WHERE email = ?";
         try (Connection connection = Database.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, email);
@@ -30,7 +30,7 @@ public class UsuarioDAO {
                     result.getString("email"),
                     result.getString("perfil")
                 );
-                return Optional.of(new CredencialUsuario(usuario, result.getString("senha_hash")));
+                return Optional.of(new CredencialUsuario(usuario, result.getString("senha_hash"), "ATIVO".equals(result.getString("status"))));
             }
         }
     }
@@ -52,6 +52,6 @@ public class UsuarioDAO {
         }
     }
 
-    public record CredencialUsuario(Usuario usuario, String senhaHash) {
+    public record CredencialUsuario(Usuario usuario, String senhaHash, boolean ativo) {
     }
 }
