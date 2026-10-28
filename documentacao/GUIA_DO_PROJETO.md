@@ -1,5 +1,7 @@
 # Guia do Aprimore para quem está começando
 
+Antes de alterar o código, consulte o [Mapa visual do projeto](MAPA_VISUAL_DO_PROJETO.md) para ver os diagramas da arquitetura. O [Plano de evolução](PLANO_DE_EVOLUCAO.md) separa melhorias implementadas de tarefas que ainda precisam ser desenvolvidas e testadas.
+
 Este documento explica como localizar cada parte do projeto, o papel de cada pasta e o caminho percorrido quando alguém usa a plataforma.
 
 ## 1. Antes de começar: como a aplicação funciona?
