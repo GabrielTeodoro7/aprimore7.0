@@ -92,25 +92,29 @@ public class SubmissaoServlet extends HttpServlet {
 
         String lookup = "SELECT a.id, s.status AS status_entrega FROM alunos a JOIN atividades at ON at.turma_id = a.turma_id "
             + "LEFT JOIN submissoes s ON s.atividade_id = at.id AND s.aluno_id = a.id "
-            + "WHERE a.usuario_id = ? AND at.id = ? AND at.status = 'PUBLICADA' AND a.ativo = TRUE";
+            + "WHERE a.usuario_id = ? AND at.id = ? AND at.status = 'PUBLICADA' AND a.ativo = TRUE FOR UPDATE";
         String upsert = "INSERT INTO submissoes (atividade_id, aluno_id, resposta, status, entregue_em) "
             + "SELECT ?, a.id, ?, 'ENTREGUE', CURRENT_TIMESTAMP FROM alunos a "
             + "WHERE a.usuario_id = ? AND a.ativo = TRUE "
             + "ON DUPLICATE KEY UPDATE resposta = VALUES(resposta), status = 'ENTREGUE', "
             + "entregue_em = CURRENT_TIMESTAMP, atualizado_em = CURRENT_TIMESTAMP";
-        try (Connection connection = Database.getConnection();
-             PreparedStatement check = connection.prepareStatement(lookup)) {
+        try (Connection connection = Database.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement check = connection.prepareStatement(lookup)) {
             check.setLong(1, usuarioId);
             check.setLong(2, atividadeId);
             try (ResultSet result = check.executeQuery()) {
                 if (!result.next()) {
+                    connection.rollback();
                     ApiUtil.responder(response, 404, "{\"erro\":\"Atividade indisponível para esta conta.\"}");
                     return;
                 }
                 if ("CORRIGIDA".equals(result.getString("status_entrega"))) {
+                    connection.rollback();
                     ApiUtil.responder(response, 409, "{\"erro\":\"Esta atividade já foi corrigida. Consulte a nota e o feedback na seção Minhas entregas e notas.\"}");
                     return;
                 }
+            }
             }
             try (PreparedStatement statement = connection.prepareStatement(upsert)) {
                 statement.setLong(1, atividadeId);
@@ -118,9 +122,11 @@ public class SubmissaoServlet extends HttpServlet {
                 statement.setLong(3, usuarioId);
                 int changed = statement.executeUpdate();
                 if (changed == 0) {
+                    connection.rollback();
                     ApiUtil.responder(response, 404, "{\"erro\":\"Não foi possível vincular a entrega à conta.\"}");
                     return;
                 }
+                connection.commit();
                 ApiUtil.responder(response, 201, "{\"mensagem\":\"Resposta enviada com sucesso.\"}");
             }
         } catch (SQLException | IllegalStateException exception) {
