@@ -163,3 +163,16 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     INDEX idx_audit_criado (criado_em),
     INDEX idx_audit_usuario (usuario_id, criado_em)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    usuario_id BIGINT UNSIGNED NOT NULL,
+    token_hash CHAR(64) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used_at DATETIME NULL,
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT uq_password_reset_token_hash UNIQUE (token_hash),
+    CONSTRAINT fk_password_reset_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    INDEX idx_password_reset_usuario_expiry (usuario_id, expires_at)
+) ENGINE=InnoDB;
