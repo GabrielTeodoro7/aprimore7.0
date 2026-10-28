@@ -686,3 +686,29 @@ a:focus-visible,button:focus-visible,input:focus-visible {
 .feature-card .access-benefit input {
   flex: 0 0 auto
 }
+
+
+.field textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0c101b;
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+.tutor-answer {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #0c101b;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.tutor-answer p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
