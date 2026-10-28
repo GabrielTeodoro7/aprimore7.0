@@ -32,7 +32,8 @@ banco-de-dados/
 ## Funcionalidades implementadas
 
 - Cadastro público de contas de estudante; o perfil não pode ser escolhido pelo formulário.
-- Login e logout com sessão HTTP, expiração, renovação do identificador da sessão e senha protegida com BCrypt.
+- Login, logout e recuperação de senha com token temporário de uso único, expiração de 15 minutos e e-mail por SMTP autenticado.
+- Sessão HTTP com expiração, renovação do identificador e senha protegida com BCrypt.
 - Filtro CSRF para operações autenticadas e cabeçalhos de segurança HTTP.
 - Criação e consulta de turmas com permissões por perfil.
 - Cadastro de alunos e vínculo opcional com uma conta de estudante.
@@ -97,6 +98,8 @@ Para testar a compilação e os testes unitários, é necessário JDK 25 e acess
 |---|---|---|
 | POST | `/api/auth/cadastro` | Público; cria perfil de estudante |
 | POST | `/api/auth/login` | Público |
+| POST | `/api/auth/recuperacao` | Público; resposta genérica para evitar enumeração de contas |
+| POST | `/api/auth/redefinir-senha` | Público; exige token válido, não expirado e não utilizado |
 | GET | `/api/auth/me` | Sessão autenticada |
 | POST | `/api/auth/logout` | Sessão autenticada + CSRF |
 | GET / POST | `/api/turmas` | Professor, administrador ou CEO |
