@@ -2,7 +2,7 @@
 
 Plataforma web de apoio à aprendizagem, criada para aproximar estudantes e educadores e facilitar a organização das atividades escolares.
 
-> **Situação atual:** a versão principal do repositório já usa Java 25, Jakarta Servlet 6.1, MySQL/JDBC, HTML, CSS e JavaScript puro. A compilação e os testes automatizados passaram na verificação da branch de migração; o sistema ainda precisa de testes integrados com banco de dados e servidor antes de ser considerado pronto para produção.
+> **Situação atual:** a versão principal do repositório já usa Java 25, Jakarta Servlet 6.1, MySQL/JDBC, HTML, CSS e JavaScript puro. A compilação e os testes automatizados passaram antes da mesclagem; a versão principal está sendo validada novamente. O sistema ainda precisa de testes integrados com banco de dados e servidor antes de ser considerado pronto para produção.
 
 ## Tecnologias utilizadas
 
