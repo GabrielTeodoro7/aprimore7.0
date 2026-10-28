@@ -94,6 +94,7 @@ public class AuthServlet extends HttpServlet {
         String senha = request.getParameter("senha") == null ? "" : request.getParameter("senha");
         Optional<UsuarioDAO.CredencialUsuario> credencial = usuarios.buscarCredencialPorEmail(email);
         if (credencial.isEmpty() || !credencial.get().ativo()
+                || !ValidacaoUsuario.senhaValida(senha)
                 || !BCrypt.checkpw(senha, credencial.get().senhaHash())) {
             responder(response, 401, "{\"erro\":\"E-mail ou senha inválidos.\"}");
             return;
