@@ -43,9 +43,9 @@ public class AuthServlet extends HttpServlet {
     }
 
     private void cadastrar(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String nome = parametro(request, "nome");
-        String email = parametro(request, "email").toLowerCase(Locale.ROOT);
-        String senha = parametro(request, "senha");
+        String nome = parametro(request, "nome").trim();
+        String email = parametro(request, "email").trim().toLowerCase(Locale.ROOT);
+        String senha = request.getParameter("senha") == null ? "" : request.getParameter("senha");
         if (nome.length() < 2 || nome.length() > 100
                 || !email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")
                 || senha.length() < 10 || senha.length() > 72) {
@@ -62,16 +62,15 @@ public class AuthServlet extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String email = parametro(request, "email").toLowerCase(Locale.ROOT);
-        String senha = parametro(request, "senha");
-        Optional<Usuario> usuario = usuarios.buscarPorEmail(email);
-        Optional<String> hash = usuarios.buscarHashSenha(email);
-        if (usuario.isEmpty() || hash.isEmpty() || !BCrypt.checkpw(senha, hash.get())) {
+        String email = parametro(request, "email").trim().toLowerCase(Locale.ROOT);
+        String senha = request.getParameter("senha") == null ? "" : request.getParameter("senha");
+        Optional<UsuarioDAO.CredencialUsuario> credencial = usuarios.buscarCredencialPorEmail(email);
+        if (credencial.isEmpty() || !BCrypt.checkpw(senha, credencial.get().senhaHash())) {
             responder(response, 401, "{\"erro\":\"E-mail ou senha inválidos.\"}");
             return;
         }
-        criarSessao(request, usuario.get());
-        responder(response, 200, json(usuario.get()));
+        criarSessao(request, credencial.get().usuario());
+        responder(response, 200, json(credencial.get().usuario()));
     }
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -91,7 +90,7 @@ public class AuthServlet extends HttpServlet {
 
     private String parametro(HttpServletRequest request, String nome) {
         String valor = request.getParameter(nome);
-        return valor == null ? "" : valor.trim();
+        return valor == null ? "" : valor;
     }
 
     private String json(Usuario usuario) {
@@ -101,8 +100,27 @@ public class AuthServlet extends HttpServlet {
     }
 
     private String escapar(String valor) {
-        return valor.replace("\\", "\\\\").replace("\"", "\\\"")
-                .replace("\n", "\\n").replace("\r", "\\r");
+        StringBuilder resultado = new StringBuilder(valor.length());
+        for (int i = 0; i < valor.length(); i++) {
+            char caractere = valor.charAt(i);
+            switch (caractere) {
+                case '\\' -> resultado.append("\\\\");
+                case '"' -> resultado.append("\\\"");
+                case '\n' -> resultado.append("\\n");
+                case '\r' -> resultado.append("\\r");
+                case '\t' -> resultado.append("\\t");
+                case '\b' -> resultado.append("\\b");
+                case '\f' -> resultado.append("\\f");
+                default -> {
+                    if (caractere < 0x20) {
+                        resultado.append(String.format("\\u%04x", (int) caractere));
+                    } else {
+                        resultado.append(caractere);
+                    }
+                }
+            }
+        }
+        return resultado.toString();
     }
 
     private void responder(HttpServletResponse response, int status, String corpo) throws IOException {
