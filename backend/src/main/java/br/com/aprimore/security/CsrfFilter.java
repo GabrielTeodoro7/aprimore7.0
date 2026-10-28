@@ -26,7 +26,8 @@ public class CsrfFilter implements Filter {
         String contextPath = httpRequest.getContextPath();
         String path = uri.substring(contextPath.length());
 
-        if (!"POST".equalsIgnoreCase(httpRequest.getMethod()) || path.startsWith("/api/auth/")) {
+        if (!"POST".equalsIgnoreCase(httpRequest.getMethod())
+                || "/api/auth/login".equals(path) || "/api/auth/cadastro".equals(path)) {
             chain.doFilter(request, response);
             return;
         }
