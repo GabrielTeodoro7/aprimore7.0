@@ -33,8 +33,12 @@ public class AlunoServlet extends HttpServlet {
             case "ALUNO" -> "WHERE a.usuario_id = ? ";
             default -> "";
         };
-        String sql = "SELECT a.id, a.nome, a.turma_id, t.nome AS turma_nome, a.responsavel, "
-            + "a.email_responsavel, a.necessidade_educacional, a.ativo "
+        String campos = perfil.equals("ALUNO")
+            ? "a.id, a.nome, a.turma_id, t.nome AS turma_nome, NULL AS responsavel, "
+                + "NULL AS email_responsavel, NULL AS necessidade_educacional, a.ativo "
+            : "a.id, a.nome, a.turma_id, t.nome AS turma_nome, a.responsavel, "
+                + "a.email_responsavel, a.necessidade_educacional, a.ativo ";
+        String sql = "SELECT " + campos
             + "FROM alunos a JOIN turmas t ON t.id = a.turma_id "
             + filtro + "ORDER BY a.nome";
         try (Connection connection = Database.getConnection();
