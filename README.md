@@ -1,109 +1,72 @@
 # Aprimore Educação
 
-Plataforma educacional inclusiva com IA, acessibilidade e múltiplos perfis
-(aluno, professor, admin, CEO).
+Plataforma educacional com foco em acessibilidade, organização dos estudos e apoio a estudantes e educadores.
 
-## Estrutura do repositório
+## Tecnologias da nova base
 
+- **Java 25** para o servidor.
+- **Jakarta Servlet 6.1** para endpoints HTTP.
+- **JDBC e MySQL 8+** para persistência.
+- **HTML5, CSS3 e JavaScript puro** para a interface.
+- **Maven** para dependências, testes e empacotamento WAR.
+
+## Estrutura
+
+```text
+backend/                 Aplicação Java web e endpoints
+frontend/                HTML, CSS e JavaScript sem frameworks
+banco-de-dados/          Esquema e scripts SQL
 ```
-/                       → frontend (TanStack Start + React + Tailwind)
-  src/                  → código da plataforma usada por alunos e equipe
-  supabase/             → migrations e config do banco (Lovable Cloud)
-backend-java/           → código-fonte Java de referência acadêmica
-                         (NÃO precisa estar rodando para a plataforma funcionar)
-```
 
-### Frontend
-- **Stack:** TanStack Start, React 19, Tailwind, shadcn/ui.
-- **IA:** Lovable AI Gateway via `src/lib/ai.functions.ts` (server functions).
-- **Acessibilidade:** painel global + descrição de imagens por IA.
-- **Perfis:** aluno, professor, admin, CEO (painel executivo).
+## Funcionalidades já iniciadas nesta base
 
-Rodar local:
+- Página inicial responsiva com navegação por seções.
+- Formulário de cadastro e login conectado aos endpoints HTTP.
+- Validação inicial de campos no servidor.
+- Hash de senha com BCrypt e consultas JDBC parametrizadas.
+- Sessão HTTP com expiração e cookie HttpOnly.
+
+A migração dos módulos antigos ainda está em andamento. Recursos como perfis completos, painéis de aluno/professor/admin/CEO, acompanhamento pedagógico, acessibilidade avançada e ferramentas de apoio ao estudo precisam ser portados e testados antes de considerar a substituição concluída.
+
+## Requisitos
+
+- JDK 25.
+- Maven 3.9 ou superior.
+- MySQL 8.0 ou superior.
+- Contêiner Servlet compatível com Jakarta Servlet 6.1.
+
+## Configuração do banco
+
+1. Crie um usuário próprio no MySQL, com permissões apenas sobre o banco `aprimore` (sem espaço: `aprimore`).
+2. Execute `banco-de-dados/schema.sql`.
+3. Configure as variáveis de ambiente no ambiente em que o servidor será executado:
+
 ```bash
-bun install
-bun dev
+DB_URL=jdbc:mysql://localhost:3306/aprimore
+DB_USER=aprimore_app
+DB_PASSWORD=defina_uma_senha_local
 ```
 
-### `backend-java/` — material de apoio acadêmico
+Use os valores sem espaços: o nome do banco padrão é `aprimore` (sem espaço, `aprimore`).
 
-A pasta contém um projeto Java Maven que demonstra a implementação dos
-**14 tópicos obrigatórios de POO/Java** exigidos no trabalho:
+## Compilar e empacotar
 
-1. Classes e Objetos
-2. Construtores
-3. Encapsulamento
-4. Herança
-5. Interfaces
-6. Classes Abstratas
-7. Polimorfismo
-8. Coleções do Java
-9. Java IO
-10. Enum em Java
-11. Exceções do Java
-12. Thread
-13. Java Swing (substituído por geração de PDF)
-14. JDBC
+Na pasta `backend/`:
 
-O backend Java **não é consumido pelo frontend** — ele existe apenas como
-evidência da implementação dos conceitos. O professor pode inspecionar o
-código diretamente em `backend-java/src/`.
-
-Compilar e executar local (VS Code):
 ```bash
-cd backend-java
-mvn compile
-mvn exec:java -Dexec.mainClass=escola.Main
-mvn exec:java -Dexec.mainClass=escola.demo.DemoJDBC
-mvn exec:java -Dexec.mainClass=escola.demo.DemoSwing
+mvn clean verify
 ```
 
-## Correções de IA aplicadas nesta versão
+O arquivo WAR é gerado em `backend/target/aprimore.war` (sem espaços no nome real: `aprimore.war`).
 
-O erro "Nenhum objeto gerado: a resposta não corresponde ao esquema" era
-exibido para o usuário quando a IA respondia em texto puro ou JSON inválido.
+## Executar a interface
 
-O que mudou:
+Sirva a pasta `frontend/` por um servidor HTTP. Para que os formulários funcionem, configure o servidor/reverse proxy para encaminhar `/api/` à aplicação Java no mesmo domínio. Não use um servidor estático isolado esperando que ele execute os servlets.
 
-- Novo helper `src/lib/ai-safe.ts` com `safeGenerateObject()` que:
-  1. Tenta `generateObject` normalmente (schema estrito).
-  2. Se falhar, refaz a chamada com `generateText` e tenta extrair JSON
-     usando regex (incluindo blocos ```json``` e remoção de vírgulas
-     pendentes).
-  3. Se ainda falhar, devolve um **fallback amigável tipado** definido por
-     cada handler — a interface nunca quebra.
-- Todas as 14 server functions em `src/lib/ai.functions.ts` foram
-  reescritas para usar `safeGenerateObject`.
-- A landing (`src/routes/index.tsx`) agora exibe uma mensagem lúdica
-  ("🤔 Desculpe, estou aprendendo… Quer tentar outra pergunta?") em vez
-  do erro técnico.
-- Os prompts foram revisados para usar **linguagem simples, lúdica e
-  encorajadora** adequada ao ensino fundamental e médio (emojis, exemplos
-  do cotidiano — pizza 🍕, mochila, futebol, brinquedos).
-- Removida a menção a "14 tópicos Java" do painel CEO de insights — o
-  conteúdo Java fica apenas no diretório `backend-java/`, não aparece para
-  os alunos.
+## Segurança e estado
 
-## Como testar as correções da IA
-
-1. **Demo da landing:** abra `/` → escreva uma necessidade no demo
-   ("Aluno de 9 anos com TDAH") → clique em **Gerar plano**.
-   - Caminho feliz: aparece o plano com título, resumo, passos e adaptação.
-   - Caminho de erro (desligue a internet ou esgote créditos): a interface
-     mostra a mensagem amigável, nunca o erro técnico.
-2. **Tutor do aluno:** `/aluno/tutor` → faça uma pergunta. Se a IA não
-   responder no formato esperado, aparece a resposta padrão pedindo pra
-   reformular.
-3. **Painel CEO:** `/ceo` continua intacto (login → auditoria, insights,
-   override, usuários, observar).
-4. **Demos de IA do professor:** `/professor/ia`, `/inclusao`,
-   `/aluno/sentimentos`, `/relatorios`, `/atividades/novo`, `/mensagens`
-   — todas usam o mesmo helper e nunca exibem o erro de schema.
-
-## Regressão verificada
-
-- Painel CEO mantido (todas as rotas `ceo.*`).
-- Demos de IA preservadas — só recebem fallback transparente.
-- Acessibilidade, assistente flutuante, rotas de aluno/professor/admin
-  intocadas.
-- Nenhuma referência visível a Java, POO, JDBC etc. no produto final.
+- Não versionar arquivos `.env` nem credenciais.
+- Usar HTTPS em produção.
+- Aplicar controle de acesso por perfil em todos os endpoints protegidos antes de disponibilizar painéis.
+- A autenticação é apenas a primeira etapa da migração; ainda é necessário completar proteção CSRF, limitação de tentativas e testes de integração.
+- A compilação e os testes precisam ser executados em um ambiente com JDK 25, Maven e banco de dados disponíveis. Não há confirmação de execução completa nesta etapa.
