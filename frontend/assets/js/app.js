@@ -6,6 +6,7 @@ const passwordInput = document.querySelector("#senha");
 const submitButton = document.querySelector("#submit-button");
 const tabs = document.querySelectorAll(".auth-tab");
 let mode = "login";
+const contextPath = window.location.pathname.replace(/\/[^/]*$/, "");
 
 document.querySelector("#year").textContent = new Date().getFullYear();
 
@@ -37,7 +38,7 @@ form.addEventListener("submit", async (event) => {
   submitButton.disabled = true;
   try {
     const endpoint = mode === "register" ? "cadastro" : "login";
-    const response = await fetch(`/api/auth/${endpoint}`, {
+    const response = await fetch(`${contextPath}/api/auth/${endpoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       body: new URLSearchParams(new FormData(form)),
