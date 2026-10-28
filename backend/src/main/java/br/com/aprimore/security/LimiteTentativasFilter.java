@@ -31,7 +31,8 @@ public class LimiteTentativasFilter implements Filter {
             return;
         }
 
-        String caminho = requisicao.getServletPath();
+        String uri = requisicao.getRequestURI();
+        String caminho = uri.substring(requisicao.getContextPath().length());
         int limite = "/api/auth/recuperacao".equals(caminho) ? 5 : 10;
         String chave = caminho + "|" + requisicao.getRemoteAddr();
         long agora = System.currentTimeMillis();
