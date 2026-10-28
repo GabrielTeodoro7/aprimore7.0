@@ -2,7 +2,7 @@
 
 Plataforma web de apoio à aprendizagem, criada para aproximar estudantes e educadores e facilitar a organização das atividades escolares.
 
-> **Situação atual:** a migração para a stack Java está na branch `refactor/java25-servlet61-migration`. A compilação e os testes automatizados passaram no último pipeline, mas o sistema ainda precisa de testes integrados com banco de dados e servidor antes de ser considerado pronto para produção.
+> **Situação atual:** a versão principal do repositório já usa Java 25, Jakarta Servlet 6.1, MySQL/JDBC, HTML, CSS e JavaScript puro. A compilação e os testes automatizados passaram na verificação da branch de migração; o sistema ainda precisa de testes integrados com banco de dados e servidor antes de ser considerado pronto para produção.
 
 ## Tecnologias utilizadas
 
@@ -13,7 +13,7 @@ Plataforma web de apoio à aprendizagem, criada para aproximar estudantes e educ
 - **Maven:** organiza as dependências, executa os testes e gera o arquivo WAR.
 - **JUnit:** testes automatizados do código Java.
 
-Não usamos React, TypeScript, Vite ou frameworks de interface neste frontend. As bibliotecas Java declaradas no Maven são dependências do backend, não novas linguagens de programação.
+O frontend usa arquivos HTML, CSS e JavaScript separados, sem framework de interface. As bibliotecas declaradas no Maven são dependências do backend, não novas linguagens de programação.
 
 ## Pastas do projeto
 
@@ -48,7 +48,7 @@ aprimore7.0/
 
 Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes](documentacao/GUIA_DO_PROJETO.md)**.
 
-## Funcionalidades presentes nesta versão
+## Funcionalidades presentes na versão principal
 
 - Cadastro de estudantes, login, logout e recuperação de senha por e-mail.
 - Senhas armazenadas com hash BCrypt, sessões HTTP e limite básico de tentativas por endereço IP em cadastro, login e recuperação de senha. O limite é local ao processo e deve ser complementado por proteção na infraestrutura em ambientes distribuídos.
