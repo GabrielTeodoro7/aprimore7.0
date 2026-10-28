@@ -148,7 +148,9 @@ public class AuthServlet extends HttpServlet {
         long usuarioId = credencial.get().usuario().id();
         try (Connection connection = Database.getConnection();
              PreparedStatement cleanup = connection.prepareStatement(
-                 "DELETE FROM password_reset_tokens WHERE expires_at < CURRENT_TIMESTAMP OR used_at IS NOT NULL")) {
+                 "DELETE FROM password_reset_tokens WHERE expires_at < CURRENT_TIMESTAMP "
+                     + "OR used_at IS NOT NULL OR usuario_id = ?")) {
+            cleanup.setLong(1, usuarioId);
             cleanup.executeUpdate();
             try (PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO password_reset_tokens (usuario_id, token_hash, expires_at) "
