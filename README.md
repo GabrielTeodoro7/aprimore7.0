@@ -54,7 +54,7 @@ Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes
 - Senhas armazenadas com hash BCrypt e sessões HTTP.
 - Proteção CSRF nas operações autenticadas e cabeçalhos de segurança.
 - Turmas, cadastro de alunos e vínculo opcional entre aluno e conta.
-- Publicação de atividades, envio de respostas, correções, notas e feedback.
+- Publicação de atividades, envio de respostas, correções, notas e feedback. Estudantes podem consultar seu histórico de entregas, notas e comentários; o servidor bloqueia novo envio após a correção.
 - Registro e consulta de frequência conforme permissões.
 - Contatos e mensagens entre contas autorizadas.
 - Resumo de indicadores para administradores e CEO.
