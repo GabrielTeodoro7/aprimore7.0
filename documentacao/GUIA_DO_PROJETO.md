@@ -62,6 +62,16 @@ O filtro `LimiteTentativasFilter` limita o login a 10 tentativas por IP e a recu
 
 O login também atualiza a coluna `ultimo_acesso` da tabela `usuarios`. A busca de atividades no painel filtra os cartões já carregados pelo título, matéria, turma e descrição, sem enviar novas consultas ao servidor.
 
+### Recursos de aprendizagem disponíveis
+
+A aba **Jogos educativos** contém 18 jogos executáveis, sem depender de links externos: Desafio das Operações, Mestre da Gramática, Célula Interativa, Labirinto de Lógica, Explorador Global, Estúdio Criativo, Ecossistema em Equilíbrio, Geometria Espacial, Linha do Tempo: Brasil, Vocabulário Ninja, Desafio Criativo, Ritmo & Melodia, Corrida das Letras, Memória Espacial, Matemática Ninja, Quebra-Cabeça Natural, Palavra Embaralhada e Quiz Relâmpago. Cada jogo tem regras próprias, respostas ou interações, pontuação e opção de jogar novamente. Os recordes ficam no armazenamento local do navegador, não em uma classificação compartilhada entre estudantes.
+
+O **Calendário** usa as datas de entrega das atividades disponíveis para a conta. Os botões de mês anterior e próximo mudam o calendário, e selecionar um dia mostra os prazos daquele dia. A **Central de notificações** reúne prazos dos próximos sete dias, mensagens não lidas e entregas aguardando correção; use Atualizar para buscar os dados novamente. Essas notificações são calculadas a partir dos dados atuais e ainda não são notificações push nem e-mails automáticos.
+
+Em **Acessibilidade**, a pessoa pode aumentar ou diminuir o texto, ativar alto contraste e reduzir movimentos. As preferências são salvas no navegador quando o armazenamento está disponível.
+
+Os relatórios administrativos exibem os indicadores gerais e uma visão por turma com alunos ativos, atividades publicadas, entregas, média das notas e frequência registrada. O **Histórico de alterações** fica disponível para ADMIN e CEO. Ele registra operações autenticadas de escrita que terminam com resposta bem-sucedida, sem armazenar senhas ou conteúdo de mensagens. O IP registrado é o endereço observado pelo servidor; em ambientes com proxy, a infraestrutura precisa ser configurada corretamente.
+
 ## 4. Vocabulário rápido
 
 - **Frontend:** parte da aplicação que roda no navegador.
@@ -108,41 +118,32 @@ Evite corrigir um erro apenas escondendo a mensagem na tela. Descubra em qual ca
 
 Os comentários e esta documentação devem ajudar você a aprender e manter o sistema; eles não substituem entender o código e testar as alterações.
 
-## 7. Ideias para evoluir o Aprimore
+## 7. Próximas melhorias recomendadas
 
-As ideias abaixo são sugestões, não funcionalidades que já estejam prontas.
+As funcionalidades abaixo ainda são boas candidatas para uma próxima etapa, mas não devem ser tratadas como concluídas:
 
-### Prioridade 1 — confiabilidade e segurança
+### Prioridade 1 — validar e fortalecer o sistema
 
-1. **Testes de integração:** automatizar fluxos com MySQL e servidor Servlet configurados.
-2. **Limite de tentativas:** controlar tentativas de login e recuperação de senha para dificultar ataques automatizados.
-3. **Testes de permissões:** garantir que um estudante não veja dados de outro e que um professor só altere informações das próprias turmas.
-4. **Validação de implantação:** documentar o servidor Servlet compatível, as variáveis necessárias e um roteiro de verificação pós-instalação.
-5. **Registro seguro de erros:** registrar informações úteis para diagnóstico sem guardar dados secretos.
+1. **Testes de integração e ponta a ponta:** executar os fluxos com MySQL real e servidor Servlet 6.1, inclusive falhas de conexão e permissões negadas.
+2. **Limite de tentativas compartilhado:** substituir o contador em memória por controle compartilhado para instalações com múltiplas instâncias.
+3. **Testes de autorização por perfil:** provar que estudantes não acessam dados de outros estudantes e que professores não alteram turmas alheias.
+4. **Configuração de proxy e HTTPS:** testar cookies seguros, endereço real do cliente e cabeçalhos em implantação.
+5. **Auditoria mais detalhada:** registrar identificadores das entidades alteradas quando as rotas fornecerem esses dados, além de definir retenção e exportação segura dos registros.
 
-### Prioridade 2 — ferramentas para estudantes e professores
+### Prioridade 2 — funcionalidades escolares
 
-6. **Calendário escolar:** datas de atividades, avaliações e prazos.
-7. **Notificações:** avisar sobre atividade publicada, prazo próximo, correção liberada ou mensagem recebida.
-8. **Relatórios completos:** frequência, entregas pendentes, notas e evolução por turma, com acesso restrito por perfil.
-9. **Filtros e pesquisa:** localizar turmas, estudantes e atividades sem percorrer listas grandes.
-10. **Anexos de atividades:** permitir arquivos com limite de tamanho e validação de tipo, armazenados com controle de acesso.
-11. **Histórico de alterações:** registrar quem alterou notas, frequência ou atividades, quando e qual foi a alteração.
-12. **Exportação de relatórios:** gerar CSV para uso autorizado pela equipe escolar.
+6. **Notificações configuráveis:** permitir que cada perfil escolha quais avisos deseja receber, com opção de e-mail quando o SMTP estiver configurado.
+7. **Anexos de atividades:** aceitar arquivos com limite de tamanho, validação de tipo, armazenamento seguro e autorização por turma.
+8. **Exportação CSV:** disponibilizar relatórios para pessoas autorizadas, sem incluir dados desnecessários.
+9. **Gamificação persistente:** guardar pontuações e conquistas no servidor e criar rankings reais por turma, em vez de depender somente do navegador.
+10. **Gestão de avaliações e calendário completo:** incluir avaliações, eventos escolares e prazos além das atividades já cadastradas.
 
-### Prioridade 3 — experiência e acessibilidade
+### Prioridade 3 — qualidade e acessibilidade
 
-13. **Acessibilidade:** testar navegação por teclado, foco visível, contraste, rótulos de formulário e leitores de tela.
-14. **Mensagens de erro úteis:** explicar como corrigir um campo sem expor detalhes internos do servidor.
-15. **Layout adaptável:** validar páginas em celulares, tablets e computadores.
-16. **Preferências de notificação:** permitir que cada pessoa escolha quais avisos deseja receber.
-17. **Ajuda dentro do sistema:** incluir explicações curtas e exemplos nos pontos em que usuários iniciantes costumam ter dúvidas.
-
-### Prioridade 4 — tutor pedagógico responsável
-
-18. **Limites de uso:** definir limites de solicitações e custos para o serviço externo.
-19. **Proteção de dados:** evitar enviar dados pessoais de estudantes ao provedor e documentar o que é compartilhado.
-20. **Orientação, não substituição:** apresentar o tutor como apoio ao estudo, incentivar o raciocínio do estudante e permitir que professores acompanhem seu uso conforme as regras da instituição.
+11. **Testes de usabilidade:** validar os fluxos com estudantes e professores em celulares, tablets e computadores.
+12. **Auditoria de acessibilidade:** testar teclado, leitores de tela, contraste, foco e conteúdo ampliado.
+13. **Observabilidade:** centralizar logs técnicos, alertas de falhas e indicadores de disponibilidade sem registrar segredos.
+14. **Tutor pedagógico responsável:** estabelecer limites de uso, proteção de dados e orientação para não enviar informações pessoais de estudantes a provedores externos.
 
 ## 8. Ordem recomendada de trabalho
 
