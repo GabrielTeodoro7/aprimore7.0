@@ -408,7 +408,7 @@ async function loadWellbeingHistory() {
     records.forEach((record) => {
       const entry = document.createElement("p");
       const date = record.criadoEm ? new Date(record.criadoEm.replace(" ", "T")).toLocaleString("pt-BR") : "";
-      entry.textContent = \`\${date} — \${record.emocao} (intensidade \${record.intensidade})\`;
+      entry.textContent = date + " — " + record.emocao + " (intensidade " + record.intensidade + ")";
       wellbeingHistory.append(entry);
     });
   } catch (error) {
