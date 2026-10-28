@@ -2,6 +2,7 @@ package br.com.aprimore.servlet;
 
 import br.com.aprimore.dao.UsuarioDAO;
 import br.com.aprimore.model.Usuario;
+import br.com.aprimore.service.ValidacaoUsuario;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,9 +47,9 @@ public class AuthServlet extends HttpServlet {
         String nome = parametro(request, "nome").trim();
         String email = parametro(request, "email").trim().toLowerCase(Locale.ROOT);
         String senha = request.getParameter("senha") == null ? "" : request.getParameter("senha");
-        if (nome.length() < 2 || nome.length() > 100
-                || !email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")
-                || senha.length() < 10 || senha.length() > 72) {
+        if (!ValidacaoUsuario.nomeValido(nome)
+                || !ValidacaoUsuario.emailValido(email)
+                || !ValidacaoUsuario.senhaValida(senha)) {
             responder(response, 400, "{\"erro\":\"Informe nome e e-mail válidos e senha entre 10 e 72 caracteres.\"}");
             return;
         }
