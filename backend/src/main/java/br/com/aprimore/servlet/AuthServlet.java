@@ -20,6 +20,28 @@ public class AuthServlet extends HttpServlet {
     private final UsuarioDAO usuarios = new UsuarioDAO();
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.setHeader("Cache-Control", "no-store");
+        if (!"/me".equals(request.getPathInfo())) {
+            responder(response, 404, "{\\"erro\\":\\"Rota não encontrada.\\"}");
+            return;
+        }
+        HttpSession sessao = request.getSession(false);
+        if (sessao == null || sessao.getAttribute("usuarioId") == null) {
+            responder(response, 401, "{\\"erro\\":\\"Autenticação necessária.\\"}");
+            return;
+        }
+        long id = (long) sessao.getAttribute("usuarioId");
+        String nome = (String) sessao.getAttribute("usuarioNome");
+        String email = (String) sessao.getAttribute("usuarioEmail");
+        String perfil = (String) sessao.getAttribute("usuarioPerfil");
+        responder(response, 200, "{\\"id\\":" + id + ",\\"nome\\":\\"" + escapar(nome)
+                + "\\",\\"email\\":\\"" + escapar(email) + "\\",\\"perfil\\":\\"" + escapar(perfil) + "\\"}");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -85,6 +107,8 @@ public class AuthServlet extends HttpServlet {
         if (anterior != null) anterior.invalidate();
         HttpSession sessao = request.getSession(true);
         sessao.setAttribute("usuarioId", usuario.id());
+        sessao.setAttribute("usuarioNome", usuario.nome());
+        sessao.setAttribute("usuarioEmail", usuario.email());
         sessao.setAttribute("usuarioPerfil", usuario.perfil());
         sessao.setMaxInactiveInterval(1800);
     }
