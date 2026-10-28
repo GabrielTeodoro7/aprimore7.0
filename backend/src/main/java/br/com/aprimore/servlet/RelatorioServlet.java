@@ -28,6 +28,11 @@ public class RelatorioServlet extends HttpServlet {
             return;
         }
 
+        if ("turmas".equalsIgnoreCase(request.getParameter("tipo"))) {
+            responderRelatorioTurmas(response);
+            return;
+        }
+
         String sql = "SELECT "
             + "(SELECT COUNT(*) FROM usuarios WHERE status = 'ATIVO') AS usuarios_ativos, "
             + "(SELECT COUNT(*) FROM usuarios WHERE perfil = 'ALUNO' AND status = 'ATIVO') AS alunos_ativos, "
@@ -62,4 +67,40 @@ public class RelatorioServlet extends HttpServlet {
             ApiUtil.responder(response, 503, "{\"erro\":\"Não foi possível gerar o resumo administrativo.\"}");
         }
     }
+    private void responderRelatorioTurmas(HttpServletResponse response) throws IOException {
+        String sql = "SELECT t.id, t.nome, t.ano_letivo, "
+            + "(SELECT COUNT(*) FROM alunos a WHERE a.turma_id = t.id AND a.ativo = TRUE) AS alunos, "
+            + "(SELECT COUNT(*) FROM atividades at WHERE at.turma_id = t.id AND at.status = 'PUBLICADA') AS atividades, "
+            + "(SELECT COUNT(*) FROM submissoes s JOIN atividades at ON at.id = s.atividade_id "
+            + "JOIN alunos a ON a.id = s.aluno_id WHERE at.turma_id = t.id) AS entregas, "
+            + "(SELECT ROUND(AVG(s.nota), 2) FROM submissoes s JOIN atividades at ON at.id = s.atividade_id "
+            + "WHERE at.turma_id = t.id AND s.nota IS NOT NULL) AS media_notas, "
+            + "(SELECT COUNT(*) FROM frequencia f WHERE f.turma_id = t.id AND f.presente = TRUE) AS presencas, "
+            + "(SELECT COUNT(*) FROM frequencia f WHERE f.turma_id = t.id) AS registros_frequencia "
+            + "FROM turmas t ORDER BY t.ano_letivo DESC, t.nome LIMIT 100";
+        try (Connection connection = Database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rows = statement.executeQuery()) {
+            StringBuilder json = new StringBuilder("[");
+            while (rows.next()) {
+                if (json.length() > 1) json.append(',');
+                double media = rows.getDouble("media_notas");
+                boolean mediaNula = rows.wasNull();
+                json.append("{\"id\":").append(rows.getLong("id"))
+                    .append(",\"nome\":\"").append(ApiUtil.escapar(rows.getString("nome")))
+                    .append("\",\"anoLetivo\":").append(rows.getInt("ano_letivo"))
+                    .append(",\"alunos\":").append(rows.getLong("alunos"))
+                    .append(",\"atividades\":").append(rows.getLong("atividades"))
+                    .append(",\"entregas\":").append(rows.getLong("entregas"))
+                    .append(",\"mediaNotas\":").append(mediaNula ? "null" : Double.toString(media))
+                    .append(",\"presencas\":").append(rows.getLong("presencas"))
+                    .append(",\"registrosFrequencia\":").append(rows.getLong("registros_frequencia")).append('}');
+            }
+            ApiUtil.responder(response, 200, json.append(']').toString());
+        } catch (SQLException | IllegalStateException exception) {
+            getServletContext().log("Falha ao gerar relatório por turma.", exception);
+            ApiUtil.responder(response, 503, "{\"erro\":\"Não foi possível gerar o relatório por turma.\"}");
+        }
+    }
+
 }
