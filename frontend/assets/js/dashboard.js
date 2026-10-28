@@ -190,6 +190,7 @@ async function loadAccount() {
   try {
     const user = await requestJson("/api/auth/me");
     csrfToken = user.csrfToken || "";
+    wellbeingSection.hidden = user.perfil !== "ALUNO";
     title.textContent = "Olá, " + user.nome + ".";
     copy.textContent = "Sua sessão está ativa. Os recursos disponíveis dependem do seu perfil de acesso.";
     status.textContent = "Sessão ativa";
@@ -199,6 +200,7 @@ async function loadAccount() {
     addDetail("E-mail", user.email);
     addDetail("Perfil", user.perfil);
     await loadWorkspace(user);
+    if (user.perfil === "ALUNO") await loadWellbeingHistory();
   } catch (error) {
     status.textContent = error.message;
     status.className = "form-message error";
@@ -255,6 +257,10 @@ const tutorForm = document.querySelector("#tutor-form");
 const tutorMessage = document.querySelector("#tutor-message");
 const tutorSubmit = document.querySelector("#tutor-submit");
 const tutorAnswer = document.querySelector("#tutor-answer");
+const wellbeingSection = document.querySelector("#wellbeing-section");
+const wellbeingForm = document.querySelector("#wellbeing-form");
+const wellbeingMessage = document.querySelector("#wellbeing-message");
+const wellbeingHistory = document.querySelector("#wellbeing-history");
 
 tutorForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -280,5 +286,49 @@ tutorForm.addEventListener("submit", async (event) => {
     showMessage(tutorMessage, error.message);
   } finally {
     tutorSubmit.disabled = false;
+  }
+});
+
+
+async function loadWellbeingHistory() {
+  wellbeingHistory.replaceChildren();
+  try {
+    const records = await requestJson("/api/sentimentos");
+    if (!records.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "Seus registros aparecerão aqui quando você decidir salvar um.";
+      wellbeingHistory.append(empty);
+      return;
+    }
+    records.forEach((record) => {
+      const entry = document.createElement("p");
+      const date = record.criadoEm ? new Date(record.criadoEm.replace(" ", "T")).toLocaleString("pt-BR") : "";
+      entry.textContent = \`\${date} — \${record.emocao} (intensidade \${record.intensidade})\`;
+      wellbeingHistory.append(entry);
+    });
+  } catch (error) {
+    const note = document.createElement("p");
+    note.textContent = error.message;
+    wellbeingHistory.append(note);
+  }
+}
+
+wellbeingForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const button = wellbeingForm.querySelector('button[type="submit"]');
+  button.disabled = true;
+  try {
+    await requestJson("/api/sentimentos", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams(new FormData(wellbeingForm))
+    });
+    wellbeingForm.reset();
+    showMessage(wellbeingMessage, "Registro salvo com sucesso.", true);
+    await loadWellbeingHistory();
+  } catch (error) {
+    showMessage(wellbeingMessage, error.message);
+  } finally {
+    button.disabled = false;
   }
 });
