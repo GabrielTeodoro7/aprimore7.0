@@ -34,7 +34,7 @@ Comece por `backend/src/main/java/br/com/aprimore/`.
 - `dao/`: executa consultas e alterações no banco de dados. DAO significa *Data Access Object*, isto é, objeto de acesso a dados.
 - `model/`: representa dados usados pela aplicação, como um usuário.
 - `config/`: configurações compartilhadas, por exemplo, a conexão com o banco.
-- `security/`: filtros e verificações que protegem requisições e sessões.
+- `security/`: filtros e verificações que protegem requisições e sessões, incluindo o limite de tentativas de autenticação.
 
 Um caminho comum é: **Servlet recebe → validação/serviço aplica a regra → DAO consulta ou grava → Servlet devolve a resposta**. Nem toda operação precisa usar todas essas camadas, mas manter essa separação ajuda a localizar os problemas.
 
@@ -56,7 +56,13 @@ O Maven lê esse arquivo para saber a versão do Java, quais bibliotecas são ne
 
 Veja `.github/workflows/java.yml` e a aba **Actions** do GitHub. O workflow automatiza verificações como compilação, testes unitários e sintaxe JavaScript. Uma aprovação não substitui a execução do sistema com MySQL e servidor configurados.
 
-## 3. Vocabulário rápido
+## 3. Funcionalidades de segurança adicionadas
+
+O filtro `LimiteTentativasFilter` limita o login a 10 tentativas por IP e a recuperação de senha a 5 tentativas por IP dentro de uma janela de 15 minutos. Ele responde com HTTP 429 quando o limite é excedido. É uma proteção básica mantida na memória do processo; para implantação com várias instâncias, substitua-a por um controle compartilhado e configure corretamente o endereço real do cliente atrás de um proxy.
+
+O login também atualiza a coluna `ultimo_acesso` da tabela `usuarios`. A busca de atividades no painel filtra os cartões já carregados pelo título, matéria, turma e descrição, sem enviar novas consultas ao servidor.
+
+## 4. Vocabulário rápido
 
 - **Frontend:** parte da aplicação que roda no navegador.
 - **Backend:** parte que roda no servidor e protege as regras e os dados.
@@ -74,7 +80,7 @@ Veja `.github/workflows/java.yml` e a aba **Actions** do GitHub. O workflow auto
 - **Teste unitário:** verifica uma parte pequena do código isoladamente.
 - **Teste de integração:** verifica se partes reais, como Java e MySQL, funcionam juntas.
 
-## 4. Como investigar um erro sem se perder
+## 5. Como investigar um erro sem se perder
 
 1. **Reproduza o erro:** anote a página, o botão, os dados usados e a mensagem recebida.
 2. **Abra as ferramentas do navegador:** confira a aba Console para erros JavaScript e Network/Rede para ver a requisição HTTP, o status e a resposta da API.
@@ -87,7 +93,7 @@ Veja `.github/workflows/java.yml` e a aba **Actions** do GitHub. O workflow auto
 
 Evite corrigir um erro apenas escondendo a mensagem na tela. Descubra em qual camada ele ocorre e corrija a causa.
 
-## 5. Como escrever código fácil de manter
+## 6. Como escrever código fácil de manter
 
 - Use nomes que expliquem a intenção e mantenha um padrão de nomenclatura.
 - Deixe comentários para explicar **por que** uma decisão existe ou uma regra não é óbvia. Evite comentários que apenas repetem cada linha.
@@ -102,7 +108,7 @@ Evite corrigir um erro apenas escondendo a mensagem na tela. Descubra em qual ca
 
 Os comentários e esta documentação devem ajudar você a aprender e manter o sistema; eles não substituem entender o código e testar as alterações.
 
-## 6. Ideias para evoluir o Aprimore
+## 7. Ideias para evoluir o Aprimore
 
 As ideias abaixo são sugestões, não funcionalidades que já estejam prontas.
 
@@ -138,7 +144,7 @@ As ideias abaixo são sugestões, não funcionalidades que já estejam prontas.
 19. **Proteção de dados:** evitar enviar dados pessoais de estudantes ao provedor e documentar o que é compartilhado.
 20. **Orientação, não substituição:** apresentar o tutor como apoio ao estudo, incentivar o raciocínio do estudante e permitir que professores acompanhem seu uso conforme as regras da instituição.
 
-## 7. Ordem recomendada de trabalho
+## 8. Ordem recomendada de trabalho
 
 1. Confirmar compilação e testes unitários.
 2. Executar a aplicação em ambiente de desenvolvimento com MySQL.
