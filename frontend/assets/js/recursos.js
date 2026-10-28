@@ -391,6 +391,8 @@
     try {
       const me = await apiGet("/api/auth/me");
       section.hidden = !["ADMIN", "CEO"].includes(me.perfil);
+      const auditNavLink = $("#audit-nav-link");
+      if (auditNavLink) auditNavLink.hidden = section.hidden;
       if (section.hidden) return;
       const entries = await apiGet("/api/auditoria");
       list.replaceChildren();
