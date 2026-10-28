@@ -821,8 +821,8 @@ body.high-contrast { --text:#fff; --muted:#d7deed; --line:#a6b2c8; background:#0
 body.high-contrast .feature-card,body.high-contrast .game-stage,body.high-contrast .auth-card { background:#050505; border-color:#fff; }
 body.high-contrast input,body.high-contrast textarea,body.high-contrast select,body.high-contrast .game-answer,body.high-contrast .memory-tile { border-color:#fff; background:#000; color:#fff; }
 body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
-body.text-scale-small { font-size:90%; }
-body.text-scale-large { font-size:115%; }
+body.text-scale-small :is(p,li,label,input,textarea,select,button,a,small,dd,dt,h1,h2,h3,h4,summary) { font-size: .9em; }
+body.text-scale-large :is(p,li,label,input,textarea,select,button,a,small,dd,dt,h1,h2,h3,h4,summary) { font-size: 1.15em; }
 #audit-list .feature-card p,#calendar-events .feature-card p { overflow-wrap:anywhere; }
 @media(max-width:640px) {
   .workspace-nav { position:static; gap:7px; }
