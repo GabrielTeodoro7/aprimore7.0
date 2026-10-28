@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS alunos (
     CONSTRAINT fk_alunos_turma FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE CASCADE,
     CONSTRAINT fk_alunos_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL,
     INDEX idx_alunos_turma (turma_id),
+    CONSTRAINT uq_alunos_usuario UNIQUE (usuario_id),
     INDEX idx_alunos_usuario (usuario_id)
 ) ENGINE=InnoDB;
 
