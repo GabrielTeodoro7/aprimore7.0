@@ -355,6 +355,8 @@ async function loadWorkspace(user) {
   await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);
   if (user.perfil === "ALUNO") await loadStudentSubmissions();
   reportsSection.hidden = !["ADMIN", "CEO"].includes(user.perfil);
+  const reportsNavLink = document.querySelector("#reports-nav-link");
+  if (reportsNavLink) reportsNavLink.hidden = reportsSection.hidden;
   if (["ADMIN", "CEO"].includes(user.perfil)) await loadReports();
 }
 
