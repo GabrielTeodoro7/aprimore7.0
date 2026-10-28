@@ -24,7 +24,9 @@ let csrfToken = "";
 const contextPath = window.location.pathname.replace(/\/[^/]*$/, "");
 document.querySelector("#year").textContent = new Date().getFullYear();
 document.querySelector("#class-year").value = new Date().getFullYear();
-document.querySelector("#attendance-date").value = new Date().toISOString().slice(0, 10);
+const today = new Date();
+today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+document.querySelector("#attendance-date").value = today.toISOString().slice(0, 10);
 
 function addDetail(label, value) {
   const term = document.createElement("dt");
