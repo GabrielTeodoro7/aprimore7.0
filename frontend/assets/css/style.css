@@ -712,3 +712,17 @@ a:focus-visible,button:focus-visible,input:focus-visible {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+.messages-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+.messages-list .feature-card {
+  padding: 16px;
+}
+.messages-list small {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+}
