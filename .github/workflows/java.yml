@@ -29,9 +29,18 @@ jobs:
       - name: Validar backend
         working-directory: backend
         run: mvn --batch-mode --no-transfer-progress clean verify
-      - name: Validar sintaxe JavaScript
+      - name: Impedir retorno de arquivos TypeScript no frontend
+        shell: bash
         run: |
-          node --check frontend/assets/js/app.js
-          node --check frontend/assets/js/dashboard.js
-          node --check frontend/assets/js/recursos.js
-          node --check frontend/assets/js/jogos.js
+          if find frontend -type f \\( -name '*.ts' -o -name '*.tsx' \\) -print -quit | grep -q .; then
+            echo "::error::O frontend deve permanecer em HTML, CSS e JavaScript puro."
+            exit 1
+          fi
+          if find . -path './.git' -prune -o -name 'package.json' -print -quit | grep -q .; then
+            echo "::error::Não reintroduza um package.json de frontend nesta stack."
+            exit 1
+          fi
+      - name: Validar sintaxe de todos os arquivos JavaScript
+        shell: bash
+        run: |
+          find frontend/assets/js -type f -name '*.js' -print0 | xargs -0 -r -n1 node --check
