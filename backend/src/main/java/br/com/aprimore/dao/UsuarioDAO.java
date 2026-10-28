@@ -12,6 +12,10 @@ import java.util.Optional;
 
 public class UsuarioDAO {
     public Optional<Usuario> buscarPorEmail(String email) throws SQLException {
+        return buscarCredencialPorEmail(email).map(CredencialUsuario::usuario);
+    }
+
+    public Optional<CredencialUsuario> buscarCredencialPorEmail(String email) throws SQLException {
         String sql = "SELECT id, nome, email, senha_hash, perfil FROM usuarios WHERE email = ?";
         try (Connection connection = Database.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -26,18 +30,7 @@ public class UsuarioDAO {
                     result.getString("email"),
                     result.getString("perfil")
                 );
-                return Optional.of(new UsuarioComSenha(usuario, result.getString("senha_hash")).usuario());
-            }
-        }
-    }
-
-    public Optional<String> buscarHashSenha(String email) throws SQLException {
-        String sql = "SELECT senha_hash FROM usuarios WHERE email = ?";
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, email);
-            try (ResultSet result = statement.executeQuery()) {
-                return result.next() ? Optional.of(result.getString("senha_hash")) : Optional.empty();
+                return Optional.of(new CredencialUsuario(usuario, result.getString("senha_hash")));
             }
         }
     }
@@ -59,6 +52,6 @@ public class UsuarioDAO {
         }
     }
 
-    private record UsuarioComSenha(Usuario usuario, String senhaHash) {
+    public record CredencialUsuario(Usuario usuario, String senhaHash) {
     }
 }
