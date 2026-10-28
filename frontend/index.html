@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Aprimore Educação: aprendizagem inclusiva, acompanhamento e apoio para cada estudante.">
+  <title>Aprimore Educação — Aprender do seu jeito</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script src="./assets/js/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Aprimore Educação, início"><span class="brand-mark">A</span> Aprimore <span>Educação</span></a>
+    <nav aria-label="Navegação principal"><a href="#recursos">Recursos</a><a href="#metodo">Como funciona</a><a href="#acesso">Acessar</a></nav>
+    <a class="button button-small" href="#acesso">Começar agora <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> Educação inclusiva, na prática</p>
+        <h1>Seu jeito de aprender é <span>o ponto de partida.</span></h1>
+        <p class="hero-description">Uma experiência de aprendizagem que respeita seu ritmo, valoriza suas conquistas e transforma dúvidas em novos caminhos.</p>
+        <div class="hero-actions"><a class="button" href="#acesso">Entrar na plataforma <span aria-hidden="true">→</span></a><a class="text-link" href="#recursos">Conhecer os recursos <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-note"><span class="note-icon" aria-hidden="true">✳</span><span>Aprender não é competir. É evoluir um passo de cada vez.</span></div>
+      </div>
+      <div class="hero-art" aria-label="Resumo ilustrativo de progresso de aprendizagem">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="progress-card"><div class="card-heading"><span class="mini-icon">✦</span><span>Seu progresso</span><span class="live-pill">EM FOCO</span></div><p class="muted">Esta semana</p><div class="progress-number">+24% <span>de evolução</span></div><div class="chart" aria-hidden="true"><i style="height:30%"></i><i style="height:46%"></i><i style="height:39%"></i><i style="height:60%"></i><i style="height:53%"></i><i style="height:78%"></i><i style="height:96%"></i></div><div class="chart-labels"><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span><span>DOM</span></div></div>
+        <div class="floating-card floating-top"><span class="floating-symbol">✓</span><div><strong>Pequenas conquistas</strong><small>também são progresso</small></div></div>
+        <div class="floating-card floating-bottom"><span class="floating-symbol purple">✦</span><div><strong>Seu ritmo importa</strong><small>Aprendizagem personalizada</small></div></div>
+      </div>
+    </section>
+    <section class="feature-section" id="recursos"><div class="section-heading"><p class="eyebrow">Feito para você</p><h2>Mais apoio. Menos barreiras.</h2><p>Ferramentas que ajudam a transformar estudo em uma experiência mais clara, acessível e consistente.</p></div><div class="feature-grid">
+      <article class="feature-card"><span class="feature-icon violet">✦</span><h3>Estudo no seu ritmo</h3><p>Organize metas e avance em etapas que façam sentido para você.</p></article>
+      <article class="feature-card"><span class="feature-icon orange">◷</span><h3>Rotina com propósito</h3><p>Visualize prioridades e acompanhe suas atividades sem perder o foco.</p></article>
+      <article class="feature-card"><span class="feature-icon green">⌁</span><h3>Acessibilidade de verdade</h3><p>Uma interface clara, navegação por teclado e atenção à legibilidade.</p></article>
+    </div></section>
+    <section class="method-section" id="metodo"><div><p class="eyebrow">Uma jornada possível</p><h2>Consistência vale mais que perfeição.</h2><p>O Aprimore foi pensado para apoiar estudantes e educadores com uma experiência organizada, acolhedora e centrada no desenvolvimento.</p></div><div class="method-steps"><div><span>01</span><p><strong>Defina seu objetivo</strong><small>Comece pelo que você precisa aprender.</small></p></div><div><span>02</span><p><strong>Construa sua rotina</strong><small>Divida o caminho em passos menores.</small></p></div><div><span>03</span><p><strong>Acompanhe sua evolução</strong><small>Reconheça avanços e ajuste o plano.</small></p></div></div></section>
+    <section class="access-section" id="acesso"><div class="access-copy"><p class="eyebrow">Sua jornada começa aqui</p><h2>Vamos aprender juntos?</h2><p>Entre na sua conta ou crie um cadastro para continuar.</p><div class="access-benefit"><span>✓</span> Experiência simples e responsiva</div><div class="access-benefit"><span>✓</span> Dados de acesso protegidos</div></div>
+      <div class="auth-card"><div class="auth-tabs" role="tablist" aria-label="Acesso à plataforma"><button class="auth-tab active" type="button" role="tab" aria-selected="true" data-mode="login">Entrar</button><button class="auth-tab" type="button" role="tab" aria-selected="false" data-mode="register">Criar conta</button></div>
+        <form id="auth-form"><div class="field" id="name-field" hidden><label for="nome">Nome completo</label><input id="nome" name="nome" autocomplete="name" minlength="2" maxlength="100" placeholder="Como podemos te chamar?"></div><div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="voce@exemplo.com" required></div><div class="field"><label for="senha">Senha</label><input id="senha" name="senha" type="password" autocomplete="current-password" minlength="10" maxlength="72" placeholder="Mínimo de 10 caracteres" required><small>Use pelo menos 10 caracteres.</small></div><p id="form-message" class="form-message" role="status" aria-live="polite"></p><button class="button submit-button" type="submit" id="submit-button">Entrar na conta <span aria-hidden="true">→</span></button><p class="privacy-note">Ao continuar, você concorda em usar a plataforma de forma responsável.</p><p><button class="text-link" id="show-recovery" type="button">Esqueci minha senha</button></p></form>
+        <section id="recovery-panel" hidden aria-labelledby="recovery-heading">
+          <h3 id="recovery-heading">Recuperar acesso</h3>
+          <p>Informe seu e-mail. Se a conta existir, enviaremos um código temporário.</p>
+          <form id="recovery-form"><div class="field"><label for="recovery-email">E-mail da conta</label><input id="recovery-email" name="email" type="email" autocomplete="email" maxlength="254" required></div><p class="form-message" id="recovery-message" role="status" aria-live="polite"></p><button class="button submit-button" type="submit">Enviar código</button></form>
+          <form id="reset-form"><div class="field"><label for="reset-token">Código recebido por e-mail</label><input id="reset-token" name="token" autocomplete="one-time-code" maxlength="100" required></div><div class="field"><label for="reset-password">Nova senha</label><input id="reset-password" name="senha" type="password" autocomplete="new-password" minlength="10" maxlength="72" required></div><p class="form-message" id="reset-message" role="status" aria-live="polite"></p><button class="button submit-button" type="submit">Redefinir senha</button></form>
+          <p><button class="text-link" id="show-login" type="button">Voltar ao login</button></p>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><a class="brand" href="#inicio"><span class="brand-mark">A</span> Aprimore <span>Educação</span></a><p>Aprender é um processo. Cada passo conta.</p><span>© <span id="year"></span> Aprimore Educação</span></footer>
+</body>
+</html>

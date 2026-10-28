@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Painel — Aprimore Educação</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script src="./assets/js/dashboard.js" defer></script>
+  <script src="./assets/js/recursos.js" defer></script>
+  <script src="./assets/js/jogos.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="brand-mark">A</span> Aprimore <span>Educação</span></a>
+    <button class="button button-small" id="logout-button" type="button">Sair da conta ↗</button>
+  </header>
+  <main><section class="access-section" style="min-height:70vh">
+    <section class="access-copy">
+      <p class="eyebrow">Área autenticada</p>
+      <h1 id="welcome-title">Carregando seu painel...</h1>
+      <p id="welcome-copy">Estamos verificando sua sessão com segurança.</p>
+      <div class="access-benefit"><span>✓</span> Sessão controlada pelo servidor</div>
+      <div class="access-benefit"><span>✓</span> Perfil obtido da conta autenticada</div>
+    </section>
+    <section class="auth-card" aria-labelledby="account-heading">
+      <p class="eyebrow">Sua conta</p>
+      <h2 id="account-heading">Dados do perfil</h2>
+      <p id="account-status" class="form-message" role="status" aria-live="polite">Consultando o servidor...</p>
+      <dl id="account-details"></dl>
+    </section>
+    </section>
+    <section class="feature-section" id="workspace">
+      <div class="section-heading"><p class="eyebrow">Área de aprendizagem</p><h2>Continue sua jornada.</h2><p>Atividades e ferramentas disponíveis para o seu perfil.</p></div>
+      <section id="staff-tools" hidden>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Criar turma</h3>
+            <form id="create-class-form">
+              <div class="field"><label for="class-name">Nome da turma</label><input id="class-name" name="nome" maxlength="120" required></div>
+              <div class="field"><label for="class-year">Ano letivo</label><input id="class-year" name="anoLetivo" type="number" min="2000" max="2100" required></div>
+              <div class="field" id="teacher-id-field" hidden><label for="teacher-id">ID do professor responsável</label><input id="teacher-id" name="professorId" inputmode="numeric"></div>
+              <p class="form-message" id="class-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Salvar turma</button>
+            </form>
+          </article>
+          <article class="feature-card">
+            <h3>Publicar atividade</h3>
+            <form id="create-activity-form">
+              <div class="field"><label for="activity-class">Turma</label><select id="activity-class" name="turmaId" required><option value="">Carregando turmas...</option></select></div>
+              <div class="field"><label for="activity-title">Título</label><input id="activity-title" name="titulo" maxlength="180" required></div>
+              <div class="field"><label for="activity-subject">Matéria</label><input id="activity-subject" name="materia" maxlength="100" required></div>
+              <div class="field"><label for="activity-date">Data de entrega</label><input id="activity-date" name="dataEntrega" type="date"></div>
+              <div class="field"><label for="activity-description">Descrição</label><textarea id="activity-description" name="descricao" rows="4" maxlength="10000"></textarea></div>
+              <div class="field"><label for="activity-level">Dificuldade</label><select id="activity-level" name="dificuldade"><option value="FACIL">Fácil</option><option value="MEDIA" selected>Média</option><option value="DESAFIO">Desafio</option></select></div>
+              <label class="access-benefit"><input type="checkbox" name="adaptada" value="true"> Atividade adaptada</label>
+              <p class="form-message" id="activity-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Publicar atividade</button>
+            </form>
+          </article>
+          <article class="feature-card">
+            <h3>Cadastrar aluno</h3>
+            <form id="create-student-form">
+              <div class="field"><label for="student-class">Turma</label><select id="student-class" name="turmaId" required><option value="">Carregando turmas...</option></select></div>
+              <div class="field"><label for="student-name">Nome do aluno</label><input id="student-name" name="nome" maxlength="120" required></div>
+              <div class="field"><label for="student-user-id">ID da conta do aluno (opcional)</label><input id="student-user-id" name="usuarioId" type="number" min="1" inputmode="numeric"><small>Vincule uma conta de aluno já cadastrada para liberar suas atividades.</small></div>
+              <div class="field"><label for="student-guardian">Responsável</label><input id="student-guardian" name="responsavel" maxlength="120"></div>
+              <div class="field"><label for="student-email">E-mail do responsável</label><input id="student-email" name="emailResponsavel" type="email" maxlength="254"></div>
+              <div class="field"><label for="student-needs">Necessidade educacional (opcional)</label><input id="student-needs" name="necessidadeEducacional" maxlength="500"></div>
+              <p class="form-message" id="student-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Cadastrar aluno</button>
+            </form>
+          </article>
+          <article class="feature-card">
+            <h3>Registrar frequência</h3>
+            <form id="attendance-form">
+              <div class="field"><label for="attendance-class">Turma</label><select id="attendance-class" name="turmaId" required><option value="">Carregando turmas...</option></select></div>
+              <div class="field"><label for="attendance-student">Aluno</label><select id="attendance-student" name="alunoId" required><option value="">Carregando alunos...</option></select></div>
+              <div class="field"><label for="attendance-date">Data da aula</label><input id="attendance-date" name="dataAula" type="date" required></div>
+              <div class="field"><label for="attendance-presence">Situação</label><select id="attendance-presence" name="presente" required><option value="true">Presente</option><option value="false">Ausente</option></select></div>
+              <div class="field"><label for="attendance-note">Justificativa (opcional)</label><input id="attendance-note" name="justificativa" maxlength="500"></div>
+              <p class="form-message" id="attendance-message" role="status" aria-live="polite"></p>
+              <button class="button submit-button" type="submit">Salvar frequência</button>
+            </form>
+          </article>
+        </div>
+      </section>
+      <section id="reports-section" hidden aria-labelledby="reports-heading">
+        <div class="section-heading"><p class="eyebrow">Visão administrativa</p><h2 id="reports-heading">Indicadores da plataforma</h2><p id="reports-status" role="status" aria-live="polite">Carregando indicadores...</p></div>
+        <div class="feature-grid" id="reports-grid"></div>
+      </section>
+      <section id="attendance-history-section" hidden aria-labelledby="attendance-history-heading">
+        <div class="section-heading"><h2 id="attendance-history-heading">Frequência recente</h2><p id="attendance-history-status" role="status" aria-live="polite">Carregando registros...</p></div>
+        <div class="feature-grid" id="attendance-history-list"></div>
+      </section>
+      <section id="corrections-section" hidden aria-labelledby="corrections-heading">
+        <div class="section-heading"><p class="eyebrow">Acompanhamento pedagógico</p><h2 id="corrections-heading">Entregas para corrigir</h2><p id="corrections-status" role="status" aria-live="polite">Carregando entregas...</p></div>
+        <div class="feature-grid" id="corrections-list"></div>
+      </section>
+      <nav class="workspace-nav" aria-label="Atalhos do painel">
+        <a href="#atividades">Atividades</a>
+        <a href="#jogos-section">Jogos educativos</a>
+        <a href="#calendario-section">Calendário</a>
+        <a href="#notificacoes-section">Notificações</a>
+        <a href="#acessibilidade-section">Acessibilidade</a>
+        <a id="reports-nav-link" href="#reports-section" hidden>Relatórios</a>
+        <a id="audit-nav-link" href="#audit-section" hidden>Auditoria</a>
+      </nav>
+      <section class="feature-section" id="jogos-section" aria-labelledby="jogos-heading">
+        <div class="section-heading"><p class="eyebrow">Aprender brincando</p><h2 id="jogos-heading">Central de jogos educativos</h2><p>Quatro jogos completos para praticar memória, matemática, vocabulário e conhecimentos gerais. Sua pontuação fica salva neste dispositivo.</p></div>
+        <div class="game-toolbar"><p id="games-summary" role="status" aria-live="polite">Escolha um jogo para começar.</p><button class="button button-small" id="reset-games" type="button">Limpar pontuações</button></div>
+        <div class="game-filter"><label for="game-category-filter">Filtrar por matéria</label><select id="game-category-filter"><option value="Todos">Todas as matérias</option></select></div>
+        <div class="game-picker" id="game-catalog" role="group" aria-label="Catálogo de jogos educativos"></div>
+        <div class="game-stage" id="game-stage" aria-live="polite"></div>
+        <div class="feature-grid game-scores" id="game-scores" aria-label="Melhores pontuações"></div>
+      </section>
+      <section class="feature-section" id="calendario-section" aria-labelledby="calendar-heading">
+        <div class="section-heading"><p class="eyebrow">Organização escolar</p><h2 id="calendar-heading">Calendário de atividades</h2><p>Veja prazos e planeje seus estudos com antecedência.</p></div>
+        <div class="calendar-toolbar"><button class="button button-small" id="calendar-previous" type="button" aria-label="Mês anterior">← Anterior</button><h3 id="calendar-month-label"></h3><button class="button button-small" id="calendar-next" type="button" aria-label="Próximo mês">Próximo →</button></div>
+        <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Calendário mensal"></div>
+        <p id="calendar-status" class="form-message" role="status" aria-live="polite">Carregando calendário...</p>
+        <div class="feature-grid" id="calendar-events"></div>
+      </section>
+      <section class="feature-section" id="notificacoes-section" aria-labelledby="notifications-heading">
+        <div class="section-heading"><p class="eyebrow">Não perca os prazos</p><h2 id="notifications-heading">Central de notificações</h2><p>Resumo de atividades próximas, mensagens não lidas e entregas aguardando correção.</p></div>
+        <div class="notification-toolbar"><p id="notifications-status" role="status" aria-live="polite">Carregando notificações...</p><button class="button button-small" id="refresh-notifications" type="button">Atualizar</button></div>
+        <div class="feature-grid" id="notifications-list"></div>
+      </section>
+      <section class="feature-section" id="acessibilidade-section" aria-labelledby="accessibility-heading">
+        <div class="section-heading"><p class="eyebrow">Do seu jeito</p><h2 id="accessibility-heading">Acessibilidade e conforto visual</h2><p>Personalize a leitura. As preferências ficam salvas neste dispositivo.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><h3>Tamanho do texto</h3><p>Escolha uma leitura mais confortável.</p><div class="accessibility-controls"><button class="button button-small" id="text-smaller" type="button" aria-label="Diminuir texto">A−</button><button class="button button-small" id="text-normal" type="button">Padrão</button><button class="button button-small" id="text-larger" type="button" aria-label="Aumentar texto">A+</button></div><p id="text-size-status" role="status" aria-live="polite"></p></article>
+          <article class="feature-card"><h3>Contraste reforçado</h3><p>Aumenta a separação entre texto, fundo e controles.</p><label class="toggle-option"><input id="high-contrast-toggle" type="checkbox"> Ativar alto contraste</label></article>
+          <article class="feature-card"><h3>Movimento reduzido</h3><p>Reduz animações e transições da interface.</p><label class="toggle-option"><input id="reduced-motion-toggle" type="checkbox"> Reduzir movimento</label></article>
+        </div>
+      </section>
+      <section class="feature-section" id="audit-section" hidden aria-labelledby="audit-heading">
+        <div class="section-heading"><p class="eyebrow">Transparência administrativa</p><h2 id="audit-heading">Histórico de alterações</h2><p>Registro de operações bem-sucedidas feitas na plataforma. Conteúdo de mensagens e senhas nunca é registrado.</p></div>
+        <p id="audit-status" role="status" aria-live="polite">Carregando histórico...</p>
+        <div class="feature-grid" id="audit-list"></div>
+      </section>
+      <div class="section-heading" id="activities-heading"><h2 id="atividades">Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
+      <div class="field activity-search"><label for="activity-search">Buscar atividade</label><input id="activity-search" type="search" maxlength="120" placeholder="Digite título, matéria ou turma" autocomplete="off"><small>Filtra as atividades que já estão carregadas no painel.</small></div>
+      <div class="feature-grid" id="activities-list"></div>
+      <section id="student-submissions-section" class="feature-section" hidden aria-labelledby="student-submissions-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Seu progresso</p>
+          <h2 id="student-submissions-heading">Minhas entregas e notas</h2>
+          <p id="student-submissions-status" role="status" aria-live="polite">Carregando suas entregas...</p>
+        </div>
+        <div class="feature-grid" id="student-submissions-list"></div>
+      </section>
+      <section class="feature-section" id="messages-section" aria-labelledby="messages-heading">
+        <div class="section-heading"><p class="eyebrow">Comunicação</p><h2 id="messages-heading">Mensagens</h2><p>Envie uma mensagem à equipe escolar ou acompanhe suas conversas.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><h3>Nova mensagem</h3><form id="message-form">
+            <div class="field"><label for="message-recipient">Destinatário</label><select id="message-recipient" name="destinatarioId" required><option value="">Carregando contatos...</option></select></div>
+            <div class="field"><label for="message-subject">Assunto</label><input id="message-subject" name="assunto" maxlength="180" required></div>
+            <div class="field"><label for="message-content">Mensagem</label><textarea id="message-content" name="conteudo" rows="5" maxlength="10000" required></textarea></div>
+            <p class="form-message" id="message-form-status" role="status" aria-live="polite"></p><button class="button submit-button" type="submit">Enviar mensagem</button>
+          </form></article>
+          <article class="feature-card"><h3>Caixa de mensagens</h3><p id="messages-status" role="status" aria-live="polite">Carregando mensagens...</p><div id="messages-list" class="messages-list"></div></article>
+        </div>
+      </section>
+      <section class="feature-section" id="wellbeing-section" hidden aria-labelledby="wellbeing-heading">
+        <div class="section-heading"><p class="eyebrow">Pausa para você</p><h2 id="wellbeing-heading">Como você está hoje?</h2><p>Este registro é pessoal e não substitui apoio profissional. Compartilhe apenas o que se sentir confortável em registrar.</p></div>
+        <article class="feature-card"><form id="wellbeing-form">
+          <div class="field"><label for="wellbeing-emotion">Como está se sentindo?</label><select id="wellbeing-emotion" name="emocao" required><option value="FELIZ">Feliz</option><option value="CALMO">Calmo(a)</option><option value="CANSADO">Cansado(a)</option><option value="ANSIOSO">Ansioso(a)</option><option value="TRISTE">Triste</option><option value="FRUSTRADO">Frustrado(a)</option></select></div>
+          <div class="field"><label for="wellbeing-intensity">Intensidade (1 a 5)</label><select id="wellbeing-intensity" name="intensidade" required><option value="1">1 — Leve</option><option value="2">2</option><option value="3" selected>3 — Moderada</option><option value="4">4</option><option value="5">5 — Intensa</option></select></div>
+          <div class="field"><label for="wellbeing-note">Observação opcional</label><textarea id="wellbeing-note" name="observacao" rows="3" maxlength="500" placeholder="Quer registrar algo sobre seu dia?"></textarea></div>
+          <p class="form-message" id="wellbeing-message" role="status" aria-live="polite"></p><button class="button submit-button" type="submit">Salvar registro</button>
+        </form><div id="wellbeing-history" class="wellbeing-history"></div></article>
+      </section>
+      <section class="feature-section" id="tutor-section" aria-labelledby="tutor-heading">
+        <div class="section-heading"><p class="eyebrow">Apoio ao estudo</p><h2 id="tutor-heading">Tutor pedagógico</h2><p>Faça uma pergunta e receba uma explicação em etapas. Não compartilhe dados pessoais.</p></div>
+        <article class="feature-card">
+          <form id="tutor-form">
+            <div class="field"><label for="tutor-question">Sua dúvida</label><textarea id="tutor-question" name="pergunta" rows="4" maxlength="3000" required placeholder="Ex.: Como resolvo uma equação do primeiro grau?"></textarea></div>
+            <p class="form-message" id="tutor-message" role="status" aria-live="polite"></p>
+            <button class="button submit-button" id="tutor-submit" type="submit">Perguntar ao tutor</button>
+          </form>
+          <div id="tutor-answer" class="tutor-answer" hidden aria-live="polite"></div>
+        </article>
+      </section>
+      <div class="section-heading" id="students-heading" hidden><h2>Alunos</h2><p id="students-status" role="status" aria-live="polite">Carregando alunos...</p></div>
+      <div class="feature-grid" id="students-list"></div>
+    </section>
+  </main>
+  <footer class="footer"><a class="brand" href="./index.html"><span class="brand-mark">A</span> Aprimore <span>Educação</span></a><p>Aprender é um processo. Cada passo conta.</p><span>© <span id="year"></span> Aprimore Educação</span></footer>
+</body>
+</html>

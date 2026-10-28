@@ -1,109 +1,172 @@
 # Aprimore Educação
 
-Plataforma educacional inclusiva com IA, acessibilidade e múltiplos perfis
-(aluno, professor, admin, CEO).
+Plataforma web de apoio à aprendizagem, criada para aproximar estudantes e educadores e facilitar a organização das atividades escolares.
 
-## Estrutura do repositório
+> **Situação atual:** a migração para a stack Java está na branch `refactor/java25-servlet61-migration`. A compilação e os testes automatizados passaram no último pipeline, mas o sistema ainda precisa de testes integrados com banco de dados e servidor antes de ser considerado pronto para produção.
 
+## Tecnologias utilizadas
+
+- **Java 25:** regras e processamento no servidor.
+- **Jakarta Servlet 6.1:** recebe as requisições HTTP e encaminha cada operação.
+- **JDBC + MySQL 8+:** comunicação com o banco de dados.
+- **HTML5, CSS3 e JavaScript puro:** páginas, aparência e interações do navegador.
+- **Maven:** organiza as dependências, executa os testes e gera o arquivo WAR.
+- **JUnit:** testes automatizados do código Java.
+
+Não usamos React, TypeScript, Vite ou frameworks de interface neste frontend. As bibliotecas Java declaradas no Maven são dependências do backend, não novas linguagens de programação.
+
+## Pastas do projeto
+
+```text
+aprimore7.0/
+├── backend/                 Código Java, testes e configuração do Maven
+│   ├── src/main/java/       Código principal do servidor
+│   │   └── br/com/aprimore/
+│   │       ├── config/      Configurações, como conexão com o banco
+│   │       ├── dao/         Consultas e gravações no banco de dados
+│   │       ├── model/       Classes que representam os dados
+│   │       ├── security/    Proteções de requisições e sessões
+│   │       ├── service/     Serviços reutilizáveis, como envio de e-mail
+│   │       └── servlet/     Endpoints HTTP da aplicação
+│   ├── src/test/java/       Testes automatizados
+│   └── pom.xml              Tecnologias, dependências e regras de compilação
+├── frontend/                Arquivos exibidos no navegador
+│   ├── index.html           Entrada e autenticação
+│   ├── dashboard.html       Painel da plataforma
+│   └── assets/
+│       ├── css/             Cores, layout e responsividade
+│       └── js/              Eventos, formulários e chamadas à API
+├── banco-de-dados/          Scripts SQL do MySQL
+│   ├── schema.sql           Criação das tabelas
+│   └── usuario-aplicacao.sql Exemplo de usuário com privilégios limitados
+├── documentacao/             Guias para entender e manter o sistema
+├── .github/workflows/        Verificações automáticas do repositório
+├── .env.example              Exemplo dos nomes das configurações necessárias
+├── .gitignore                Arquivos que não devem ser versionados
+└── README.md                 Visão geral e instruções rápidas
 ```
-/                       → frontend (TanStack Start + React + Tailwind)
-  src/                  → código da plataforma usada por alunos e equipe
-  supabase/             → migrations e config do banco (Lovable Cloud)
-backend-java/           → código-fonte Java de referência acadêmica
-                         (NÃO precisa estar rodando para a plataforma funcionar)
-```
 
-### Frontend
-- **Stack:** TanStack Start, React 19, Tailwind, shadcn/ui.
-- **IA:** Lovable AI Gateway via `src/lib/ai.functions.ts` (server functions).
-- **Acessibilidade:** painel global + descrição de imagens por IA.
-- **Perfis:** aluno, professor, admin, CEO (painel executivo).
+Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes](documentacao/GUIA_DO_PROJETO.md)**.
 
-Rodar local:
+## Funcionalidades presentes nesta versão
+
+- Cadastro de estudantes, login, logout e recuperação de senha por e-mail.
+- Senhas armazenadas com hash BCrypt, sessões HTTP e limite básico de tentativas por endereço IP em cadastro, login e recuperação de senha. O limite é local ao processo e deve ser complementado por proteção na infraestrutura em ambientes distribuídos.
+- Proteção CSRF nas operações autenticadas e cabeçalhos de segurança.
+- Turmas, cadastro de alunos e vínculo opcional entre aluno e conta.
+- Publicação de atividades, envio de respostas, correções, notas e feedback. Estudantes podem consultar seu histórico de entregas, notas e comentários; o servidor bloqueia novo envio após a correção.
+- Registro e consulta de frequência conforme permissões.
+- Contatos e mensagens entre contas autorizadas.
+- Resumo de indicadores para administradores e CEO.
+- Registro pessoal de bem-estar do estudante.
+- Tutor pedagógico opcional por API, configurado no servidor.
+- Central com 18 jogos educativos internos, incluindo matemática, gramática, ciências, lógica, geografia, artes, história, inglês, música, memória, corrida de letras e desafios de vocabulário. As partidas têm regras, respostas e pontuação; os recordes ficam salvos no dispositivo.
+- Calendário mensal de prazos, notificações derivadas de atividades e mensagens, e preferências de acessibilidade para tamanho de texto, alto contraste e movimento reduzido.
+- Relatórios administrativos com indicadores gerais e visão por turma: alunos, atividades, entregas, média de notas e frequência.
+- Histórico de auditoria de operações autenticadas bem-sucedidas, disponível somente para ADMIN e CEO; não registra conteúdo de mensagens nem senhas.
+- Interface responsiva e mensagens de retorno nos formulários.
+
+### O que ainda precisa ser validado ou desenvolvido
+
+- Testes de ponta a ponta com MySQL real e aplicação implantada em um servidor compatível com Servlet 6.1.
+- Teste real do envio e do consumo de token de recuperação de senha por SMTP.
+- Testes de autorização para todos os perfis e operações, inclusive casos de acesso indevido.
+- Evoluir o limite de tentativas para armazenamento compartilhado entre instâncias e configurar corretamente IPs de proxy reverso, quando houver.
+- Monitoramento, políticas de retenção e testes de acessibilidade.
+- Relatórios administrativos detalhados e outras rotinas escolares ainda não implementadas.
+- Testes de acessibilidade e navegação em diferentes dispositivos e navegadores.
+
+Por isso, **não considere a aplicação pronta para produção apenas porque a compilação passou**.
+
+## Requisitos para executar
+
+- JDK 25
+- Maven 3.9 ou superior
+- MySQL 8 ou superior
+- Servidor compatível com Jakarta Servlet 6.1
+- Configurações de ambiente descritas abaixo
+
+## Configurar o banco de dados
+
+1. Inicie o MySQL.
+2. Execute o script `banco-de-dados/schema.sql` para criar a estrutura.
+3. Configure um usuário de aplicação com privilégios mínimos, usando `banco-de-dados/usuario-aplicacao.sql` como exemplo. Ajuste o host de acordo com seu ambiente.
+4. Defina as variáveis de ambiente antes de iniciar o servidor:
+
 ```bash
-bun install
-bun dev
+DB_URL=jdbc:mysql://localhost:3306/aprimore
+DB_USER=aprimore_app
+DB_PASSWORD=sua_senha_local
+SESSION_COOKIE_SECURE=false
 ```
 
-### `backend-java/` — material de apoio acadêmico
+O Java não carrega automaticamente o arquivo `.env.example`: ele é um modelo para copiar as variáveis para a configuração da sua IDE ou do servidor. O valor `SESSION_COOKIE_SECURE=false` é somente para desenvolvimento local por HTTP. Em produção, configure HTTPS e use `SESSION_COOKIE_SECURE=true`.
 
-A pasta contém um projeto Java Maven que demonstra a implementação dos
-**14 tópicos obrigatórios de POO/Java** exigidos no trabalho:
+**Nunca coloque senhas reais, tokens ou chaves de API no GitHub.**
 
-1. Classes e Objetos
-2. Construtores
-3. Encapsulamento
-4. Herança
-5. Interfaces
-6. Classes Abstratas
-7. Polimorfismo
-8. Coleções do Java
-9. Java IO
-10. Enum em Java
-11. Exceções do Java
-12. Thread
-13. Java Swing (substituído por geração de PDF)
-14. JDBC
+O cadastro público cria somente contas de estudante. Perfis como `PROFESSOR`, `ADMIN` e `CEO` devem ser concedidos por um procedimento administrativo confiável; não crie uma rota pública para promover usuários.
 
-O backend Java **não é consumido pelo frontend** — ele existe apenas como
-evidência da implementação dos conceitos. O professor pode inspecionar o
-código diretamente em `backend-java/src/`.
+## Compilar e executar
 
-Compilar e executar local (VS Code):
+Na pasta raiz do repositório, execute:
+
 ```bash
-cd backend-java
-mvn compile
-mvn exec:java -Dexec.mainClass=escola.Main
-mvn exec:java -Dexec.mainClass=escola.demo.DemoJDBC
-mvn exec:java -Dexec.mainClass=escola.demo.DemoSwing
+cd backend
+mvn clean verify
 ```
 
-## Correções de IA aplicadas nesta versão
+O comando compila o backend, executa os testes automatizados e gera `backend/target/aprimore.war`. O Maven inclui os arquivos da pasta `frontend/` no WAR para que a interface e a API sejam servidas pelo mesmo contexto.
 
-O erro "Nenhum objeto gerado: a resposta não corresponde ao esquema" era
-exibido para o usuário quando a IA respondia em texto puro ou JSON inválido.
+Depois, implante o WAR em um servidor compatível com Servlet 6.1 e configure as variáveis de ambiente nesse servidor. A compilação, sozinha, não configura o MySQL nem inicia a aplicação.
 
-O que mudou:
+### Recuperação de senha por e-mail
 
-- Novo helper `src/lib/ai-safe.ts` com `safeGenerateObject()` que:
-  1. Tenta `generateObject` normalmente (schema estrito).
-  2. Se falhar, refaz a chamada com `generateText` e tenta extrair JSON
-     usando regex (incluindo blocos ```json``` e remoção de vírgulas
-     pendentes).
-  3. Se ainda falhar, devolve um **fallback amigável tipado** definido por
-     cada handler — a interface nunca quebra.
-- Todas as 14 server functions em `src/lib/ai.functions.ts` foram
-  reescritas para usar `safeGenerateObject`.
-- A landing (`src/routes/index.tsx`) agora exibe uma mensagem lúdica
-  ("🤔 Desculpe, estou aprendendo… Quer tentar outra pergunta?") em vez
-  do erro técnico.
-- Os prompts foram revisados para usar **linguagem simples, lúdica e
-  encorajadora** adequada ao ensino fundamental e médio (emojis, exemplos
-  do cotidiano — pizza 🍕, mochila, futebol, brinquedos).
-- Removida a menção a "14 tópicos Java" do painel CEO de insights — o
-  conteúdo Java fica apenas no diretório `backend-java/`, não aparece para
-  os alunos.
+Configure as variáveis SMTP descritas em `.env.example`: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` e `SMTP_FROM`. O fluxo usa token temporário de uso único com expiração de 15 minutos. O envio real precisa ser testado com uma conta SMTP válida.
 
-## Como testar as correções da IA
+### Limite de tentativas de autenticação
 
-1. **Demo da landing:** abra `/` → escreva uma necessidade no demo
-   ("Aluno de 9 anos com TDAH") → clique em **Gerar plano**.
-   - Caminho feliz: aparece o plano com título, resumo, passos e adaptação.
-   - Caminho de erro (desligue a internet ou esgote créditos): a interface
-     mostra a mensagem amigável, nunca o erro técnico.
-2. **Tutor do aluno:** `/aluno/tutor` → faça uma pergunta. Se a IA não
-   responder no formato esperado, aparece a resposta padrão pedindo pra
-   reformular.
-3. **Painel CEO:** `/ceo` continua intacto (login → auditoria, insights,
-   override, usuários, observar).
-4. **Demos de IA do professor:** `/professor/ia`, `/inclusao`,
-   `/aluno/sentimentos`, `/relatorios`, `/atividades/novo`, `/mensagens`
-   — todas usam o mesmo helper e nunca exibem o erro de schema.
+O servidor limita tentativas a 10 solicitações de login e 5 solicitações de recuperação de senha por endereço IP, em janelas de 15 minutos. Esse controle é mantido na memória do processo: reiniciar a aplicação limpa os contadores e múltiplas instâncias não compartilham os limites. Em produção com várias instâncias, use um mecanismo compartilhado e revise a configuração de proxy para não agrupar todos os usuários no mesmo endereço.
 
-## Regressão verificada
+## Tutor pedagógico opcional
 
-- Painel CEO mantido (todas as rotas `ceo.*`).
-- Demos de IA preservadas — só recebem fallback transparente.
-- Acessibilidade, assistente flutuante, rotas de aluno/professor/admin
-  intocadas.
-- Nenhuma referência visível a Java, POO, JDBC etc. no produto final.
+Configure no servidor:
+
+```bash
+AI_API_KEY=sua_chave
+AI_API_URL=https://api.openai.com/v1/chat/completions
+AI_MODEL=gpt-4o-mini
+```
+
+A chave não pode ser exposta ao JavaScript do navegador. Sem uma chave válida, o serviço do tutor não estará disponível.
+
+## Rotas principais da API
+
+| Método | Rota | Finalidade |
+|---|---|---|
+| POST | `/api/auth/cadastro` | Criar conta de estudante |
+| POST | `/api/auth/login` | Entrar na plataforma |
+| POST | `/api/auth/logout` | Encerrar a sessão |
+| POST | `/api/auth/recuperacao` | Solicitar recuperação de senha |
+| POST | `/api/auth/redefinir-senha` | Definir nova senha com token válido |
+| GET | `/api/auth/me` | Consultar a conta e os dados da sessão |
+| GET / POST | `/api/turmas` | Consultar ou criar turmas conforme o perfil |
+| GET / POST | `/api/alunos` | Consultar ou cadastrar alunos conforme a permissão |
+| GET / POST | `/api/atividades` | Consultar ou publicar atividades |
+| GET / POST | `/api/submissoes` | Consultar ou enviar respostas |
+| GET / POST | `/api/correcoes` | Consultar ou registrar correções e notas |
+| GET / POST | `/api/frequencia` | Consultar ou registrar frequência |
+| GET | `/api/contatos` | Listar contatos permitidos |
+| GET / POST | `/api/mensagens` | Consultar ou enviar mensagens |
+| GET | `/api/relatorios/resumo` | Consultar indicadores administrativos gerais |
+| GET | `/api/relatorios/resumo?tipo=turmas` | Consultar indicadores por turma |
+| GET | `/api/auditoria` | Consultar as últimas operações registradas (ADMIN/CEO) |
+| GET / POST | `/api/sentimentos` | Registrar ou consultar o próprio histórico de bem-estar |
+| POST | `/api/ia/tutor` | Enviar pergunta ao tutor opcional |
+
+As operações autenticadas de escrita exigem o token CSRF obtido em `/api/auth/me`. A autorização é sempre responsabilidade do servidor; esconder um botão na página não é uma proteção de segurança.
+
+## Testes automáticos
+
+O workflow do GitHub Actions compila o projeto com JDK 25, executa os testes unitários e verifica a sintaxe dos arquivos JavaScript. Consulte a aba **Actions** para ver o resultado mais recente.
+
+Um pipeline aprovado confirma somente as etapas que ele executa. Os testes reais de banco, implantação, e-mail e fluxos completos ainda precisam ser realizados.

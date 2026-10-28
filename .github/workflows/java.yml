@@ -1,0 +1,37 @@
+name: Verificação Java
+
+on:
+  push:
+    branches:
+      - main
+      - refactor/java25-servlet61-migration
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: aprimore-java-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Compilar, testar e validar JavaScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Configurar JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Validar backend
+        working-directory: backend
+        run: mvn --batch-mode --no-transfer-progress clean verify
+      - name: Validar sintaxe JavaScript
+        run: |
+          node --check frontend/assets/js/app.js
+          node --check frontend/assets/js/dashboard.js
+          node --check frontend/assets/js/recursos.js
+          node --check frontend/assets/js/jogos.js
