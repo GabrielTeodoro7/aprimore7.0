@@ -12,6 +12,9 @@ const studentsList = document.querySelector("#students-list");
 const classMessage = document.querySelector("#class-message");
 const activityMessage = document.querySelector("#activity-message");
 const studentMessage = document.querySelector("#student-message");
+const correctionsSection = document.querySelector("#corrections-section");
+const correctionsStatus = document.querySelector("#corrections-status");
+const correctionsList = document.querySelector("#corrections-list");
 let csrfToken = "";
 const contextPath = window.location.pathname.replace(/\/[^/]*$/, "");
 document.querySelector("#year").textContent = new Date().getFullYear();
@@ -147,6 +150,7 @@ async function loadStaffWorkspace(user) {
   const staff = ["PROFESSOR", "ADMIN", "CEO"].includes(user.perfil);
   staffTools.hidden = !staff;
   studentsHeading.hidden = !staff;
+  correctionsSection.hidden = !staff;
   if (!staff) return;
 
   const teacher = user.perfil === "PROFESSOR";
@@ -179,6 +183,77 @@ async function loadStaffWorkspace(user) {
     });
   } catch (error) {
     studentsStatus.textContent = error.message;
+  }
+  await loadCorrections();
+}
+
+async function loadCorrections() {
+  correctionsList.replaceChildren();
+  correctionsStatus.textContent = "Carregando entregas...";
+  try {
+    const submissions = await requestJson("/api/correcoes");
+    correctionsStatus.textContent = submissions.length ? submissions.length + " entrega(s) encontrada(s)." : "Nenhuma entrega para corrigir no momento.";
+    submissions.forEach((item) => {
+      const card = createCard(item.titulo, ["Aluno: " + item.alunoNome, "Resposta: " + (item.resposta || "Sem resposta"), "Status: " + item.status, "Nota atual: " + (item.nota ?? "Não corrigida"), item.feedback ? "Feedback: " + item.feedback : "Sem feedback registrado"]);
+      const form = document.createElement("form");
+      form.className = "submission-form";
+      const id = document.createElement("input");
+      id.type = "hidden";
+      id.name = "submissaoId";
+      id.value = String(item.id);
+      const gradeField = document.createElement("div");
+      gradeField.className = "field";
+      const gradeLabel = document.createElement("label");
+      gradeLabel.textContent = "Nota (0 a 10)";
+      gradeLabel.htmlFor = "grade-" + item.id;
+      const grade = document.createElement("input");
+      grade.id = gradeLabel.htmlFor;
+      grade.name = "nota";
+      grade.type = "number";
+      grade.min = "0";
+      grade.max = "10";
+      grade.step = "0.01";
+      grade.required = true;
+      if (item.nota !== null) grade.value = String(item.nota);
+      gradeField.append(gradeLabel, grade);
+      const feedbackField = document.createElement("div");
+      feedbackField.className = "field";
+      const feedbackLabel = document.createElement("label");
+      feedbackLabel.textContent = "Feedback para o estudante";
+      feedbackLabel.htmlFor = "feedback-" + item.id;
+      const feedback = document.createElement("textarea");
+      feedback.id = feedbackLabel.htmlFor;
+      feedback.name = "feedback";
+      feedback.rows = 3;
+      feedback.maxLength = 2000;
+      feedback.value = item.feedback || "";
+      feedbackField.append(feedbackLabel, feedback);
+      const message = document.createElement("p");
+      message.className = "form-message";
+      message.setAttribute("role", "status");
+      const button = document.createElement("button");
+      button.type = "submit";
+      button.className = "button submit-button";
+      button.textContent = "Salvar correção";
+      form.append(id, gradeField, feedbackField, message, button);
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        button.disabled = true;
+        try {
+          await requestJson("/api/correcoes", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }, body: new URLSearchParams(new FormData(form)) });
+          showMessage(message, "Correção salva.", true);
+          await loadCorrections();
+        } catch (error) {
+          showMessage(message, error.message);
+        } finally {
+          button.disabled = false;
+        }
+      });
+      card.append(form);
+      correctionsList.append(card);
+    });
+  } catch (error) {
+    correctionsStatus.textContent = error.message;
   }
 }
 
