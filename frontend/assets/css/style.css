@@ -745,3 +745,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     scroll-behavior: auto !important
   }
 }
+
+
+/* Cartões de entregas e notas do estudante. */
+#student-submissions-list .feature-card {
+  min-width: 0;
+}
+#student-submissions-list .feature-card p {
+  overflow-wrap: anywhere;
+}
