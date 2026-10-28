@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.com.aprimore</groupId>
-  <artifactId>aprim ore-web</artifactId>
+  <artifactId>aprimore-web</artifactId>
   <version>1.0.0</version>
   <packaging>war</packaging>
   <properties>
@@ -34,7 +34,7 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>aprim ore</finalName>
+    <finalName>aprimore</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
