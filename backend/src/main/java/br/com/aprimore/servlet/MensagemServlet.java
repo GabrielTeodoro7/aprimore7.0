@@ -29,11 +29,6 @@ public class MensagemServlet extends HttpServlet {
             + "WHERE m.remetente_id = ? OR m.destinatario_id = ? "
             + "ORDER BY m.criado_em DESC LIMIT 100";
         try (Connection connection = Database.getConnection()) {
-            try (PreparedStatement markRead = connection.prepareStatement(
-                    "UPDATE mensagens SET lida_em = CURRENT_TIMESTAMP WHERE destinatario_id = ? AND lida_em IS NULL")) {
-                markRead.setLong(1, usuarioId);
-                markRead.executeUpdate();
-            }
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, usuarioId);
                 statement.setLong(2, usuarioId);
@@ -70,6 +65,36 @@ public class MensagemServlet extends HttpServlet {
             ApiUtil.responder(response, 401, "{\"erro\":\"Autenticação necessária.\"}");
             return;
         }
+        if ("true".equalsIgnoreCase(valor(request, "marcarLida"))) {
+            long mensagemId;
+            try {
+                mensagemId = Long.parseLong(valor(request, "mensagemId"));
+            } catch (NumberFormatException exception) {
+                ApiUtil.responder(response, 400, "{\"erro\":\"Informe uma mensagem válida.\"}");
+                return;
+            }
+            if (mensagemId < 1) {
+                ApiUtil.responder(response, 400, "{\"erro\":\"Informe uma mensagem válida.\"}");
+                return;
+            }
+            try (Connection connection = Database.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(
+                     "UPDATE mensagens SET lida_em = CURRENT_TIMESTAMP WHERE id = ? AND destinatario_id = ? AND lida_em IS NULL")) {
+                statement.setLong(1, mensagemId);
+                statement.setLong(2, usuarioId);
+                int alteradas = statement.executeUpdate();
+                if (alteradas == 0) {
+                    ApiUtil.responder(response, 404, "{\"erro\":\"Mensagem não encontrada ou já marcada como lida.\"}");
+                    return;
+                }
+                ApiUtil.responder(response, 200, "{\"mensagem\":\"Mensagem marcada como lida.\"}");
+            } catch (SQLException | IllegalStateException exception) {
+                getServletContext().log("Falha ao marcar mensagem como lida.", exception);
+                ApiUtil.responder(response, 503, "{\"erro\":\"Não foi possível atualizar a mensagem.\"}");
+            }
+            return;
+        }
+
         long destinatarioId;
         try {
             destinatarioId = Long.parseLong(valor(request, "destinatarioId"));
