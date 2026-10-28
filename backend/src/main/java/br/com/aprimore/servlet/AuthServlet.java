@@ -25,20 +25,20 @@ public class AuthServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setHeader("Cache-Control", "no-store");
         if (!"/me".equals(request.getPathInfo())) {
-            responder(response, 404, "{\\"erro\\":\\"Rota não encontrada.\\"}");
+            responder(response, 404, "{\"erro\":\"Rota não encontrada.\"}");
             return;
         }
         HttpSession sessao = request.getSession(false);
         if (sessao == null || sessao.getAttribute("usuarioId") == null) {
-            responder(response, 401, "{\\"erro\\":\\"Autenticação necessária.\\"}");
+            responder(response, 401, "{\"erro\":\"Autenticação necessária.\"}");
             return;
         }
         long id = (long) sessao.getAttribute("usuarioId");
         String nome = (String) sessao.getAttribute("usuarioNome");
         String email = (String) sessao.getAttribute("usuarioEmail");
         String perfil = (String) sessao.getAttribute("usuarioPerfil");
-        responder(response, 200, "{\\"id\\":" + id + ",\\"nome\\":\\"" + escapar(nome)
-                + "\\",\\"email\\":\\"" + escapar(email) + "\\",\\"perfil\\":\\"" + escapar(perfil) + "\\"}");
+        responder(response, 200, "{\"id\":" + id + ",\"nome\":\"" + escapar(nome)
+                + "\",\"email\":\"" + escapar(email) + "\",\"perfil\":\"" + escapar(perfil) + "\"}");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class AuthServlet extends HttpServlet {
         if (!ValidacaoUsuario.nomeValido(nome)
                 || !ValidacaoUsuario.emailValido(email)
                 || !ValidacaoUsuario.senhaValida(senha)) {
-            responder(response, 400, "{\"erro\":\"Informe nome e e-mail válidos e senha entre 10 e 72 caracteres.\"}");
+            responder(response, 400, "{\"erro\":\"Informe nome e e-mail válidos e senha entre 10 e 72 bytes.\"}");
             return;
         }
         if (usuarios.buscarPorEmail(email).isPresent()) {
