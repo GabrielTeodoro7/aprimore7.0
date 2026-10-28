@@ -4,10 +4,9 @@ Plataforma educacional com foco em acessibilidade, organização dos estudos e a
 
 ## Tecnologias da nova base
 
-- **Java 25** para o servidor.
-- **Jakarta Servlet 6.1** para endpoints HTTP.
+- **Java 25** e **Jakarta Servlet 6.1** no servidor.
 - **JDBC e MySQL 8+** para persistência.
-- **HTML5, CSS3 e JavaScript puro** para a interface.
+- **HTML5, CSS3 e JavaScript puro** na interface.
 - **Maven** para dependências, testes e empacotamento WAR.
 
 ## Estrutura
@@ -15,18 +14,22 @@ Plataforma educacional com foco em acessibilidade, organização dos estudos e a
 ```text
 backend/                 Aplicação Java web e endpoints
 frontend/                HTML, CSS e JavaScript sem frameworks
-banco-de-dados/          Esquema e scripts SQL
+banco-de-dados/          Esquema MySQL e estrutura dos dados
+.github/workflows/       Verificação automática de build e sintaxe
 ```
 
-## Funcionalidades já iniciadas nesta base
+## Funcionalidades migradas nesta etapa
 
-- Página inicial responsiva com navegação por seções.
-- Formulário de cadastro e login conectado aos endpoints HTTP.
-- Validação inicial de campos no servidor.
-- Hash de senha com BCrypt e consultas JDBC parametrizadas.
-- Sessão HTTP com expiração e cookie HttpOnly.
+- Página inicial responsiva e formulário de acesso.
+- Cadastro de conta com papel inicial restrito a aluno.
+- Login e logout com sessão HTTP, expiração e proteção contra fixação de sessão.
+- Senhas armazenadas com BCrypt; consultas JDBC parametrizadas.
+- Token CSRF para operações autenticadas.
+- Cadastro e consulta de turmas, alunos e atividades.
+- Restrições por perfil nos endpoints de turmas, alunos e atividades.
+- Painel com dados da conta e interface para gerenciamento básico de turmas, alunos e atividades.
 
-A migração dos módulos antigos ainda está em andamento. Recursos como perfis completos, painéis de aluno/professor/admin/CEO, acompanhamento pedagógico, acessibilidade avançada e ferramentas de apoio ao estudo precisam ser portados e testados antes de considerar a substituição concluída.
+**A migração completa ainda não terminou.** Painéis completos de aluno, professor, administrador e CEO, notas, avaliações, frequência, mensagens, rotina, sentimentos, conquistas, recursos de acessibilidade avançada e tutor pedagógico ainda precisam ser portados e validados. A implementação anterior permanece na branch como referência durante a migração; referências antigas só devem ser removidas depois de substituir os módulos dependentes.
 
 ## Requisitos
 
@@ -35,38 +38,55 @@ A migração dos módulos antigos ainda está em andamento. Recursos como perfis
 - MySQL 8.0 ou superior.
 - Contêiner Servlet compatível com Jakarta Servlet 6.1.
 
-## Configuração do banco
+## Banco de dados
 
-1. Crie um usuário próprio no MySQL, com permissões apenas sobre o banco `aprimore` (sem espaço: `aprimore`).
-2. Execute `banco-de-dados/schema.sql`.
-3. Configure as variáveis de ambiente no ambiente em que o servidor será executado:
+1. Execute `banco-de-dados/schema.sql` com uma conta administrativa do MySQL.
+2. Crie um usuário de aplicação com permissões limitadas ao banco `aprimore` (sem espaço: `aprimore`).
+3. Configure estas variáveis no ambiente do servidor:
 
 ```bash
 DB_URL=jdbc:mysql://localhost:3306/aprimore
 DB_USER=aprimore_app
-DB_PASSWORD=defina_uma_senha_local
+DB_PASSWORD=sua_senha_local
+SESSION_COOKIE_SECURE=true
 ```
 
-Use os valores sem espaços: o nome do banco padrão é `aprimore` (sem espaço, `aprimore`).
+Em desenvolvimento local sem HTTPS, defina `SESSION_COOKIE_SECURE=false`. **Nunca use essa configuração em produção.** O Java não carrega arquivos `.env` automaticamente; configure as variáveis no sistema operacional, IDE ou ambiente de hospedagem.
 
-## Compilar e empacotar
+O cadastro público cria apenas usuários com perfil `ALUNO`. Para promover uma conta de confiança a administradora, depois de criá-la, execute manualmente no banco:
 
-Na pasta `backend/`:
+```sql
+UPDATE usuarios SET perfil = 'ADMIN' WHERE email = 'seu-email@exemplo.com';
+```
+
+Não use contas administrativas públicas nem deixe credenciais reais no repositório.
+
+## Executar
+
+Na pasta `backend/`, compile e empacote:
 
 ```bash
 mvn clean verify
 ```
 
-O arquivo WAR é gerado em `backend/target/aprimore.war` (sem espaços no nome real: `aprimore.war`).
+O WAR é gerado em `backend/target/aprimore.war`. Implante-o em um contêiner compatível com Servlet 6.1.
 
-## Executar a interface
+Sirva a pasta `frontend/` por um servidor HTTP e configure o mesmo domínio/reverse proxy para encaminhar `/api/` ao backend Java. Um servidor de arquivos estáticos sozinho não executa os servlets.
 
-Sirva a pasta `frontend/` por um servidor HTTP. Para que os formulários funcionem, configure o servidor/reverse proxy para encaminhar `/api/` à aplicação Java no mesmo domínio. Não use um servidor estático isolado esperando que ele execute os servlets.
+## API disponível nesta etapa
 
-## Segurança e estado
+| Método | Rota | Acesso |
+|---|---|---|
+| POST | `/api/auth/cadastro` | Público; cria perfil de aluno |
+| POST | `/api/auth/login` | Público |
+| GET | `/api/auth/me` | Sessão autenticada |
+| POST | `/api/auth/logout` | Sessão autenticada |
+| GET / POST | `/api/turmas` | Professor, administrador ou CEO |
+| GET / POST | `/api/alunos` | Consulta conforme perfil; cadastro por equipe autorizada |
+| GET / POST | `/api/atividades` | Consulta conforme perfil; publicação por equipe autorizada |
 
-- Não versionar arquivos `.env` nem credenciais.
-- Usar HTTPS em produção.
-- Aplicar controle de acesso por perfil em todos os endpoints protegidos antes de disponibilizar painéis.
-- A autenticação é apenas a primeira etapa da migração; ainda é necessário completar proteção CSRF, limitação de tentativas e testes de integração.
-- A compilação e os testes precisam ser executados em um ambiente com JDK 25, Maven e banco de dados disponíveis. Não há confirmação de execução completa nesta etapa.
+As rotas de escrita exigem token CSRF, sessão válida e autorização por perfil. Antes de disponibilizar a plataforma, ainda devem ser concluídos testes de integração com MySQL, proteção de tentativas de login, recuperação de senha, trilha de auditoria completa e a migração dos módulos restantes.
+
+## Verificação automatizada
+
+O GitHub Actions executa `mvn clean verify` com JDK 25 e valida a sintaxe dos arquivos JavaScript. A aprovação do build não substitui testes de ponta a ponta, configuração do banco nem validação das permissões no ambiente de implantação.
