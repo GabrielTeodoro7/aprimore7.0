@@ -12,6 +12,7 @@ const studentsList = document.querySelector("#students-list");
 const classMessage = document.querySelector("#class-message");
 const activityMessage = document.querySelector("#activity-message");
 const studentMessage = document.querySelector("#student-message");
+let csrfToken = "";
 document.querySelector("#year").textContent = new Date().getFullYear();
 document.querySelector("#class-year").value = new Date().getFullYear();
 
@@ -29,7 +30,9 @@ function addDetail(label, value) {
 }
 
 async function requestJson(url, options = {}) {
-  const response = await fetch(url, { credentials: "same-origin", cache: "no-store", ...options });
+  const headers = new Headers(options.headers || {});
+  if (options.method && options.method.toUpperCase() === "POST" && csrfToken) headers.set("X-CSRF-Token", csrfToken);
+  const response = await fetch(url, { credentials: "same-origin", cache: "no-store", ...options, headers });
   const payload = await response.json().catch(() => ({}));
   if (response.status === 401) {
     window.location.replace("./index.html#acesso");
@@ -136,6 +139,7 @@ async function loadWorkspace(user) {
 async function loadAccount() {
   try {
     const user = await requestJson("/api/auth/me");
+    csrfToken = user.csrfToken || "";
     title.textContent = "Olá, " + user.nome + ".";
     copy.textContent = "Sua sessão está ativa. Os recursos disponíveis dependem do seu perfil de acesso.";
     status.textContent = "Sessão ativa";
@@ -189,7 +193,7 @@ document.querySelector("#create-student-form").addEventListener("submit", (event
 
 document.querySelector("#logout-button").addEventListener("click", async () => {
   try {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+    await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": csrfToken } });
   } finally {
     window.location.replace("./index.html");
   }
