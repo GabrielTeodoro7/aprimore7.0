@@ -34,3 +34,4 @@ jobs:
           node --check frontend/assets/js/app.js
           node --check frontend/assets/js/dashboard.js
           node --check frontend/assets/js/recursos.js
+          node --check frontend/assets/js/jogos.js
