@@ -40,6 +40,7 @@ banco-de-dados/
 - Correção de entregas com nota de 0 a 10 e feedback, limitada às turmas do professor.
 - Registro de frequência por turma, com histórico e validação de permissão do professor.
 - Caixa de mensagens autenticada, contatos limitados por perfil e marcação automática de mensagens recebidas como lidas.
+- Resumo de indicadores da plataforma disponível somente para administradores e CEO.
 - Check-in pessoal de bem-estar com histórico restrito ao próprio estudante.
 - Tutor pedagógico opcional por API, com chave mantida somente no servidor.
 - Layout responsivo e formulários acessíveis com mensagens de estado.
@@ -106,6 +107,7 @@ Para testar a compilação e os testes unitários, é necessário JDK 25 e acess
 | GET / POST | `/api/frequencia` | Consulta conforme perfil; registro pela equipe pedagógica |
 | GET | `/api/contatos` | Sessão autenticada; contatos filtrados por perfil |
 | GET / POST | `/api/mensagens` | Sessão autenticada; somente mensagens enviadas ou recebidas pela conta |
+| GET | `/api/relatorios/resumo` | Somente administrador ou CEO |
 | GET / POST | `/api/sentimentos` | Somente o estudante autenticado e vinculado ao perfil escolar |
 | POST | `/api/ia/tutor` | Usuário autenticado; requer configuração do provedor |
 
