@@ -352,8 +352,12 @@
     let scale = 0;
     try { scale = Number(localStorage.getItem("aprimore.textScale") || 0); } catch { scale = 0; }
     if (![-1, 0, 1].includes(scale)) scale = 0;
-    const contrast = localStorage.getItem("aprimore.highContrast") === "true";
-    const reduced = localStorage.getItem("aprimore.reduceMotion") === "true";
+    let contrast = false;
+    let reduced = false;
+    try {
+      contrast = localStorage.getItem("aprimore.highContrast") === "true";
+      reduced = localStorage.getItem("aprimore.reduceMotion") === "true";
+    } catch { /* As preferências ficam apenas nesta sessão quando o armazenamento é bloqueado. */ }
     document.body.classList.toggle("text-scale-small", scale === -1);
     document.body.classList.toggle("text-scale-large", scale === 1);
     document.body.classList.toggle("high-contrast", contrast);
