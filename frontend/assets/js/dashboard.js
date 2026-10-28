@@ -566,6 +566,27 @@ async function loadMessages() {
     messages.forEach((message) => {
       const direction = message.recebida ? "De: " + message.remetenteNome : "Para: " + message.destinatarioNome;
       const card = createCard(message.assunto, [direction, message.conteudo, message.lida ? "Lida" : (message.recebida ? "Não lida" : "Enviada")]);
+      if (message.recebida && !message.lida) {
+        const readButton = document.createElement("button");
+        readButton.type = "button";
+        readButton.className = "button button-small";
+        readButton.textContent = "Marcar como lida";
+        readButton.addEventListener("click", async () => {
+          readButton.disabled = true;
+          try {
+            await requestJson("/api/mensagens", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+              body: new URLSearchParams({ mensagemId: String(message.id), marcarLida: "true" })
+            });
+            await loadMessages();
+          } catch (error) {
+            messagesStatus.textContent = error.message;
+            readButton.disabled = false;
+          }
+        });
+        card.append(readButton);
+      }
       const date = document.createElement("small");
       date.textContent = message.criadoEm ? new Date(message.criadoEm.replace(" ", "T")).toLocaleString("pt-BR") : "";
       card.append(date);
