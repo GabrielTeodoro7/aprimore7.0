@@ -289,6 +289,8 @@ async function loadAttendanceHistory() {
 
 async function loadWorkspace(user) {
   await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);
+  reportsSection.hidden = !["ADMIN", "CEO"].includes(user.perfil);
+  if (["ADMIN", "CEO"].includes(user.perfil)) await loadReports();
 }
 
 async function loadAccount() {
@@ -372,6 +374,9 @@ const messageFormStatus = document.querySelector("#message-form-status");
 const messagesStatus = document.querySelector("#messages-status");
 const messagesList = document.querySelector("#messages-list");
 const messageRecipient = document.querySelector("#message-recipient");
+const reportsSection = document.querySelector("#reports-section");
+const reportsStatus = document.querySelector("#reports-status");
+const reportsGrid = document.querySelector("#reports-grid");
 
 tutorForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -525,3 +530,30 @@ messageForm.addEventListener("submit", async (event) => {
     button.disabled = false;
   }
 });
+
+
+async function loadReports() {
+  reportsGrid.replaceChildren();
+  reportsStatus.textContent = "Carregando indicadores...";
+  try {
+    const report = await requestJson("/api/relatorios/resumo");
+    const metrics = [
+      ["Usuários ativos", report.usuariosAtivos],
+      ["Alunos ativos", report.alunosAtivos],
+      ["Professores ativos", report.professoresAtivos],
+      ["Turmas", report.turmas],
+      ["Perfis escolares", report.perfisAluno],
+      ["Atividades publicadas", report.atividadesPublicadas],
+      ["Entregas pendentes", report.entregasPendentes],
+      ["Entregas corrigidas", report.entregasCorrigidas],
+      ["Presenças registradas", report.presencas],
+      ["Registros de frequência", report.registrosFrequencia]
+    ];
+    metrics.forEach(([label, value]) => {
+      reportsGrid.append(createCard(label, [String(value)]));
+    });
+    reportsStatus.textContent = "Indicadores atualizados.";
+  } catch (error) {
+    reportsStatus.textContent = error.message;
+  }
+}
