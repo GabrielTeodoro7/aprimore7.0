@@ -73,6 +73,15 @@
       </section>
       <div class="section-heading" id="activities-heading"><h2>Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
       <div class="feature-grid" id="activities-list"></div>
+      <section class="feature-section" id="wellbeing-section" hidden aria-labelledby="wellbeing-heading">
+        <div class="section-heading"><p class="eyebrow">Pausa para você</p><h2 id="wellbeing-heading">Como você está hoje?</h2><p>Este registro é pessoal e não substitui apoio profissional. Compartilhe apenas o que se sentir confortável em registrar.</p></div>
+        <article class="feature-card"><form id="wellbeing-form">
+          <div class="field"><label for="wellbeing-emotion">Como está se sentindo?</label><select id="wellbeing-emotion" name="emocao" required><option value="FELIZ">Feliz</option><option value="CALMO">Calmo(a)</option><option value="CANSADO">Cansado(a)</option><option value="ANSIOSO">Ansioso(a)</option><option value="TRISTE">Triste</option><option value="FRUSTRADO">Frustrado(a)</option></select></div>
+          <div class="field"><label for="wellbeing-intensity">Intensidade (1 a 5)</label><select id="wellbeing-intensity" name="intensidade" required><option value="1">1 — Leve</option><option value="2">2</option><option value="3" selected>3 — Moderada</option><option value="4">4</option><option value="5">5 — Intensa</option></select></div>
+          <div class="field"><label for="wellbeing-note">Observação opcional</label><textarea id="wellbeing-note" name="observacao" rows="3" maxlength="500" placeholder="Quer registrar algo sobre seu dia?"></textarea></div>
+          <p class="form-message" id="wellbeing-message" role="status" aria-live="polite"></p><button class="button submit-button" type="submit">Salvar registro</button>
+        </form><div id="wellbeing-history" class="wellbeing-history"></div></article>
+      </section>
       <section class="feature-section" id="tutor-section" aria-labelledby="tutor-heading">
         <div class="section-heading"><p class="eyebrow">Apoio ao estudo</p><h2 id="tutor-heading">Tutor pedagógico</h2><p>Faça uma pergunta e receba uma explicação em etapas. Não compartilhe dados pessoais.</p></div>
         <article class="feature-card">
