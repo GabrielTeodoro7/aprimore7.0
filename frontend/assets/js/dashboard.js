@@ -78,7 +78,7 @@ function fillClassSelect(select, classes) {
   select.disabled = classes.length === 0;
 }
 
-async function loadActivities() {
+async function loadActivities(user) {
   activitiesList.replaceChildren();
   activitiesStatus.textContent = "Carregando atividades...";
   try {
@@ -88,7 +88,55 @@ async function loadActivities() {
       const dueDate = item.dataEntrega ? "Entrega: " + new Date(item.dataEntrega + "T12:00:00").toLocaleDateString("pt-BR") : "Sem data de entrega";
       const lines = [item.materia, item.turmaNome, dueDate, "Dificuldade: " + item.dificuldade, item.adaptada ? "Atividade adaptada" : "Atividade padrão"];
       if (item.descricao) lines.push(item.descricao);
-      activitiesList.append(createCard(item.titulo, lines));
+      const card = createCard(item.titulo, lines);
+      if (user.perfil === "ALUNO") {
+        const form = document.createElement("form");
+        form.className = "submission-form";
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "atividadeId";
+        input.value = String(item.id);
+        const field = document.createElement("div");
+        field.className = "field";
+        const label = document.createElement("label");
+        label.textContent = "Sua resposta";
+        label.htmlFor = "answer-" + item.id;
+        const textarea = document.createElement("textarea");
+        textarea.id = label.htmlFor;
+        textarea.name = "resposta";
+        textarea.rows = 4;
+        textarea.maxLength = 20000;
+        textarea.required = true;
+        textarea.placeholder = "Escreva sua resposta aqui...";
+        const message = document.createElement("p");
+        message.className = "form-message";
+        message.setAttribute("role", "status");
+        const button = document.createElement("button");
+        button.type = "submit";
+        button.className = "button submit-button";
+        button.textContent = "Enviar resposta";
+        field.append(label, textarea);
+        form.append(input, field, message, button);
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          button.disabled = true;
+          try {
+            await requestJson("/api/submissoes", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+              body: new URLSearchParams(new FormData(form))
+            });
+            showMessage(message, "Resposta enviada com sucesso.", true);
+            textarea.disabled = true;
+            button.disabled = true;
+          } catch (error) {
+            showMessage(message, error.message);
+            button.disabled = false;
+          }
+        });
+        card.append(form);
+      }
+      activitiesList.append(card);
     });
   } catch (error) {
     activitiesStatus.textContent = error.message;
@@ -135,7 +183,7 @@ async function loadStaffWorkspace(user) {
 }
 
 async function loadWorkspace(user) {
-  await Promise.all([loadActivities(), loadStaffWorkspace(user)]);
+  await Promise.all([loadActivities(user), loadStaffWorkspace(user)]);
 }
 
 async function loadAccount() {
