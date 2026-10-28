@@ -305,6 +305,7 @@ async function loadAccount() {
     addDetail("E-mail", user.email);
     addDetail("Perfil", user.perfil);
     await loadWorkspace(user);
+    await Promise.all([loadContacts(), loadMessages()]);
     if (user.perfil === "ALUNO") await loadWellbeingHistory();
   } catch (error) {
     status.textContent = error.message;
@@ -366,6 +367,11 @@ const wellbeingSection = document.querySelector("#wellbeing-section");
 const wellbeingForm = document.querySelector("#wellbeing-form");
 const wellbeingMessage = document.querySelector("#wellbeing-message");
 const wellbeingHistory = document.querySelector("#wellbeing-history");
+const messageForm = document.querySelector("#message-form");
+const messageFormStatus = document.querySelector("#message-form-status");
+const messagesStatus = document.querySelector("#messages-status");
+const messagesList = document.querySelector("#messages-list");
+const messageRecipient = document.querySelector("#message-recipient");
 
 tutorForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -454,6 +460,67 @@ attendanceForm.addEventListener("submit", async (event) => {
     await loadAttendanceHistory();
   } catch (error) {
     showMessage(attendanceMessage, error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+
+async function loadContacts() {
+  messageRecipient.replaceChildren();
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Selecione um contato";
+  messageRecipient.append(placeholder);
+  try {
+    const contacts = await requestJson("/api/contatos");
+    contacts.forEach((contact) => {
+      const option = document.createElement("option");
+      option.value = String(contact.id);
+      option.textContent = contact.nome + " — " + contact.perfil;
+      messageRecipient.append(option);
+    });
+    messageRecipient.disabled = contacts.length === 0;
+  } catch (error) {
+    messageRecipient.disabled = true;
+    messagesStatus.textContent = error.message;
+  }
+}
+
+async function loadMessages() {
+  messagesList.replaceChildren();
+  messagesStatus.textContent = "Carregando mensagens...";
+  try {
+    const messages = await requestJson("/api/mensagens");
+    messagesStatus.textContent = messages.length ? messages.length + " mensagem(ns)." : "Sua caixa de mensagens está vazia.";
+    messages.forEach((message) => {
+      const direction = message.recebida ? "De: " + message.remetenteNome : "Para: " + message.destinatarioNome;
+      const card = createCard(message.assunto, [direction, message.conteudo, message.lida ? "Lida" : (message.recebida ? "Não lida" : "Enviada")]);
+      const date = document.createElement("small");
+      date.textContent = message.criadoEm ? new Date(message.criadoEm.replace(" ", "T")).toLocaleString("pt-BR") : "";
+      card.append(date);
+      messagesList.append(card);
+    });
+  } catch (error) {
+    messagesStatus.textContent = error.message;
+  }
+}
+
+messageForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const button = messageForm.querySelector('button[type="submit"]');
+  button.disabled = true;
+  try {
+    await requestJson("/api/mensagens", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams(new FormData(messageForm))
+    });
+    messageForm.reset();
+    showMessage(messageFormStatus, "Mensagem enviada.", true);
+    await loadMessages();
+  } catch (error) {
+    showMessage(messageFormStatus, error.message);
   } finally {
     button.disabled = false;
   }
