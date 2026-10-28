@@ -51,7 +51,7 @@ Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes
 ## Funcionalidades presentes nesta versão
 
 - Cadastro de estudantes, login, logout e recuperação de senha por e-mail.
-- Senhas armazenadas com hash BCrypt e sessões HTTP.
+- Senhas armazenadas com hash BCrypt, sessões HTTP e limite básico de tentativas por endereço IP em cadastro, login e recuperação de senha. O limite é local ao processo e deve ser complementado por proteção na infraestrutura em ambientes distribuídos.
 - Proteção CSRF nas operações autenticadas e cabeçalhos de segurança.
 - Turmas, cadastro de alunos e vínculo opcional entre aluno e conta.
 - Publicação de atividades, envio de respostas, correções, notas e feedback. Estudantes podem consultar seu histórico de entregas, notas e comentários; o servidor bloqueia novo envio após a correção.
