@@ -52,6 +52,15 @@ public class UsuarioDAO {
         }
     }
 
+    public void registrarAcesso(long usuarioId) throws SQLException {
+        String sql = "UPDATE usuarios SET ultimo_acesso = CURRENT_TIMESTAMP WHERE id = ?";
+        try (Connection connection = Database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, usuarioId);
+            statement.executeUpdate();
+        }
+    }
+
     public record CredencialUsuario(Usuario usuario, String senhaHash, boolean ativo) {
     }
 }
