@@ -53,7 +53,8 @@ public class SubmissaoServlet extends HttpServlet {
                         .append("\",\"resposta\":\"").append(ApiUtil.escapar(rows.getString("resposta")))
                         .append("\",\"nota\":").append(rows.getBigDecimal("nota") == null ? "null" : rows.getBigDecimal("nota"))
                         .append(",\"feedback\":\"").append(ApiUtil.escapar(rows.getString("feedback")))
-                        .append("\",\"status\":\"").append(ApiUtil.escapar(rows.getString("status"))).append("\"}");
+                        .append("\",\"status\":\"").append(ApiUtil.escapar(rows.getString("status")))
+                        .append("\",\"entregueEm\":\"").append(ApiUtil.escapar(rows.getString("entregue_em"))).append("\"}");
                 }
                 ApiUtil.responder(response, 200, json.append(']').toString());
             }
@@ -89,7 +90,8 @@ public class SubmissaoServlet extends HttpServlet {
             return;
         }
 
-        String lookup = "SELECT a.id FROM alunos a JOIN atividades at ON at.turma_id = a.turma_id "
+        String lookup = "SELECT a.id, s.status AS status_entrega FROM alunos a JOIN atividades at ON at.turma_id = a.turma_id "
+            + "LEFT JOIN submissoes s ON s.atividade_id = at.id AND s.aluno_id = a.id "
             + "WHERE a.usuario_id = ? AND at.id = ? AND at.status = 'PUBLICADA' AND a.ativo = TRUE";
         String upsert = "INSERT INTO submissoes (atividade_id, aluno_id, resposta, status, entregue_em) "
             + "SELECT ?, a.id, ?, 'ENTREGUE', CURRENT_TIMESTAMP FROM alunos a "
@@ -103,6 +105,10 @@ public class SubmissaoServlet extends HttpServlet {
             try (ResultSet result = check.executeQuery()) {
                 if (!result.next()) {
                     ApiUtil.responder(response, 404, "{\"erro\":\"Atividade indisponível para esta conta.\"}");
+                    return;
+                }
+                if ("CORRIGIDA".equals(result.getString("status_entrega"))) {
+                    ApiUtil.responder(response, 409, "{\"erro\":\"Esta atividade já foi corrigida. Consulte a nota e o feedback na seção Minhas entregas e notas.\"}");
                     return;
                 }
             }
