@@ -15,10 +15,16 @@ const studentMessage = document.querySelector("#student-message");
 const correctionsSection = document.querySelector("#corrections-section");
 const correctionsStatus = document.querySelector("#corrections-status");
 const correctionsList = document.querySelector("#corrections-list");
+const attendanceForm = document.querySelector("#attendance-form");
+const attendanceMessage = document.querySelector("#attendance-message");
+const attendanceHistorySection = document.querySelector("#attendance-history-section");
+const attendanceHistoryStatus = document.querySelector("#attendance-history-status");
+const attendanceHistoryList = document.querySelector("#attendance-history-list");
 let csrfToken = "";
 const contextPath = window.location.pathname.replace(/\/[^/]*$/, "");
 document.querySelector("#year").textContent = new Date().getFullYear();
 document.querySelector("#class-year").value = new Date().getFullYear();
+document.querySelector("#attendance-date").value = new Date().toISOString().slice(0, 10);
 
 function addDetail(label, value) {
   const term = document.createElement("dt");
@@ -151,6 +157,7 @@ async function loadStaffWorkspace(user) {
   staffTools.hidden = !staff;
   studentsHeading.hidden = !staff;
   correctionsSection.hidden = !staff;
+  attendanceHistorySection.hidden = !staff;
   if (!staff) return;
 
   const teacher = user.perfil === "PROFESSOR";
@@ -162,18 +169,25 @@ async function loadStaffWorkspace(user) {
     const classes = await requestJson("/api/turmas");
     fillClassSelect(document.querySelector("#activity-class"), classes);
     fillClassSelect(document.querySelector("#student-class"), classes);
+    fillClassSelect(document.querySelector("#attendance-class"), classes);
   } catch (error) {
     showMessage(classMessage, error.message);
     fillClassSelect(document.querySelector("#activity-class"), []);
     fillClassSelect(document.querySelector("#student-class"), []);
+    fillClassSelect(document.querySelector("#attendance-class"), []);
   }
 
   studentsList.replaceChildren();
+  document.querySelector("#attendance-student").replaceChildren();
   studentsStatus.textContent = "Carregando alunos...";
   try {
     const students = await requestJson("/api/alunos");
     studentsStatus.textContent = students.length ? students.length + " aluno(s) cadastrado(s)." : "Ainda não há alunos cadastrados.";
     students.forEach((student) => {
+      const option = document.createElement("option");
+      option.value = String(student.id);
+      option.textContent = student.nome + " — " + student.turmaNome;
+      document.querySelector("#attendance-student").append(option);
       studentsList.append(createCard(student.nome, [
         "Turma: " + student.turmaNome,
         student.responsavel ? "Responsável: " + student.responsavel : "Responsável não informado",
@@ -184,7 +198,7 @@ async function loadStaffWorkspace(user) {
   } catch (error) {
     studentsStatus.textContent = error.message;
   }
-  await loadCorrections();
+  await Promise.all([loadCorrections(), loadAttendanceHistory()]);
 }
 
 async function loadCorrections() {
@@ -254,6 +268,20 @@ async function loadCorrections() {
     });
   } catch (error) {
     correctionsStatus.textContent = error.message;
+  }
+}
+
+async function loadAttendanceHistory() {
+  attendanceHistoryList.replaceChildren();
+  attendanceHistoryStatus.textContent = "Carregando registros...";
+  try {
+    const records = await requestJson("/api/frequencia");
+    attendanceHistoryStatus.textContent = records.length ? records.length + " registro(s) encontrado(s)." : "Nenhum registro de frequência encontrado.";
+    records.slice(0, 30).forEach((record) => {
+      attendanceHistoryList.append(createCard(record.alunoNome, ["Turma: " + record.turmaNome, "Data: " + new Date(record.dataAula + "T12:00:00").toLocaleDateString("pt-BR"), record.presente ? "Presente" : "Ausente", record.justificativa ? "Justificativa: " + record.justificativa : "Sem justificativa"]));
+    });
+  } catch (error) {
+    attendanceHistoryStatus.textContent = error.message;
   }
 }
 
@@ -403,6 +431,27 @@ wellbeingForm.addEventListener("submit", async (event) => {
     await loadWellbeingHistory();
   } catch (error) {
     showMessage(wellbeingMessage, error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+
+attendanceForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const button = attendanceForm.querySelector('button[type="submit"]');
+  button.disabled = true;
+  try {
+    await requestJson("/api/frequencia", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams(new FormData(attendanceForm))
+    });
+    showMessage(attendanceMessage, "Frequência salva.", true);
+    attendanceForm.querySelector("#attendance-note").value = "";
+    await loadAttendanceHistory();
+  } catch (error) {
+    showMessage(attendanceMessage, error.message);
   } finally {
     button.disabled = false;
   }
