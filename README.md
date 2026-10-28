@@ -15,38 +15,58 @@ Plataforma web de apoio à aprendizagem, criada para aproximar estudantes e educ
 
 O frontend usa arquivos HTML, CSS e JavaScript separados, sem framework de interface. As bibliotecas declaradas no Maven são dependências do backend, não novas linguagens de programação.
 
-## Pastas do projeto
+## Mapa visual do projeto
+
+Se você está começando, abra primeiro o **[Mapa visual da arquitetura](documentacao/MAPA_VISUAL_DO_PROJETO.md)**. Ele mostra como as partes se conectam, por onde uma requisição passa e qual arquivo editar para cada tipo de mudança.
+
+```mermaid
+flowchart LR
+    A["frontend/<br/>HTML · CSS · JavaScript"] <--> B["backend/<br/>Java · Servlets"]
+    B <--> C[("banco-de-dados/<br/>MySQL")]
+    B --> D["SMTP / e-mail"]
+    E["Maven + testes"] --> F["Arquivo WAR"]
+    F --> G["Servidor Servlet 6.1"]
+```
+
+### Estrutura de pastas
 
 ```text
 aprimore7.0/
-├── backend/                 Código Java, testes e configuração do Maven
-│   ├── src/main/java/       Código principal do servidor
-│   │   └── br/com/aprimore/
-│   │       ├── config/      Configurações, como conexão com o banco
-│   │       ├── dao/         Consultas e gravações no banco de dados
-│   │       ├── model/       Classes que representam os dados
-│   │       ├── security/    Proteções de requisições e sessões
-│   │       ├── service/     Serviços reutilizáveis, como envio de e-mail
-│   │       └── servlet/     Endpoints HTTP da aplicação
-│   ├── src/test/java/       Testes automatizados
-│   └── pom.xml              Tecnologias, dependências e regras de compilação
-├── frontend/                Arquivos exibidos no navegador
-│   ├── index.html           Entrada e autenticação
-│   ├── dashboard.html       Painel da plataforma
+├── frontend/                O que aparece no navegador
+│   ├── index.html           Login, cadastro e recuperação de acesso
+│   ├── dashboard.html       Painel após autenticação
 │   └── assets/
-│       ├── css/             Cores, layout e responsividade
-│       └── js/              Eventos, formulários e chamadas à API
-├── banco-de-dados/          Scripts SQL do MySQL
-│   ├── schema.sql           Criação das tabelas
-│   └── usuario-aplicacao.sql Exemplo de usuário com privilégios limitados
-├── documentacao/             Guias para entender e manter o sistema
-├── .github/workflows/        Verificações automáticas do repositório
-├── .env.example              Exemplo dos nomes das configurações necessárias
-├── .gitignore                Arquivos que não devem ser versionados
-└── README.md                 Visão geral e instruções rápidas
+│       ├── css/style.css    Aparência, layout e responsividade
+│       └── js/
+│           ├── app.js       Interações da autenticação
+│           ├── dashboard.js Ações e dados do painel
+│           ├── jogos.js     Jogos educativos e pontuação
+│           └── recursos.js  Calendário, avisos e acessibilidade
+├── backend/                 O que é executado no servidor
+│   ├── src/main/java/       Código Java da aplicação
+│   ├── src/test/java/       Testes automatizados
+│   ├── src/main/webapp/     Configuração web
+│   ├── pom.xml              Dependências, testes e empacotamento
+│   └── README.md            Mapa do backend
+├── banco-de-dados/          Estrutura e configuração inicial do MySQL
+│   ├── schema.sql           Tabelas, relacionamentos e índices
+│   ├── usuario-aplicacao.sql Exemplo de permissões limitadas
+│   └── README.md            Guia para alterações no banco
+├── documentacao/            Mapas, guias e plano de evolução
+├── .github/workflows/       Compilação e verificações automáticas
+├── .env.example             Nomes das configurações de ambiente
+└── README.md                Ponto de entrada do projeto
 ```
 
-Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes](documentacao/GUIA_DO_PROJETO.md)**.
+### Documentação por objetivo
+
+- **[Mapa visual da arquitetura](documentacao/MAPA_VISUAL_DO_PROJETO.md)** — diagramas, responsabilidades e fluxo de requisições.
+- **[Guia para iniciantes](documentacao/GUIA_DO_PROJETO.md)** — como encontrar e alterar cada parte.
+- **[Plano de evolução](documentacao/PLANO_DE_EVOLUCAO.md)** — melhorias priorizadas e critérios de conclusão.
+- **[Índice da documentação](documentacao/README.md)** — acesso rápido aos materiais.
+- **[Guia do frontend](frontend/README.md)** — páginas, estilos e scripts.
+- **[Guia do backend](backend/README.md)** — Servlets, serviços, DAO e testes.
+- **[Guia do banco](banco-de-dados/README.md)** — tabelas, relacionamentos e cuidados.
 
 ## Funcionalidades presentes na versão principal
 
