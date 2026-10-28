@@ -833,3 +833,38 @@ body.text-scale-large { font-size:115%; }
   .calendar-day { min-height:48px; font-size:11px; }
   .calendar-weekday,.calendar-day { padding:7px 2px; }
 }
+
+.game-picker { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.game-choice {
+  display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap:7px;
+  min-height:128px; padding:16px; white-space:normal;
+}
+.game-choice .game-emoji { font-size:27px; }
+.game-choice .game-title { font-size:13px; font-weight:850; }
+.game-choice .game-subject { font-size:10px; color:var(--muted); }
+.game-choice .game-description { font-size:11px; line-height:1.45; color:var(--muted); font-weight:450; }
+.game-filter { max-width:320px; margin:0 0 14px; }
+.game-filter label { display:block; margin-bottom:7px; font-size:12px; color:var(--muted); }
+.game-filter select { width:100%; min-height:42px; border:1px solid var(--line); border-radius:10px; padding:8px 12px; background:#0c101b; color:var(--text); }
+.paint-board { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:5px; max-width:390px; margin:18px auto; }
+.paint-cell { aspect-ratio:1; border:1px solid #ffffff30; border-radius:6px; background:#f5f5f5; cursor:pointer; }
+.paint-palette { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+.paint-color { width:36px; height:36px; border:2px solid #fff7; border-radius:50%; cursor:pointer; }
+.paint-color[aria-pressed="true"] { outline:3px solid var(--violet); outline-offset:2px; }
+.maze-board { display:grid; grid-template-columns:repeat(5,42px); gap:4px; justify-content:center; margin:20px auto; }
+.maze-cell { display:grid; place-items:center; width:42px; height:42px; border:1px solid var(--line); border-radius:7px; background:#0c101b; }
+.maze-cell.wall { background:#354052; }
+.maze-controls { display:grid; grid-template-columns:repeat(3,48px); gap:6px; justify-content:center; }
+.maze-controls button { min-height:42px; }
+.rhythm-sequence { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin:18px 0; font-size:26px; }
+.rhythm-pad { width:70px; height:70px; border-radius:16px; border:1px solid var(--line); background:#0c101b; font-size:25px; cursor:pointer; }
+.rhythm-pad:active { transform:scale(.96); }
+.report-subheading { grid-column:1/-1; margin:22px 0 4px; }
+.report-class-card { border-top:3px solid var(--violet); }
+@media(max-width:900px) { .game-picker { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:520px) {
+  .game-picker { grid-template-columns:1fr; }
+  .game-choice { min-height:0; }
+  .maze-board { grid-template-columns:repeat(5, min(14vw,42px)); }
+  .maze-cell { width:min(14vw,42px); height:min(14vw,42px); }
+}
