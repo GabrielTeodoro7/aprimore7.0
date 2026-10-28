@@ -28,8 +28,13 @@ public class MensagemServlet extends HttpServlet {
             + "JOIN usuarios d ON d.id = m.destinatario_id "
             + "WHERE m.remetente_id = ? OR m.destinatario_id = ? "
             + "ORDER BY m.criado_em DESC LIMIT 100";
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = Database.getConnection()) {
+            try (PreparedStatement markRead = connection.prepareStatement(
+                    "UPDATE mensagens SET lida_em = CURRENT_TIMESTAMP WHERE destinatario_id = ? AND lida_em IS NULL")) {
+                markRead.setLong(1, usuarioId);
+                markRead.executeUpdate();
+            }
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, usuarioId);
             statement.setLong(2, usuarioId);
             try (ResultSet rows = statement.executeQuery()) {
