@@ -60,6 +60,10 @@ Para uma explicação passo a passo, consulte **[Guia do projeto para iniciantes
 - Resumo de indicadores para administradores e CEO.
 - Registro pessoal de bem-estar do estudante.
 - Tutor pedagógico opcional por API, configurado no servidor.
+- Central com quatro jogos educativos funcionais: quiz, memória, matemática e palavras embaralhadas, com pontuação e recordes locais.
+- Calendário mensal de prazos, notificações derivadas de atividades e mensagens, e preferências de acessibilidade para tamanho de texto, alto contraste e movimento reduzido.
+- Relatórios administrativos com indicadores gerais e visão por turma: alunos, atividades, entregas, média de notas e frequência.
+- Histórico de auditoria de operações autenticadas bem-sucedidas, disponível somente para ADMIN e CEO; não registra conteúdo de mensagens nem senhas.
 - Interface responsiva e mensagens de retorno nos formulários.
 
 ### O que ainda precisa ser validado ou desenvolvido
@@ -153,7 +157,9 @@ A chave não pode ser exposta ao JavaScript do navegador. Sem uma chave válida,
 | GET / POST | `/api/frequencia` | Consultar ou registrar frequência |
 | GET | `/api/contatos` | Listar contatos permitidos |
 | GET / POST | `/api/mensagens` | Consultar ou enviar mensagens |
-| GET | `/api/relatorios/resumo` | Consultar indicadores administrativos |
+| GET | `/api/relatorios/resumo` | Consultar indicadores administrativos gerais |
+| GET | `/api/relatorios/resumo?tipo=turmas` | Consultar indicadores por turma |
+| GET | `/api/auditoria` | Consultar as últimas operações registradas (ADMIN/CEO) |
 | GET / POST | `/api/sentimentos` | Registrar ou consultar o próprio histórico de bem-estar |
 | POST | `/api/ia/tutor` | Enviar pergunta ao tutor opcional |
 
