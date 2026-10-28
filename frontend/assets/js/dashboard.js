@@ -636,9 +636,33 @@ async function loadReports() {
       ["Registros de frequência", report.registrosFrequencia]
     ];
     metrics.forEach(([label, value]) => {
-      reportsGrid.append(createCard(label, [String(value)]));
+      const card = createCard(label, [Number(value).toLocaleString("pt-BR")]);
+      card.classList.add("report-metric");
+      reportsGrid.append(card);
     });
-    reportsStatus.textContent = "Indicadores atualizados.";
+    const classes = await requestJson("/api/relatorios/resumo?tipo=turmas");
+    const heading = document.createElement("h3");
+    heading.textContent = "Desempenho por turma";
+    heading.className = "report-subheading";
+    reportsGrid.append(heading);
+    if (!classes.length) {
+      reportsGrid.append(createCard("Sem turmas cadastradas", ["Cadastre uma turma para começar a acompanhar os indicadores."]));
+    } else {
+      classes.forEach((item) => {
+        const average = item.mediaNotas === null ? "Ainda sem notas" : Number(item.mediaNotas).toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + " / 10";
+        const attendance = item.registrosFrequencia ? Math.round(item.presencas / item.registrosFrequencia * 100) : null;
+        const card = createCard(item.nome + " — " + item.anoLetivo, [
+          "Alunos ativos: " + item.alunos,
+          "Atividades publicadas: " + item.atividades,
+          "Entregas registradas: " + item.entregas,
+          "Média das notas: " + average,
+          "Frequência registrada: " + (attendance === null ? "Sem registros" : attendance + "%")
+        ]);
+        card.classList.add("report-class-card");
+        reportsGrid.append(card);
+      });
+    }
+    reportsStatus.textContent = "Indicadores gerais e dados por turma atualizados.";
   } catch (error) {
     reportsStatus.textContent = error.message;
   }
