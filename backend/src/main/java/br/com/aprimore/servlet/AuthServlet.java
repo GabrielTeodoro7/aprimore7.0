@@ -112,6 +112,11 @@ public class AuthServlet extends HttpServlet {
             responder(response, 401, "{\"erro\":\"E-mail ou senha inválidos.\"}");
             return;
         }
+        try {
+            usuarios.registrarAcesso(credencial.get().usuario().id());
+        } catch (SQLException exception) {
+            getServletContext().log("Não foi possível atualizar a data do último acesso.", exception);
+        }
         criarSessao(request, credencial.get().usuario());
         responder(response, 200, json(credencial.get().usuario()));
     }
