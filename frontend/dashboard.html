@@ -72,6 +72,17 @@
       </section>
       <div class="section-heading" id="activities-heading"><h2>Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
       <div class="feature-grid" id="activities-list"></div>
+      <section class="feature-section" id="tutor-section" aria-labelledby="tutor-heading">
+        <div class="section-heading"><p class="eyebrow">Apoio ao estudo</p><h2 id="tutor-heading">Tutor pedagógico</h2><p>Faça uma pergunta e receba uma explicação em etapas. Não compartilhe dados pessoais.</p></div>
+        <article class="feature-card">
+          <form id="tutor-form">
+            <div class="field"><label for="tutor-question">Sua dúvida</label><textarea id="tutor-question" name="pergunta" rows="4" maxlength="3000" required placeholder="Ex.: Como resolvo uma equação do primeiro grau?"></textarea></div>
+            <p class="form-message" id="tutor-message" role="status" aria-live="polite"></p>
+            <button class="button submit-button" id="tutor-submit" type="submit">Perguntar ao tutor</button>
+          </form>
+          <div id="tutor-answer" class="tutor-answer" hidden aria-live="polite"></div>
+        </article>
+      </section>
       <div class="section-heading" id="students-heading" hidden><h2>Alunos</h2><p id="students-status" role="status" aria-live="polite">Carregando alunos...</p></div>
       <div class="feature-grid" id="students-list"></div>
     </section>
