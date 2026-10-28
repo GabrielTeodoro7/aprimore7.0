@@ -7,6 +7,7 @@
   <title>Painel — Aprimore Educação</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <script src="./assets/js/dashboard.js" defer></script>
+  <script src="./assets/js/recursos.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -95,7 +96,51 @@
         <div class="section-heading"><p class="eyebrow">Acompanhamento pedagógico</p><h2 id="corrections-heading">Entregas para corrigir</h2><p id="corrections-status" role="status" aria-live="polite">Carregando entregas...</p></div>
         <div class="feature-grid" id="corrections-list"></div>
       </section>
-      <div class="section-heading" id="activities-heading"><h2>Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
+      <nav class="workspace-nav" aria-label="Atalhos do painel">
+        <a href="#atividades">Atividades</a>
+        <a href="#jogos-section">Jogos educativos</a>
+        <a href="#calendario-section">Calendário</a>
+        <a href="#notificacoes-section">Notificações</a>
+        <a href="#acessibilidade-section">Acessibilidade</a>
+      </nav>
+      <section class="feature-section" id="jogos-section" aria-labelledby="jogos-heading">
+        <div class="section-heading"><p class="eyebrow">Aprender brincando</p><h2 id="jogos-heading">Central de jogos educativos</h2><p>Quatro jogos completos para praticar memória, matemática, vocabulário e conhecimentos gerais. Sua pontuação fica salva neste dispositivo.</p></div>
+        <div class="game-toolbar"><p id="games-summary" role="status" aria-live="polite">Escolha um jogo para começar.</p><button class="button button-small" id="reset-games" type="button">Limpar pontuações</button></div>
+        <div class="game-picker" role="group" aria-label="Escolha um jogo">
+          <button class="game-choice active" type="button" data-game="quiz">🧠 Quiz relâmpago</button>
+          <button class="game-choice" type="button" data-game="memory">🃏 Jogo da memória</button>
+          <button class="game-choice" type="button" data-game="math">➗ Desafio de matemática</button>
+          <button class="game-choice" type="button" data-game="words">🔤 Palavra embaralhada</button>
+        </div>
+        <div class="game-stage" id="game-stage" aria-live="polite"></div>
+        <div class="feature-grid game-scores" id="game-scores" aria-label="Melhores pontuações"></div>
+      </section>
+      <section class="feature-section" id="calendario-section" aria-labelledby="calendar-heading">
+        <div class="section-heading"><p class="eyebrow">Organização escolar</p><h2 id="calendar-heading">Calendário de atividades</h2><p>Veja prazos e planeje seus estudos com antecedência.</p></div>
+        <div class="calendar-toolbar"><button class="button button-small" id="calendar-previous" type="button" aria-label="Mês anterior">← Anterior</button><h3 id="calendar-month-label"></h3><button class="button button-small" id="calendar-next" type="button" aria-label="Próximo mês">Próximo →</button></div>
+        <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Calendário mensal"></div>
+        <p id="calendar-status" class="form-message" role="status" aria-live="polite">Carregando calendário...</p>
+        <div class="feature-grid" id="calendar-events"></div>
+      </section>
+      <section class="feature-section" id="notificacoes-section" aria-labelledby="notifications-heading">
+        <div class="section-heading"><p class="eyebrow">Não perca os prazos</p><h2 id="notifications-heading">Central de notificações</h2><p>Resumo de atividades próximas, mensagens não lidas e entregas aguardando correção.</p></div>
+        <div class="notification-toolbar"><p id="notifications-status" role="status" aria-live="polite">Carregando notificações...</p><button class="button button-small" id="refresh-notifications" type="button">Atualizar</button></div>
+        <div class="feature-grid" id="notifications-list"></div>
+      </section>
+      <section class="feature-section" id="acessibilidade-section" aria-labelledby="accessibility-heading">
+        <div class="section-heading"><p class="eyebrow">Do seu jeito</p><h2 id="accessibility-heading">Acessibilidade e conforto visual</h2><p>Personalize a leitura. As preferências ficam salvas neste dispositivo.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><h3>Tamanho do texto</h3><p>Escolha uma leitura mais confortável.</p><div class="accessibility-controls"><button class="button button-small" id="text-smaller" type="button" aria-label="Diminuir texto">A−</button><button class="button button-small" id="text-normal" type="button">Padrão</button><button class="button button-small" id="text-larger" type="button" aria-label="Aumentar texto">A+</button></div><p id="text-size-status" role="status" aria-live="polite"></p></article>
+          <article class="feature-card"><h3>Contraste reforçado</h3><p>Aumenta a separação entre texto, fundo e controles.</p><label class="toggle-option"><input id="high-contrast-toggle" type="checkbox"> Ativar alto contraste</label></article>
+          <article class="feature-card"><h3>Movimento reduzido</h3><p>Reduz animações e transições da interface.</p><label class="toggle-option"><input id="reduced-motion-toggle" type="checkbox"> Reduzir movimento</label></article>
+        </div>
+      </section>
+      <section class="feature-section" id="audit-section" hidden aria-labelledby="audit-heading">
+        <div class="section-heading"><p class="eyebrow">Transparência administrativa</p><h2 id="audit-heading">Histórico de alterações</h2><p>Registro de operações bem-sucedidas feitas na plataforma. Conteúdo de mensagens e senhas nunca é registrado.</p></div>
+        <p id="audit-status" role="status" aria-live="polite">Carregando histórico...</p>
+        <div class="feature-grid" id="audit-list"></div>
+      </section>
+      <div class="section-heading" id="activities-heading"><h2 id="atividades">Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
       <div class="field activity-search"><label for="activity-search">Buscar atividade</label><input id="activity-search" type="search" maxlength="120" placeholder="Digite título, matéria ou turma" autocomplete="off"><small>Filtra as atividades que já estão carregadas no painel.</small></div>
       <div class="feature-grid" id="activities-list"></div>
       <section id="student-submissions-section" class="feature-section" hidden aria-labelledby="student-submissions-heading">
