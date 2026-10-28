@@ -51,16 +51,20 @@ public class LimiteTentativasFilter implements Filter {
             throw new IllegalArgumentException("O limite e a duração da janela devem ser positivos.");
         }
 
+        if (!JANELAS.containsKey(chave) && JANELAS.size() >= MAXIMO_CHAVES) {
+            JANELAS.entrySet().removeIf(entrada ->
+                agora - entrada.getValue().inicio >= janelaMs || agora < entrada.getValue().inicio);
+            if (JANELAS.size() >= MAXIMO_CHAVES) {
+                return false;
+            }
+        }
+
         Janela janela = JANELAS.compute(chave, (ignorada, atual) -> {
             if (atual == null || agora - atual.inicio >= janelaMs || agora < atual.inicio) {
                 return new Janela(agora, 1);
             }
             return new Janela(atual.inicio, atual.tentativas + 1);
         });
-
-        if (JANELAS.size() > MAXIMO_CHAVES) {
-            JANELAS.entrySet().removeIf(entrada -> agora - entrada.getValue().inicio >= janelaMs);
-        }
 
         return janela.tentativas <= limite;
     }
