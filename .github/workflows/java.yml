@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - refactor/java25-servlet61-migration
   pull_request:
     branches:
       - main
@@ -32,7 +31,7 @@ jobs:
       - name: Impedir retorno de arquivos TypeScript no frontend
         shell: bash
         run: |
-          if find frontend -type f \\( -name '*.ts' -o -name '*.tsx' \\) -print -quit | grep -q .; then
+          if find frontend -type f \( -name '*.ts' -o -name '*.tsx' \) -print -quit | grep -q .; then
             echo "::error::O frontend deve permanecer em HTML, CSS e JavaScript puro."
             exit 1
           fi
