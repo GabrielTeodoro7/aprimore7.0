@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@WebFilter(urlPatterns = {"/api/auth/login", "/api/auth/recuperacao"})
+@WebFilter(urlPatterns = {"/api/auth/login", "/api/auth/cadastro", "/api/auth/recuperacao", "/api/auth/redefinir-senha"})
 public class LimiteTentativasFilter implements Filter {
     private static final long JANELA_MS = 15 * 60 * 1000L;
     private static final int MAXIMO_CHAVES = 10_000;
@@ -33,7 +33,7 @@ public class LimiteTentativasFilter implements Filter {
 
         String uri = requisicao.getRequestURI();
         String caminho = uri.substring(requisicao.getContextPath().length());
-        int limite = "/api/auth/recuperacao".equals(caminho) ? 5 : 10;
+        int limite = ("/api/auth/recuperacao".equals(caminho) || "/api/auth/cadastro".equals(caminho)) ? 5 : 10;
         String chave = caminho + "|" + requisicao.getRemoteAddr();
         long agora = System.currentTimeMillis();
 
