@@ -1,0 +1,27 @@
+name: Verificação Java
+
+on:
+  push:
+    branches:
+      - main
+      - refactor/java25-servlet61-migration
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Compilar e testar backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Configurar JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Validar aplicação
+        working-directory: backend
+        run: mvn --batch-mode --no-transfer-progress clean verify
