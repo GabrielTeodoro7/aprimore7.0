@@ -13,10 +13,17 @@ class ValidacaoUsuarioTest {
     }
 
     @Test
-    void rejeitaNomeEmailESenhaInvalidos() {
+    void rejeitaDadosInvalidos() {
         assertFalse(ValidacaoUsuario.nomeValido("A"));
         assertFalse(ValidacaoUsuario.emailValido("email-invalido"));
         assertFalse(ValidacaoUsuario.senhaValida("curta"));
         assertFalse(ValidacaoUsuario.senhaValida("á".repeat(37)));
+    }
+
+    @Test
+    void respeitaLimiteBCryptEmBytesUtf8() {
+        assertTrue(ValidacaoUsuario.senhaValida("a".repeat(72)));
+        assertFalse(ValidacaoUsuario.senhaValida("a".repeat(73)));
+        assertFalse(ValidacaoUsuario.senhaValida("é".repeat(37)));
     }
 }
