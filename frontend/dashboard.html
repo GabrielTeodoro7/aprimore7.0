@@ -93,6 +93,18 @@
       </section>
       <div class="section-heading" id="activities-heading"><h2>Atividades</h2><p id="activities-status" role="status" aria-live="polite">Carregando atividades...</p></div>
       <div class="feature-grid" id="activities-list"></div>
+      <section class="feature-section" id="messages-section" aria-labelledby="messages-heading">
+        <div class="section-heading"><p class="eyebrow">Comunicação</p><h2 id="messages-heading">Mensagens</h2><p>Envie uma mensagem à equipe escolar ou acompanhe suas conversas.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><h3>Nova mensagem</h3><form id="message-form">
+            <div class="field"><label for="message-recipient">Destinatário</label><select id="message-recipient" name="destinatarioId" required><option value="">Carregando contatos...</option></select></div>
+            <div class="field"><label for="message-subject">Assunto</label><input id="message-subject" name="assunto" maxlength="180" required></div>
+            <div class="field"><label for="message-content">Mensagem</label><textarea id="message-content" name="conteudo" rows="5" maxlength="10000" required></textarea></div>
+            <p class="form-message" id="message-form-status" role="status" aria-live="polite"></p><button class="button submit-button" type="submit">Enviar mensagem</button>
+          </form></article>
+          <article class="feature-card"><h3>Caixa de mensagens</h3><p id="messages-status" role="status" aria-live="polite">Carregando mensagens...</p><div id="messages-list" class="messages-list"></div></article>
+        </div>
+      </section>
       <section class="feature-section" id="wellbeing-section" hidden aria-labelledby="wellbeing-heading">
         <div class="section-heading"><p class="eyebrow">Pausa para você</p><h2 id="wellbeing-heading">Como você está hoje?</h2><p>Este registro é pessoal e não substitui apoio profissional. Compartilhe apenas o que se sentir confortável em registrar.</p></div>
         <article class="feature-card"><form id="wellbeing-form">
