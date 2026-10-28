@@ -1,4 +1,4 @@
-: root {
+:root {
   color-scheme: dark;
   --bg: #0c101b;
   --panel: #131a29;
@@ -31,7 +31,7 @@ a {
 button,input {
   font: inherit
 }
-a: focus-visible,button: focus-visible,input: focus-visible {
+a:focus-visible,button:focus-visible,input:focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 4px
 }
@@ -57,7 +57,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   letter-spacing: -.04em;
   white-space: nowrap
 }
-.brand>span: last-child {
+.brand>span:last-child {
   color: var(--orange)
 }
 .brand-mark {
@@ -76,7 +76,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   color: var(--muted);
   font-size: 13px
 }
-.topbar nav a: hover,.text-link: hover {
+.topbar nav a:hover,.text-link:hover {
   color: var(--orange-light)
 }
 .button {
@@ -94,7 +94,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   font-size: 14px;
   transition: transform .2s,background .2s
 }
-.button: hover {
+.button:hover {
   transform: translateY(-2px);
   background: var(--orange-light)
 }
@@ -184,7 +184,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   place-items: center;
   isolation: isolate
 }
-.hero-art: before {
+.hero-art:before {
   content: "";
   position: absolute;
   width: 300px;
@@ -272,7 +272,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   background: linear-gradient(0deg,#8977ed,#c2b6ff);
   opacity: .9
 }
-.chart i: nth-child(2n) {
+.chart i:nth-child(2n) {
   background: linear-gradient(0deg,#d9854c,#ffc08c)
 }
 .chart-labels {
@@ -344,7 +344,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   line-height: 1.15;
   letter-spacing: -.05em
 }
-.section-heading>p: last-child,.method-section>div>p: not(.eyebrow),.access-copy>p: not(.eyebrow) {
+.section-heading>p:last-child,.method-section>div>p:not(.eyebrow),.access-copy>p:not(.eyebrow) {
   color: var(--muted);
   font-size: 14px;
   max-width: 540px
@@ -516,7 +516,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   width: 100%;
   cursor: pointer
 }
-.submit-button: disabled {
+.submit-button:disabled {
   opacity: .65;
   cursor: wait;
   transform: none
@@ -651,7 +651,7 @@ a: focus-visible,button: focus-visible,input: focus-visible {
   }
 }
 @media(prefers-reduced-motion:reduce) {
-  *,*:: before,*:: after {
+  *,*::before,*::after {
     scroll-behavior: auto!important;
     transition: none!important
   }
